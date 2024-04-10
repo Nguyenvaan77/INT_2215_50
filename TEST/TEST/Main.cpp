@@ -1,26 +1,16 @@
-﻿#include <SDL.h>
-#include <stdio.h>
-#include <SDL_image.h>
-#include <string>
-#include <cmath>
-#include <Windows.h>
-#include<vector>
-#include <sstream>
-#include<string>
-#include<map>
-#include<iostream>
+﻿#include"commonFunc.h"
+#include"baseobject.h"
+#include"snak.h"
 using namespace std;
 //Screen dimension constants
-const int SCREEN_WIDTH = 600;
-const int SCREEN_HEIGHT = 900;
-const int tile_frame = 30;
 
-SDL_Window* window = NULL;
-SDL_Renderer* screen = NULL;
-SDL_Rect snakePosition = { 0,0,tile_frame,tile_frame };//dau ran
-SDL_Rect fruitPosition = {0,0,tile_frame*2,tile_frame*2};
 
-vector<SDL_Rect> SNAKE;
+void setIMGforitem()
+{
+	HEADSNAKE.loadImg("anh//kingkong.bmp", screen);
+	thanSNAKE.loadImg("anh//chanh.bmp", screen);
+	duoiSNAKE.loadImg("anh//cake.bmp", screen);
+}
 
 void fillFood(SDL_Renderer* ren)// fill màu cho từng rect thuc an
 {
@@ -94,22 +84,6 @@ namespace VACHAM {
 		}
 
 
-		if (x_rightbottom<fruitPosition.x + fruitPosition.w && x_rightbottom>fruitPosition.x && y_rightbottom < fruitPosition.y + fruitPosition.h && y_rightbottom > fruitPosition.y)
-		{
-			vacham = true;
-		}
-		if (x_righttop<fruitPosition.x + fruitPosition.w && x_righttop>fruitPosition.x && y_righttop < fruitPosition.y + fruitPosition.h && y_righttop > fruitPosition.y)
-		{
-			vacham = true;
-		}
-		if (x_leftbottom<fruitPosition.x + fruitPosition.w && x_leftbottom>fruitPosition.x && y_leftbottom < fruitPosition.y + fruitPosition.h && y_leftbottom > fruitPosition.y)
-		{
-			vacham = true;
-		}
-		if (x_lefttop<fruitPosition.x + fruitPosition.w && x_lefttop>fruitPosition.x && y_lefttop < fruitPosition.y + fruitPosition.h && y_lefttop > fruitPosition.y)
-		{
-			vacham = true;
-		}
 
 		return vacham;
 	}
@@ -160,7 +134,7 @@ void tailSnake(SDL_Renderer* ren)
 	SNAKE[0].y = snakePosition.y;
 
 	SDL_SetRenderDrawColor(ren, 77, 77, 77, 0xFF);
-	SDL_RenderFillRect(ren, &SNAKE[0]);
+	SDL_RenderFillRect(ren, &SNAKE[0]);SDL_SetRenderDrawColor(ren, 105, 255, 0, 0xFF);
 	cout << "SNAKE [0] : " << SNAKE[0].x << " " << SNAKE[0].y << endl;
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
@@ -170,7 +144,7 @@ void tailSnake(SDL_Renderer* ren)
 		SNAKE[i].y = prev_y_;
 		prev_x_ = prev2_x_;
 		prev_y_ = prev2_y_;
-		SDL_SetRenderDrawColor(ren, 105, 255, 0, 0xFF);
+		
 		SDL_RenderFillRect(ren, &SNAKE[i]);
 		cout << "SNAKE ["<<i<<"]" <<":" << SNAKE[i].x << " " << SNAKE[i].y << endl;
 	}
@@ -207,6 +181,7 @@ int main(int argc, char* args[])
 	srand(time(NULL));
 	game_Screen();
 	START_GAME();
+	setIMGforitem();
 	bool quit = false;
 	SDL_Event even;
 	while (!quit)
@@ -244,12 +219,12 @@ int main(int argc, char* args[])
 				fruitPosition.h = rand() % 70 + 20;
 				addTail();
 			    }
-			     VACHAM::wall();
-				
-			tailSnake(screen);	 VACHAM::eatedFelf();
+			    VACHAM::wall();
+				tailSnake(screen);
+				VACHAM::eatedFelf();
 		    }
-			
-		}
+		}; 
+		
 		fillFood(screen);
 		SDL_RenderPresent(screen);
 	}
