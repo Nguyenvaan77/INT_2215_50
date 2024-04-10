@@ -5,7 +5,7 @@
 #include <cmath>
 #include <Windows.h>
 #include<vector>
-#include <sstream> 
+#include <sstream>
 #include<string>
 #include<map>
 #include<iostream>
@@ -20,21 +20,7 @@ SDL_Renderer* screen = NULL;
 SDL_Rect snakePosition = { 0,0,tile_frame,tile_frame };//dau ran
 SDL_Rect fruitPosition = {0,0,tile_frame*2,tile_frame*2};
 
-
-
-
 vector<SDL_Rect> SNAKE;
-
-
-
-void fillSnake1(SDL_Renderer* ren,SDL_Rect rect)// fill màu cho từng rect cua ran
-{
-	SDL_SetRenderDrawColor(ren, 150, 150, 150, 0xFF);
-	SDL_RenderClear(ren);
-	SDL_SetRenderDrawColor(ren, 0, 0, 0, 0xFF);
-	SDL_RenderFillRect(ren, &rect);
-
-}
 
 void fillFood(SDL_Renderer* ren)// fill màu cho từng rect thuc an
 {
@@ -42,29 +28,36 @@ void fillFood(SDL_Renderer* ren)// fill màu cho từng rect thuc an
 	SDL_RenderFillRect(ren, &fruitPosition);
 }
 
+SDL_Rect taorec(int x,int y)
+{
+	SDL_Rect rec;
+	rec = { x,y,30,30 };
+	return rec;
+}
+
 void START_GAME()
 {
-	snakePosition.x = rand() % 20 * 30;
-	snakePosition.y = rand() % 20 * 30;
-	fruitPosition.x = rand() % 20 * 30;
-	fruitPosition.y = rand() % 20 * 30;
-	cout << "snakeRandom " << snakePosition.x << " " << snakePosition.y << endl;
-	SDL_Rect head = { snakePosition.x,snakePosition.y,30,30 };
-	SNAKE.push_back(head);
+	SDL_SetRenderDrawColor(screen, 0, 0, 0, 0xFF);
+	SDL_RenderClear(screen);
+
+	snakePosition.x = 90;
+	snakePosition.y = 90;
+	fruitPosition.x = 450;
+	fruitPosition.y = 450;
+	SNAKE.push_back(snakePosition);
+	SDL_SetRenderDrawColor(screen, 77, 77, 77, 0xFF);
+	SDL_RenderFillRect(screen, &snakePosition);
+	SDL_SetRenderDrawColor(screen, 105, 255, 0, 0xFF);
+
 	for (int i = 1; i <= 3; ++i)
 	{
-		SDL_Rect rec = { snakePosition.x - i * 30, snakePosition.y,30,30 };
-		SNAKE.push_back(rec);
+		SNAKE.push_back(taorec(snakePosition.x - i * 30, snakePosition.y));
+		SDL_RenderFillRect(screen,& SNAKE[i]);
 	}
-	SDL_SetRenderDrawColor(screen, 150, 150, 150, 0xFF);
-	SDL_RenderClear(screen);
-	for (auto x : SNAKE)
-	{
-		SDL_SetRenderDrawColor(screen, 0, 0, 0, 0xFF);
-		SDL_RenderFillRect(screen, &x);
-	}
-	fillFood(screen);
-	cout << "SNAKE[0] " << snakePosition.x << " " << snakePosition.y << endl;
+
+
+	cout << "size in vector: " << SNAKE.size()<<endl;
+
 }
 
 
@@ -74,68 +67,92 @@ void close() { //closes everything properly
 	SDL_Quit();
 }
 
-
-bool vaCham()
-{
-	bool vacham = false;
-
-	int x_rightbottom = snakePosition.x + 30;
-	int y_rightbottom = snakePosition.y + 30;
-
-	int x_leftbottom = snakePosition.x ;
-	int y_leftbottom = snakePosition.y + 30;
-
-	int x_righttop = snakePosition.x + 30;
-	int y_righttop = snakePosition.y;
-
-	int x_lefttop = snakePosition.x ;
-	int y_lefttop = snakePosition.y ;
-
-	if (x_rightbottom<fruitPosition.x + 30*2 && x_rightbottom>fruitPosition.x && y_rightbottom < fruitPosition.y+30*2 && y_rightbottom > fruitPosition.y)
+namespace VACHAM {
+	bool food()
 	{
-		vacham = true;
-	}
-	if (x_righttop<fruitPosition.x + 30*2 && x_righttop>fruitPosition.x && y_righttop < fruitPosition.y + 30*2 && y_righttop > fruitPosition.y)
-	{
-		vacham = true;
-	}
-	if (x_leftbottom<fruitPosition.x + 30*2 && x_leftbottom>fruitPosition.x && y_leftbottom < fruitPosition.y + 30*2 && y_leftbottom > fruitPosition.y)
-	{
-		vacham = true;
-	}
-	if (x_lefttop<fruitPosition.x + 30*2 && x_lefttop>fruitPosition.x && y_lefttop < fruitPosition.y + 30*2 && y_lefttop > fruitPosition.y)
-	{
-		vacham = true;
-	}
+		bool vacham = false;
 
-	return vacham;
+		int x_rightbottom = snakePosition.x + 30;
+		int y_rightbottom = snakePosition.y + 30;
+
+		int x_leftbottom = snakePosition.x;
+		int y_leftbottom = snakePosition.y + 30;
+
+		int x_righttop = snakePosition.x + 30;
+		int y_righttop = snakePosition.y;
+
+		int x_lefttop = snakePosition.x;
+		int y_lefttop = snakePosition.y;
+
+		if (x_rightbottom<fruitPosition.x + fruitPosition.w && x_rightbottom>fruitPosition.x && y_rightbottom < fruitPosition.y + fruitPosition.h && y_rightbottom > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_righttop<fruitPosition.x + fruitPosition.w && x_righttop>fruitPosition.x && y_righttop < fruitPosition.y + fruitPosition.h && y_righttop > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_leftbottom<fruitPosition.x + fruitPosition.w && x_leftbottom>fruitPosition.x && y_leftbottom < fruitPosition.y + fruitPosition.h && y_leftbottom > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_lefttop<fruitPosition.x + fruitPosition.w && x_lefttop>fruitPosition.x && y_lefttop < fruitPosition.y + fruitPosition.h && y_lefttop > fruitPosition.y)
+		{
+			vacham = true;
+		}
+
+
+		if (x_rightbottom<fruitPosition.x + fruitPosition.w && x_rightbottom>fruitPosition.x && y_rightbottom < fruitPosition.y + fruitPosition.h && y_rightbottom > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_righttop<fruitPosition.x + fruitPosition.w && x_righttop>fruitPosition.x && y_righttop < fruitPosition.y + fruitPosition.h && y_righttop > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_leftbottom<fruitPosition.x + fruitPosition.w && x_leftbottom>fruitPosition.x && y_leftbottom < fruitPosition.y + fruitPosition.h && y_leftbottom > fruitPosition.y)
+		{
+			vacham = true;
+		}
+		if (x_lefttop<fruitPosition.x + fruitPosition.w && x_lefttop>fruitPosition.x && y_lefttop < fruitPosition.y + fruitPosition.h && y_lefttop > fruitPosition.y)
+		{
+			vacham = true;
+		}
+
+		return vacham;
+	}
+	void wall()
+	{
+		if (snakePosition.x > SCREEN_WIDTH - 30||snakePosition.x<0||snakePosition.y>SCREEN_HEIGHT-30||snakePosition.y<0)
+		{
+			close();
+		}
+	}
 }
 
-
-void taiSnake(SDL_Renderer* ren)
+void tailSnake(SDL_Renderer* ren)
 {
-
-
+	SDL_SetRenderDrawColor(ren, 0, 0, 0, 0xFF);
+	SDL_RenderClear(ren);
+    int prev_x_ = SNAKE[0].x;
+	int prev_y_ = SNAKE[0].y;
 	SNAKE[0].x = snakePosition.x;
 	SNAKE[0].y = snakePosition.y;
-	int prev_x = SNAKE[0].x;
-	int prev_y = SNAKE[0].y;
-	SDL_SetRenderDrawColor(ren, 150, 150, 150, 0xFF);
-	SDL_RenderClear(ren);
-	SDL_SetRenderDrawColor(ren, 177, 177, 117, 0xFF);
-	SDL_RenderFillRect(ren,&SNAKE[0]);
-	//SDL_SetRenderDrawColor(ren, 0, 0, 0, 0xFF);
-	//SDL_RenderFillRect(ren, &rect);
-	for (int i = 0; i < SNAKE.size() ; ++i)
+
+	SDL_SetRenderDrawColor(ren, 77, 77, 77, 0xFF);
+	SDL_RenderFillRect(ren, &SNAKE[0]);
+	cout << "SNAKE [0] : " << SNAKE[0].x << " " << SNAKE[0].y << endl;
+	for (int i = 1; i < SNAKE.size(); ++i)
 	{
-		int prev2_x = SNAKE[i].x;
-		int prev2_y = SNAKE[i].y;
-		SNAKE[i].x = prev_x;
-		SNAKE[i].y = prev_y;
-		prev_x = prev2_x;
-		prev_y = prev2_y;
-		SDL_SetRenderDrawColor(ren, 0, 0, 0, 0xFF);
+		int prev2_x_ = SNAKE[i].x;
+		int prev2_y_ = SNAKE[i].y;
+		SNAKE[i].x = prev_x_;
+		SNAKE[i].y = prev_y_;
+		prev_x_ = prev2_x_;
+		prev_y_ = prev2_y_;
+		SDL_SetRenderDrawColor(ren, 105, 255, 0, 0xFF);
 		SDL_RenderFillRect(ren, &SNAKE[i]);
+		cout << "SNAKE ["<<i<<"]" <<":" << SNAKE[i].x << " " << SNAKE[i].y << endl;
 	}
 }
 
@@ -152,11 +169,11 @@ void game_Screen() { //creates the game surface and the render as wll
 			success = false;
 		}
 		else {
-			
+
 			screen = SDL_CreateRenderer(window, -1, 0);
 		}
 	}
-}// HÀM INIT,CREATE,SET RENDERER 
+}// HÀM INIT,CREATE,SET RENDERER
 
 
 
@@ -191,24 +208,23 @@ int main(int argc, char* args[])
 				case SDLK_UP: snakePosition.y -= 30; break;
 				case SDLK_DOWN: snakePosition.y += 30; break;
 				case SDLK_LEFT: snakePosition.x -= 30; break;
-				case SDLK_RIGHT: snakePosition.x+= 30; break;
+				case SDLK_RIGHT: snakePosition.x += 30; break;
 				default: snakePosition.x = 200; snakePosition.y = 200; break;
 				}
-				cout << "x: " << snakePosition.x << " y: " << snakePosition.y << endl;
-				taiSnake(screen);
-
-				if(vaCham())//check va cham fruit
-				{
-					fruitPosition.x = rand() % 20 * 30;
-					fruitPosition.y = rand() % 20 * 30;
-				}
-				fillFood(screen);
+				tailSnake(screen);
 			}
-			
-			
+			if (VACHAM::food())
+			{
+				fruitPosition.x = rand() % 20 * 30;
+				fruitPosition.y = rand()%30*30;
+				fruitPosition.w = rand() % 70 + 20;
+				fruitPosition.h = rand() % 70 + 20;
+			}
+			VACHAM::wall();
 		}
+
+		fillFood(screen);
 		SDL_RenderPresent(screen);
-		
 	}
 	close();
 	std::cout << SNAKE.size();
