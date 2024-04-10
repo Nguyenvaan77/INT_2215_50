@@ -45,19 +45,10 @@ void START_GAME()
 	fruitPosition.x = 450;
 	fruitPosition.y = 450;
 	SNAKE.push_back(snakePosition);
-	SDL_SetRenderDrawColor(screen, 77, 77, 77, 0xFF);
-	SDL_RenderFillRect(screen, &snakePosition);
-	SDL_SetRenderDrawColor(screen, 105, 255, 0, 0xFF);
-
 	for (int i = 1; i <= 3; ++i)
 	{
 		SNAKE.push_back(taorec(snakePosition.x - i * 30, snakePosition.y));
-		SDL_RenderFillRect(screen,& SNAKE[i]);
 	}
-
-
-	cout << "size in vector: " << SNAKE.size()<<endl;
-
 }
 
 
@@ -68,6 +59,7 @@ void close() { //closes everything properly
 }
 
 namespace VACHAM {
+	//Va chạm thức ăn 
 	bool food()
 	{
 		bool vacham = false;
@@ -121,11 +113,39 @@ namespace VACHAM {
 
 		return vacham;
 	}
+
+	//Va chạm tường 
 	void wall()
 	{
 		if (snakePosition.x > SCREEN_WIDTH - 30||snakePosition.x<0||snakePosition.y>SCREEN_HEIGHT-30||snakePosition.y<0)
 		{
 			close();
+		}
+	}
+
+	bool checkTrungTail(int diem_x,int diem_y,int Left_x,int Left_y)
+	{
+		if (diem_x > Left_x && diem_x<Left_x + 30 && diem_y>Left_y && diem_y < Left_y + 30)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//tự xơi chính nó
+	void eatedFelf()
+	{
+		int pointCheck_x = snakePosition.x + 15;
+		int pointCheck_y = snakePosition.y + 15;
+		for (int i = 1; i < SNAKE.size(); ++i)
+		{
+			if (checkTrungTail(pointCheck_x, pointCheck_y, SNAKE[i].x, SNAKE[i].y))
+			{
+				cout << "Va cham than" << endl;
+			}
 		}
 	}
 }
@@ -175,7 +195,12 @@ void game_Screen() { //creates the game surface and the render as wll
 	}
 }// HÀM INIT,CREATE,SET RENDERER
 
+void addTail()
+{
+	SDL_Rect rec = { 0,0,30,30 };
 
+	SNAKE.push_back(rec);
+}
 
 int main(int argc, char* args[])
 {
@@ -211,18 +236,20 @@ int main(int argc, char* args[])
 				case SDLK_RIGHT: snakePosition.x += 30; break;
 				default: snakePosition.x = 200; snakePosition.y = 200; break;
 				}
-				tailSnake(screen);
-			}
-			if (VACHAM::food())
-			{
-				fruitPosition.x = rand() % 20 * 30;
-				fruitPosition.y = rand()%30*30;
+				if (VACHAM::food())
+			    {
+				fruitPosition.x = rand() %600;
+				fruitPosition.y = rand()%900;
 				fruitPosition.w = rand() % 70 + 20;
 				fruitPosition.h = rand() % 70 + 20;
-			}
-			VACHAM::wall();
+				addTail();
+			    }
+			     VACHAM::wall();
+				
+			tailSnake(screen);	 VACHAM::eatedFelf();
+		    }
+			
 		}
-
 		fillFood(screen);
 		SDL_RenderPresent(screen);
 	}
