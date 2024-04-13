@@ -9,7 +9,7 @@ using namespace std;
 class snake
 {
 public:
-	snake();
+	snake(SDL_Renderer*ren);
 	~snake() { ; };
 
 	void setpos(int a, int b) { HEAD.rect_.x = a;HEAD.rect_.y = b; HEAD.rect_.w = 30; HEAD.rect_.h = 30; };//set HEAD snake
@@ -30,7 +30,9 @@ public:
 		{
 			cout << i << " " << SNAKE[i].x << " " << SNAKE[i].y << endl;
 		}
-	}
+	};
+
+	void showfullbody(SDL_Renderer* ren);
 
 protected:
 

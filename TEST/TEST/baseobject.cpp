@@ -6,13 +6,13 @@ baseObject::baseObject()
 	object_ = NULL;
 	rect_.x = 0;
 	rect_.y = 0;
-	rect_.w = 0;
-	rect_.h = 0;
+	rect_.w = 30;
+	rect_.h = 30;
 };
 
 baseObject::~baseObject()
 {
-	
+	SDL_DestroyTexture(object_);
 }
 
 bool baseObject::loadImg(std::string path,SDL_Renderer* ren)
@@ -31,7 +31,7 @@ bool baseObject::loadImg(std::string path,SDL_Renderer* ren)
 	{
 		rect_.w = sur->w;
 		rect_.h = sur->h;
-		SDL_SetColorKey(sur, SDL_TRUE, SDL_MapRGB(sur->format, 12, 34, 56));
+		SDL_SetColorKey(sur, SDL_TRUE, SDL_MapRGB(sur->format, 99, 99, 99));
 		new_text = SDL_CreateTextureFromSurface(ren, sur);
 		object_ = new_text;
 		SDL_FreeSurface(sur);

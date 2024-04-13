@@ -1,14 +1,27 @@
 ﻿#include"commonFunc.h"
 #include"baseobject.h"
 #include"snak.h"
+#include"Food.h"
 using namespace std;
-
 
 
 SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
 
-baseObject food;
+baseObject backGround;
+
+bool setBack()
+{
+	bool ok = true;
+	backGround.loadImg("anh//back.bmp", screen);
+	backGround.render(screen, NULL);
+	if (backGround.getObject() == NULL)
+	{
+		ok = false;
+	}
+	return ok;
+}
+
 
 void close() { //closes everything properly
 	SDL_DestroyRenderer(screen);
@@ -36,18 +49,30 @@ void game_Screen() { //creates the game surface and the render as wll
 	}
 }// HÀM INIT,CREATE,SET RENDERER
 
-
-
+static food cake;
+static food chanh;
 int main(int argc, char* args[])
 {
 	srand(time(NULL));
 	game_Screen();
+	if (!setBack())
+	{
+		cout << "Load BACK ERROR" << endl;
+		return -1;
+	}
 	bool quit = false;
 	SDL_Event even;
-	snake ran;
+	SDL_Rect rect1 = { 55,55,30,30 };//     mã giả 
+	SDL_Rect rect2 = { 200,200,30,30 };//   mã giả 
+	cake.loadImg("anh//cake.bmp", screen);
+	
+	chanh.loadImg("anh//chanh.bmp", screen);
+	
+	snake ran(screen);
 	ran.setIMGforIterm(screen);
 	while (!quit)
 	{
+		//backGround.render(screen, NULL);
 		while (SDL_PollEvent(&even))
 		{
 			if (even.type == SDL_QUIT)
@@ -59,14 +84,27 @@ int main(int argc, char* args[])
 				int x, y;
 				Uint32 state = SDL_GetMouseState(&x, &y);
 				cout << x << " " << y << endl;
+				ran.addTail();
 			}
 			if (even.type == SDL_KEYDOWN)
 			{
 				ran.handleInput(even);
 				ran.updateTail(screen);
+				if (ran.eatFood())
+				{
+					rect1.x = (rand() % 20) * 30;
+					rect1.y = (rand() % 30) * 30;
+					rect2.x = (rand() % 20) * 30;
+					rect2.y = (rand() % 30) * 30;
+				}
 				ran.inHEAD();
 			}		
 		}
+		SDL_RenderClear(screen);
+		backGround.render(screen, NULL);
+		ran.showfullbody(screen);
+		cake.render(screen,&rect1);
+		chanh.render(screen, &rect2);
 		SDL_RenderPresent(screen);
 	}
 	
