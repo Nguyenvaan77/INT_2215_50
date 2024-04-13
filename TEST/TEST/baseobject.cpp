@@ -12,6 +12,7 @@ baseObject::baseObject()
 
 baseObject::~baseObject()
 {
+
 	SDL_DestroyTexture(object_);
 }
 

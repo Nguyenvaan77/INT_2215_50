@@ -19,7 +19,9 @@ snake::snake(SDL_Renderer* ren)
 	{
 		cout << i << "  " << SNAKE[i].x << " " << SNAKE[i].y << endl;
 	}
+	dir = 4;
 };
+
 
 bool snake::setIMGforIterm(SDL_Renderer* ren)
 {
@@ -48,7 +50,7 @@ bool snake::setIMGforIterm(SDL_Renderer* ren)
 void snake::addTail()
 {
 		SDL_Rect foo;
-		foo = { SNAKE[SNAKE.size()-1].x,SNAKE[SNAKE.size() - 1].y,30,30};
+		foo = { SNAKE[SNAKE.size()-2].x,SNAKE[SNAKE.size() - 2].y,30,30};
 		SNAKE.push_back(foo);
 	
 }
@@ -59,7 +61,7 @@ void snake::updateTail(SDL_Renderer* ren)
 	int prev_y = SNAKE[0].y;
 	SNAKE[0].x = HEAD.rect_.x;
 	SNAKE[0].y = HEAD.rect_.y;
-	cout << 0 << SNAKE[0].x << " " << SNAKE[0].y << endl;
+	
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
 		int prev2_x = SNAKE[i].x;
@@ -83,27 +85,37 @@ void snake::showfullbody(SDL_Renderer* ren)
 
 void snake::handleInput(SDL_Event& even)
 {
-	switch (even.key.keysym.sym)
-	{
-	case SDLK_UP:
-		HEAD.rect_.y -= 30; 
-		dir = UP;
-		break;
-	case SDLK_DOWN:
-		HEAD.rect_.y += 30; 
-		dir = DOWN;
+	switch (even.key.keysym.sym) {
+	case SDLK_LEFT:
+		if (dir != 4)
+		{
+			dir = 3;
+		}
 		break;
 	case SDLK_RIGHT:
-		HEAD.rect_.x += 30; 
-		dir = RIGHT;
+		if (dir != 3)
+		{
+		
+			dir = 4;
+		}
 		break;
-	case SDLK_LEFT:
-		HEAD.rect_.x -= 30; 
-		dir = LEFT;
+	case SDLK_UP:
+		if (dir != 2)
+		{
+			dir = 1;
+		}
 		break;
-	default:break;
-	};
+	case SDLK_DOWN:
+		if (dir != 1)
+		{
+			dir = 2;
+		}
+		break;
+	default:
+		break;
+	}
 }
+
 
 bool snake::bitWall()
 {
@@ -131,16 +143,18 @@ bool snake::isAlive()
 {
 	if (!bitWall() && !bitHimSelf())
 	{
-		return true;
 		alive = true;
+		return alive;
 	}
 	alive = false;
+	return alive;
+}
+
+bool snake::eatFood(SDL_Rect FOOD) {
+	if (HEAD.rect_.x == FOOD.x&&HEAD.rect_.y==FOOD.y)
+	{
+		return true;
+	}
 	return false;
 }
 
-
-bool snake::eatFood() {
-	int comp_x = HEAD.rect_.x + 15;
-	int comp_y = HEAD.rect_.y + 15;
-	return true;
-}

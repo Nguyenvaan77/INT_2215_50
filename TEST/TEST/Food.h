@@ -12,6 +12,11 @@ public:
 		rect_ = { (rand() % 20) * 30, (rand() % 30) * 30, 30, 30 };
 		SDL_RenderCopy(ren, object_, NULL, &rect_);
 	};
+	void setupAgain(SDL_Renderer* ren)
+	{
+		rect_ = { (rand() % 20) * 30, (rand() % 30) * 30, 30, 30 };
+	};
+	
 protected:
 
 } ;

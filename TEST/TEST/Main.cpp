@@ -10,6 +10,11 @@ SDL_Renderer* screen = NULL;
 
 baseObject backGround;
 
+void randomRec(SDL_Rect& recc)
+{
+	recc = { (rand() % 36) * 30,(rand() % 30) * 30,30,30 };
+}
+
 bool setBack()
 {
 	bool ok = true;
@@ -62,15 +67,15 @@ int main(int argc, char* args[])
 	}
 	bool quit = false;
 	SDL_Event even;
-	SDL_Rect rect1 = { 55,55,30,30 };//     mã giả 
-	SDL_Rect rect2 = { 200,200,30,30 };//   mã giả 
+	SDL_Rect rec1 = { 60,60,30,30 };
+	SDL_Rect rec2 = { 300,300,30,30 };
 	cake.loadImg("anh//cake.bmp", screen);
 	
 	chanh.loadImg("anh//chanh.bmp", screen);
 	
 	snake ran(screen);
 	ran.setIMGforIterm(screen);
-	while (!quit)
+	while (!quit&&ran.isAlive())
 	{
 		//backGround.render(screen, NULL);
 		while (SDL_PollEvent(&even))
@@ -79,33 +84,32 @@ int main(int argc, char* args[])
 			{
 				quit = true;
 			}
-			if (even.type == SDL_MOUSEBUTTONDOWN)
-			{
-				int x, y;
-				Uint32 state = SDL_GetMouseState(&x, &y);
-				cout << x << " " << y << endl;
-				ran.addTail();
-			}
 			if (even.type == SDL_KEYDOWN)
 			{
 				ran.handleInput(even);
-				ran.updateTail(screen);
-				if (ran.eatFood())
-				{
-					rect1.x = (rand() % 20) * 30;
-					rect1.y = (rand() % 30) * 30;
-					rect2.x = (rand() % 20) * 30;
-					rect2.y = (rand() % 30) * 30;
-				}
-				ran.inHEAD();
-			}		
+			}
+			
 		}
+
+		ran.xulyDichuyen();
+
+		if (ran.eatFood(rec1))
+		{
+			cout << "EAT FOOD" << endl;
+			randomRec(rec1);
+			ran.addTail();
+		}
+
+		ran.updateTail(screen);
 		SDL_RenderClear(screen);
-		backGround.render(screen, NULL);
 		ran.showfullbody(screen);
-		cake.render(screen,&rect1);
-		chanh.render(screen, &rect2);
+		
+		
+
+		cake.render(screen,&rec1);
+		chanh.render(screen, &rec2);
 		SDL_RenderPresent(screen);
+		SDL_Delay(90);
 	}
 	
 	

@@ -15,7 +15,7 @@ public:
 	void setpos(int a, int b) { HEAD.rect_.x = a;HEAD.rect_.y = b; HEAD.rect_.w = 30; HEAD.rect_.h = 30; };//set HEAD snake
 	bool isAlive();
 	bool bitWall();
-	bool eatFood();
+	bool eatFood(SDL_Rect FOOD);
 	bool bitHimSelf();
 	void addTail();
 	void updateTail(SDL_Renderer* ren);
@@ -23,17 +23,25 @@ public:
 
 	void handleInput(SDL_Event &even);
 
-	void inHEAD() { cout << "HEAD.rect "<<HEAD.rect_.x << " " << HEAD.rect_.y << endl; };
-	void fullbody()
-	{
-		for (int i = 0; i < SNAKE.size(); ++i)
-		{
-			cout << i << " " << SNAKE[i].x << " " << SNAKE[i].y << endl;
-		}
-	};
+	
 
 	void showfullbody(SDL_Renderer* ren);
+	
+	
 
+	void xulyDichuyen()
+	{
+		switch (dir)
+		{
+		case 1: HEAD.rect_.y -= 30; break;
+		case 2:HEAD.rect_.y += 30; break;
+		case 3:HEAD.rect_.x -= 30; break;
+		case 4:HEAD.rect_.x += 30; break;
+		}
+	}
+
+
+	int dir;
 protected:
 
 	vector<SDL_Rect> SNAKE;
@@ -42,11 +50,9 @@ protected:
 	baseObject TAIL;
 	bool alive = true;
 	bool isMove = false;
-	enum Direction {UP,DOWN,LEFT,RIGHT};
-	Direction dir;// UP = 0
-	              // DOWN = 1
-	              // LEFT = 2
-	              // RIGHT = 3
+
+
+	
 
 };
 
