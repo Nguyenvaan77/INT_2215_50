@@ -6,20 +6,20 @@ snake::snake(SDL_Renderer* ren)
 	alive = true;
 	HEAD.rect_= { (rand()%20)*30,(rand()%30)*30,30,30};
 	SNAKE.push_back(HEAD.rect_);
+	dir_of_iterm.push_back(4);
 	HEAD.render(ren, &HEAD.rect_);
 	for (int i = 1; i <= 3; ++i)
 	{
 		SDL_Rect rec_;
 		rec_ = { SNAKE[0].x - i * 30, SNAKE[0].y, 30, 30, };
 		SNAKE.push_back(rec_);
+		dir_of_iterm.push_back(4);
 		BODY.render(ren, &SNAKE[i]);
 	};
 	cout << "Do dai ran = " << SNAKE.size() << endl;
-	for (int i = 0; i < SNAKE.size(); ++i)
-	{
-		cout << i << "  " << SNAKE[i].x << " " << SNAKE[i].y << endl;
-	}
-	dir = 4;
+	
+	dirHead = 4;//huong ban dau la right =4;
+	
 };
 
 
@@ -47,11 +47,16 @@ bool snake::setIMGforIterm(SDL_Renderer* ren)
 	return ok;
 }
 
+
+
+
 void snake::addTail()
 {
 		SDL_Rect foo;
 		foo = { SNAKE[SNAKE.size()-2].x,SNAKE[SNAKE.size() - 2].y,30,30};
 		SNAKE.push_back(foo);
+
+		dir_of_iterm.push_back(dir_of_iterm[dir_of_iterm.size() - 1]);
 	
 }
 
@@ -62,6 +67,9 @@ void snake::updateTail(SDL_Renderer* ren)
 	SNAKE[0].x = HEAD.rect_.x;
 	SNAKE[0].y = HEAD.rect_.y;
 	
+	int prev_dir = dir_of_iterm[0];
+	dir_of_iterm[0] = dirHead;
+
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
 		int prev2_x = SNAKE[i].x;
@@ -70,6 +78,11 @@ void snake::updateTail(SDL_Renderer* ren)
 		SNAKE[i].y = prev_y;
 		prev_x = prev2_x;
 		prev_y = prev2_y;
+
+		int tempDIR = dir_of_iterm[i];
+		dir_of_iterm[i] = prev_dir;
+		prev_dir = tempDIR;
+
 	}
 }
 
@@ -83,32 +96,149 @@ void snake::showfullbody(SDL_Renderer* ren)
 	TAIL.render(ren, &SNAKE[SNAKE.size() - 1]);
 }
 
+
+bool snake::loadHEAD(int dir,SDL_Renderer* ren)
+{
+	switch (dir)
+	{
+	case 1: HEAD.loadImg("anh//HEAD//up.bmp", ren); break;
+	case 2: HEAD.loadImg("anh//HEAD//down.bmp", ren); break;
+	case 3: HEAD.loadImg("anh//HEAD//left.bmp", ren); break;
+	case 4: HEAD.loadImg("anh//HEAD//right.bmp", ren); break;
+	}
+	if (HEAD.getObject() == NULL)
+	{
+		cout << "LOAD HEAD ERROR" << endl;
+		return false;
+	}
+	
+	return true;
+}
+
+bool snake::loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren)
+{
+	if (dir_trc == dir_now)
+	{
+		switch (dir_now)
+		{
+		case 1:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
+		case 2:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
+		case 3:BODY.loadImg("anh//BODY//body.bmp", ren); break;
+		case 4:BODY.loadImg("anh//BODY//body.bmp", ren); break;
+		}
+	}
+	else
+	{
+		if ((dir_trc == 1 && dir_now == 3)||(dir_trc==4&&dir_now==2))
+		{
+			BODY.loadImg("anh//BODY//body2.bmp", ren);
+		}
+		if ((dir_trc == 1 && dir_now == 4)||(dir_trc==3&&dir_now==2))
+		{
+			BODY.loadImg("anh//BODY//body3.bmp", ren);
+		}
+		if ((dir_trc == 3 && dir_now == 1)||(dir_trc==2&&dir_now==4))
+		{
+			BODY.loadImg("anh//BODY//body4.bmp", ren);
+		}
+		if ((dir_trc == 4 && dir_now == 1)||(dir_trc==2&&dir_now==3))
+		{
+			BODY.loadImg("anh//BODY//body5.bmp", ren);
+		}
+	}
+	if (BODY.getObject() == NULL)
+	{
+		cout << "LOAD BODY ERROR" << endl;
+		return false;
+	}
+	
+	return true;
+}
+
+bool snake::loadTAIL(int dir, SDL_Renderer* ren)
+{
+	switch (dir)
+	{
+	case 1:TAIL.loadImg("anh//TAIL//up.bmp", ren); break;
+	case 2:TAIL.loadImg("anh//TAIL//down.bmp", ren); break;
+	case 3:TAIL.loadImg("anh//TAIL//left.bmp", ren); break;
+	case 4:TAIL.loadImg("anh//TAIL//right.bmp", ren); break;
+	}
+	if (TAIL.getObject() == NULL)
+	{
+		cout << "LOAD TAIL ERROR" << endl;
+		return false;
+	}
+	
+	return true;
+}
+
+bool snake::showfullbodysnake(SDL_Renderer* ren)//load ảnh theo trạng thái của từng phần(rect) của snake 
+{
+	bool ok = true;
+	if (loadHEAD(dir_of_iterm[0], ren))
+	{
+		HEAD.render(ren, &SNAKE[0]);
+		
+	}
+	else
+	{
+		ok = false;
+		cout << "2. Load HEAD ERROR" << endl;
+	}
+	for (int i = 1; i < SNAKE.size() ; ++i)
+	{
+		
+		if (i == SNAKE.size() - 1)
+		{
+			loadTAIL(dir_of_iterm[i -1], ren);
+			TAIL.render(ren, &SNAKE[SNAKE.size() - 1]);
+		}
+		else
+		{
+			if (loadBODY(dir_of_iterm[i - 1], dir_of_iterm[i], ren))
+			{
+			BODY.render(ren, &SNAKE[i]);
+			}
+		else
+			{
+			ok = false;
+			}
+		}
+	}
+	return ok;
+}
+
+
+
+
+
 void snake::handleInput(SDL_Event& even)
 {
 	switch (even.key.keysym.sym) {
 	case SDLK_LEFT:
-		if (dir != 4)
+		if (dirHead != 4)
 		{
-			dir = 3;
+			dirHead = 3;
 		}
 		break;
 	case SDLK_RIGHT:
-		if (dir != 3)
+		if (dirHead != 3)
 		{
 		
-			dir = 4;
+			dirHead = 4;
 		}
 		break;
 	case SDLK_UP:
-		if (dir != 2)
+		if (dirHead != 2)
 		{
-			dir = 1;
+			dirHead = 1;
 		}
 		break;
 	case SDLK_DOWN:
-		if (dir != 1)
+		if (dirHead != 1)
 		{
-			dir = 2;
+			dirHead = 2;
 		}
 		break;
 	default:

@@ -18,7 +18,7 @@ void randomRec(SDL_Rect& recc)
 bool setBack()
 {
 	bool ok = true;
-	backGround.loadImg("anh//back.bmp", screen);
+	backGround.loadImg("anh//BACKGROUND//background.bmp", screen);
 	backGround.render(screen, NULL);
 	if (backGround.getObject() == NULL)
 	{
@@ -68,10 +68,10 @@ int main(int argc, char* args[])
 	bool quit = false;
 	SDL_Event even;
 	SDL_Rect rec1 = { 60,60,30,30 };
-	SDL_Rect rec2 = { 300,300,30,30 };
-	cake.loadImg("anh//cake.bmp", screen);
 	
-	chanh.loadImg("anh//chanh.bmp", screen);
+	cake.loadImg("anh//FOOD//food.bmp", screen);
+	
+	
 	
 	snake ran(screen);
 	ran.setIMGforIterm(screen);
@@ -99,17 +99,18 @@ int main(int argc, char* args[])
 			randomRec(rec1);
 			ran.addTail();
 		}
-
+		
 		ran.updateTail(screen);
 		SDL_RenderClear(screen);
-		ran.showfullbody(screen);
+		backGround.render(screen, NULL);
+		ran.showfullbodysnake(screen); 
 		
 		
 
 		cake.render(screen,&rec1);
-		chanh.render(screen, &rec2);
+		
 		SDL_RenderPresent(screen);
-		SDL_Delay(90);
+		SDL_Delay(60);
 	}
 	
 	

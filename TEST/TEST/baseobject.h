@@ -14,6 +14,7 @@ public:
 	void render(SDL_Renderer* ren,SDL_Rect* rec);
 	SDL_Rect getRect() { return rect_; };
 
+
 	SDL_Texture* object_;
 	SDL_Rect     rect_;
 };

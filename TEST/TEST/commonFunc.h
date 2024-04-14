@@ -14,7 +14,7 @@
 #include<iostream>
 
 const int SCREEN_WIDTH = 1080;
-const int SCREEN_HEIGHT = 900;
+const int SCREEN_HEIGHT = 960;
 const int tile_frame = 30;
 
 

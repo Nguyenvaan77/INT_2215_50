@@ -13,38 +13,44 @@ public:
 	~snake() { ; };
 
 	void setpos(int a, int b) { HEAD.rect_.x = a;HEAD.rect_.y = b; HEAD.rect_.w = 30; HEAD.rect_.h = 30; };//set HEAD snake
-	bool isAlive();
-	bool bitWall();
-	bool eatFood(SDL_Rect FOOD);
-	bool bitHimSelf();
-	void addTail();
-	void updateTail(SDL_Renderer* ren);
-	bool setIMGforIterm(SDL_Renderer* ren);
+	bool isAlive();                           // check chết chưa 
+	bool bitWall();                           // đụng tường
+	bool eatFood(SDL_Rect FOOD);              // check ăn quả
+	bool bitHimSelf();                        //check tự cắn bản thân
+	void addTail();                           // khi ăn quả thì sẽ được thêm phần đuôi 
+	void updateTail(SDL_Renderer* ren);       // update vị trí rect và trạng thái dir của từng phần trong snake 
+	bool setIMGforIterm(SDL_Renderer* ren);    // 1 phần nhỏ của showfullbodysnake phía dưới nhưng không dùng nữa 
 
-	void handleInput(SDL_Event &even);
+	void handleInput(SDL_Event &even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
 	
 
-	void showfullbody(SDL_Renderer* ren);
+	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
 	
 	
 
-	void xulyDichuyen()
+	void xulyDichuyen()                          // dùng để cho con rắn chạy tự động khi không nhân phím 
 	{
-		switch (dir)
+		switch (dirHead)
 		{
-		case 1: HEAD.rect_.y -= 30; break;
-		case 2:HEAD.rect_.y += 30; break;
-		case 3:HEAD.rect_.x -= 30; break;
-		case 4:HEAD.rect_.x += 30; break;
+		case 1: HEAD.rect_.y -= tile_frame; break;
+		case 2:HEAD.rect_.y += tile_frame; break;
+		case 3:HEAD.rect_.x -= tile_frame; break;
+		case 4:HEAD.rect_.x += tile_frame; break;
 		}
 	}
 
+	bool showfullbodysnake(SDL_Renderer* ren);// hàm render lên màn hình con rắn hoàn thiện 
+	bool loadHEAD(int dir,SDL_Renderer*ren);// hàm load thành phần của rắn theo từng trạng thái
+	bool loadBODY(int dir_trc,int dir_now, SDL_Renderer* ren);//...
+	bool loadTAIL(int dir, SDL_Renderer* ren);//...
 
-	int dir;
+
+	int dirHead;
 protected:
 
 	vector<SDL_Rect> SNAKE;
+	vector<int> dir_of_iterm;
 	baseObject HEAD;
 	baseObject BODY;
 	baseObject TAIL;
