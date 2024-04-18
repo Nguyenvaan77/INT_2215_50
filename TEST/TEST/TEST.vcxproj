@@ -136,12 +136,15 @@
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="snak.cpp" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="TIMER.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseobject.h" />
     <ClInclude Include="commonFunc.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="snak.h" />
+    <ClInclude Include="TIMER.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

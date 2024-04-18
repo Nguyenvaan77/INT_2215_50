@@ -19,7 +19,7 @@ snake::snake(SDL_Renderer* ren)
 	cout << "Do dai ran = " << SNAKE.size() << endl;
 	
 	dirHead = 4;//huong ban dau la right =4;
-	
+	score = 0;
 };
 
 
@@ -84,6 +84,7 @@ void snake::updateTail(SDL_Renderer* ren)
 		prev_dir = tempDIR;
 
 	}
+	cout << "head :" << HEAD.rect_.x << " " << HEAD.rect_.y << endl;
 }
 
 void snake::showfullbody(SDL_Renderer* ren)
@@ -97,14 +98,27 @@ void snake::showfullbody(SDL_Renderer* ren)
 }
 
 
-bool snake::loadHEAD(int dir,SDL_Renderer* ren)
+bool snake::loadHEAD(int dir,SDL_Renderer* ren,bool eat)
 {
-	switch (dir)
+	if (eat)
 	{
-	case 1: HEAD.loadImg("anh//HEAD//up.bmp", ren); break;
-	case 2: HEAD.loadImg("anh//HEAD//down.bmp", ren); break;
-	case 3: HEAD.loadImg("anh//HEAD//left.bmp", ren); break;
-	case 4: HEAD.loadImg("anh//HEAD//right.bmp", ren); break;
+		switch (dir)
+		{
+		case 1: HEAD.loadImg("anh//HEAD//eatup.bmp", ren); break;
+		case 2: HEAD.loadImg("anh//HEAD//eatdown.bmp", ren); break;
+		case 3: HEAD.loadImg("anh//HEAD//eatleft.bmp", ren); break;
+		case 4: HEAD.loadImg("anh//HEAD//eatright.bmp", ren); break;
+		}
+	}
+	else
+	{ 
+		switch (dir)
+		{
+		case 1: HEAD.loadImg("anh//HEAD//up.bmp", ren); break;
+		case 2: HEAD.loadImg("anh//HEAD//down.bmp", ren); break;
+		case 3: HEAD.loadImg("anh//HEAD//left.bmp", ren); break;
+		case 4: HEAD.loadImg("anh//HEAD//right.bmp", ren); break;
+		}
 	}
 	if (HEAD.getObject() == NULL)
 	{
@@ -173,10 +187,10 @@ bool snake::loadTAIL(int dir, SDL_Renderer* ren)
 	return true;
 }
 
-bool snake::showfullbodysnake(SDL_Renderer* ren)//load ảnh theo trạng thái của từng phần(rect) của snake 
+bool snake::showfullbodysnake(SDL_Renderer* ren,bool  eat)//load ảnh theo trạng thái của từng phần(rect) của snake 
 {
 	bool ok = true;
-	if (loadHEAD(dir_of_iterm[0], ren))
+	if (loadHEAD(dir_of_iterm[0], ren,eat))
 	{
 		HEAD.render(ren, &SNAKE[0]);
 		
@@ -193,12 +207,14 @@ bool snake::showfullbodysnake(SDL_Renderer* ren)//load ảnh theo trạng thái 
 		{
 			loadTAIL(dir_of_iterm[i -1], ren);
 			TAIL.render(ren, &SNAKE[SNAKE.size() - 1]);
+			
 		}
 		else
 		{
 			if (loadBODY(dir_of_iterm[i - 1], dir_of_iterm[i], ren))
 			{
 			BODY.render(ren, &SNAKE[i]);
+			
 			}
 		else
 			{
@@ -241,6 +257,10 @@ void snake::handleInput(SDL_Event& even)
 			dirHead = 2;
 		}
 		break;
+	case SDLK_ESCAPE: 
+		isMove = false;
+		break;
+	
 	default:
 		break;
 	}
@@ -279,12 +299,21 @@ bool snake::isAlive()
 	alive = false;
 	return alive;
 }
+void snake::tangScore()//Hàm này gọi trong eatFood()
+{
+	++score;
+}
 
 bool snake::eatFood(SDL_Rect FOOD) {
 	if (HEAD.rect_.x == FOOD.x&&HEAD.rect_.y==FOOD.y)
 	{
+		tangScore();
 		return true;
 	}
 	return false;
 }
 
+void snake::inScore()
+{
+	cout << score << endl;
+}
