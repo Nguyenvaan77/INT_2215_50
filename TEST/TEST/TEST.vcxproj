@@ -137,6 +137,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="snak.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="TEXT.cpp" />
     <ClCompile Include="TIMER.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="commonFunc.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="snak.h" />
+    <ClInclude Include="TEXT.h" />
     <ClInclude Include="TIMER.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

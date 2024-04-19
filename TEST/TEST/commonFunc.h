@@ -12,6 +12,8 @@
 #include<string>
 #include<map>
 #include<iostream>
+#include<SDL_mixer.h>
+#include<SDL_ttf.h>
 
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 960;
