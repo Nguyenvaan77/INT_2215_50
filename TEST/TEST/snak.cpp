@@ -313,7 +313,7 @@ bool snake::eatFood(SDL_Rect FOOD) {
 	return false;
 }
 
-void snake::inScore()
+int snake::inScore()
 {
-	cout << score << endl;
+	return score;
 }
