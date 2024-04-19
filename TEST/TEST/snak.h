@@ -24,7 +24,7 @@ public:
 	bool setIMGforIterm(SDL_Renderer* ren);    // 1 phần nhỏ của showfullbodysnake phía dưới nhưng không dùng nữa 
 
 	void tangScore();
-	void inScore();
+	int  inScore();
 
 	void handleInput(SDL_Event &even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
