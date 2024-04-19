@@ -3,16 +3,19 @@
 #include"snak.h"
 #include"Food.h"
 #include"TIMER.h"
+#include"TEXT.h"
+
 using namespace std;
 
 
 SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
+SDL_Surface* ICON = NULL;
 
 baseObject backGround;
 baseObject nhanESC;
 baseObject loss;
-
+TTF_Font* font_score=NULL;
 
 void randomRec(SDL_Rect& recc)
 {
@@ -22,7 +25,7 @@ void randomRec(SDL_Rect& recc)
 bool setBack()
 {
 		bool ok = true;
-		backGround.loadImg("anh//BACKGROUND//backxanh.bmp", screen);
+		backGround.loadImg("anh//BACKGROUND//yardall.bmp", screen);
 		backGround.render(screen, NULL);
 		if (backGround.getObject() == NULL)
 		{
@@ -59,48 +62,71 @@ bool setLoss()
 
 void close() { //closes everything properly
 	SDL_DestroyRenderer(screen);
+	TTF_Quit();
+	SDL_FreeSurface(ICON);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
 
-void game_Screen() { //creates the game surface and the render as wll
+bool game_Screen() { //creates the game surface and the render as wll
 	bool success = true;
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0||TTF_Init()==-1) 
+	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else {
-		window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow("SNAKE FIT", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		}
 		else {
-
 			screen = SDL_CreateRenderer(window, -1, 0);
+			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
+			SDL_SetWindowIcon(window, ICON);
+			font_score = TTF_OpenFont("font//hunter.otf", 30);
+			if (font_score != NULL)
+			{
+				success = false;
+			}
 		}
 	}
+	return success;
 }// HÀM INIT,CREATE,SET RENDERER
 
  food cake;
  food chanh;
- baseObject doc;
- baseObject ngang;
+ 
 int main(int argc, char* args[])
 {
 	srand(time(NULL));
-	game_Screen();
-	home:
+	if (!game_Screen())
+	{
+		cout << "LOAD SCREEN ERROR" << endl;
+	}
+	
 	if (!setBack())
 	{
 		cout << "Load BACKGROUND ERROR" << endl;
 	};
-	doc.loadImg("anh//BODER//doc.bmp", screen);
-	ngang.loadImg("anh//BODER//ngang.bmp", screen);
-	SDL_Rect recdoc = { 0,0,40,960 };
+	if (!setPause())
+	{
+		cout << "Load PAUSE ERROR" << endl;
+	};
+	if (!setLoss())
+	{
+		cout << "LOAD LOSS ERROR" << endl;
+	}
+home:
+
 	bool quit = false;
 	SDL_Event even;
+
+	TextObject timeGame;
+	timeGame.SetColor(TextObject::WHITE_TEXT);
+
 
 	snake ran(screen);
 	cake.loadImg("anh//FOOD//food.bmp", screen);
@@ -129,11 +155,14 @@ int main(int argc, char* args[])
 				
 				
 			}
+			
+			
+
 			if (!ran.isAlive())
 			{
 				cout << "chet" << endl;
-				ran.inScore();
-				setLoss();
+				
+				loss.render(screen, NULL);
 				if (rePlay)
 				{
 					goto home;
@@ -159,13 +188,23 @@ int main(int argc, char* args[])
 			backGround.render(screen, NULL);
 			if (!ran.dangDichuyen())
 			{
-				setPause();
-
+				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+				nhanESC.render(screen, &rPause);
 			}
 			ran.showfullbodysnake(screen, eaten);
 			cake.render(screen, &cake.rect_);
-			doc.render(screen, &recdoc);
-			los:
+			
+		los:
+
+			if (ran.inScore() >= 5)
+			{
+				timeGame.SetColor(TextObject::BLACK_TEXT);
+			}
+			string str_val = to_string(ran.inScore());
+			
+			timeGame.SetText(str_val);
+			timeGame.LoadFromRenderText(font_score, screen);
+			timeGame.RenderText(screen, 30, 30);
 		SDL_RenderPresent(screen);
 
 		int real_time = thoigian.get_ticks();
