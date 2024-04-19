@@ -13,6 +13,7 @@ public:
 	bool loadImg(std::string path,SDL_Renderer* ren);
 	void render(SDL_Renderer* ren,SDL_Rect* rec);
 	SDL_Rect getRect() { return rect_; };
+	void Free();
 
 
 	SDL_Texture* object_;
