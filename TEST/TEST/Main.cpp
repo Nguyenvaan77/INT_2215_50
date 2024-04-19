@@ -12,10 +12,12 @@ SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
 SDL_Surface* ICON = NULL;
 
+baseObject hoa1,hoa2,hoa3;
 baseObject backGround;
 baseObject nhanESC;
 baseObject loss;
 TTF_Font* font_score=NULL;
+TTF_Font* font_timer = NULL;
 
 void randomRec(SDL_Rect& recc)
 {
@@ -25,13 +27,19 @@ void randomRec(SDL_Rect& recc)
 bool setBack()
 {
 		bool ok = true;
-		backGround.loadImg("anh//BACKGROUND//yardall.bmp", screen);
+		backGround.loadImg("anh//BACKGROUND//backok.bmp", screen);
 		backGround.render(screen, NULL);
+
+		hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
+		hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
+		hoa3.loadImg("anh//BACKGROUND//hoa3.bmp", screen);
+
 		if (backGround.getObject() == NULL)
 		{
 			ok = false;
 		}
 		return ok;
+		
 }
 
 bool setPause()
@@ -87,7 +95,8 @@ bool game_Screen() { //creates the game surface and the render as wll
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
 			font_score = TTF_OpenFont("font//hunter.otf", 30);
-			if (font_score != NULL)
+			font_timer= TTF_OpenFont("font//hunter.otf", 30);
+			if (font_score != NULL&&font_timer!=NULL)
 			{
 				success = false;
 			}
@@ -124,8 +133,11 @@ home:
 	bool quit = false;
 	SDL_Event even;
 
-	TextObject timeGame;
-	timeGame.SetColor(TextObject::WHITE_TEXT);
+	TextObject scoreG;
+	TextObject timeG;
+
+	timeG.SetColor(TextObject::WHITE_TEXT);
+	scoreG.SetColor(TextObject::WHITE_TEXT);
 
 
 	snake ran(screen);
@@ -186,6 +198,8 @@ home:
 			SDL_RenderClear(screen);
 
 			backGround.render(screen, NULL);
+
+			
 			if (!ran.dangDichuyen())
 			{
 				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
@@ -198,17 +212,24 @@ home:
 
 			if (ran.inScore() >= 5)
 			{
-				timeGame.SetColor(TextObject::BLACK_TEXT);
+				scoreG.SetColor(TextObject::BLACK_TEXT);
 			}
-			string str_val = to_string(ran.inScore());
-			
-			timeGame.SetText(str_val);
-			timeGame.LoadFromRenderText(font_score, screen);
-			timeGame.RenderText(screen, 30, 30);
-		SDL_RenderPresent(screen);
+			string str_val = "Your Score : "+to_string(ran.inScore());
+
+			scoreG.SetText(str_val);
+			scoreG.LoadFromRenderText(font_score, screen);
+			scoreG.RenderText(screen, SCREEN_WIDTH/2-100, SCREEN_HEIGHT-90);// 30 30 ma gia ko co y nghia trong code nay
+		
 
 		int real_time = thoigian.get_ticks();
 		int time_one_frame = 1000 / FRAME_PER_SECOND;
+		
+		timeG.SetText(to_string(SDL_GetTicks()/1000));
+		timeG.LoadFromRenderText(font_timer, screen);
+		timeG.RenderText(screen, SCREEN_WIDTH / 2 - 100-100, SCREEN_HEIGHT - 90);
+
+		SDL_RenderPresent(screen);
+
 		if (real_time < time_one_frame)
 		{
 			int delay_time = time_one_frame - real_time;

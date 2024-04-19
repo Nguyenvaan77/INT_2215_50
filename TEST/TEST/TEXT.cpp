@@ -87,7 +87,8 @@ void TextObject::SetColor(int type)
 
 void TextObject::RenderText(SDL_Renderer* ren,int xp, int yp)
 {
-	SDL_Rect rec = { 0,0, 60,60  };
-	SDL_RenderCopy(ren, text, &rec, &rec);
+	SDL_Rect rec = { 0,0, width,height  };
+	SDL_Rect rec1 = { xp,yp,width,height };
+	SDL_RenderCopy(ren, text, &rec, &rec1);
 }
 
