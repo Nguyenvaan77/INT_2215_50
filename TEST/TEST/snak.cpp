@@ -19,7 +19,7 @@ snake::snake(SDL_Renderer* ren)
 	cout << "Do dai ran = " << SNAKE.size() << endl;
 	
 	dirHead = 4;//huong ban dau la right =4;
-	score = 0;
+	
 };
 
 
@@ -269,7 +269,7 @@ void snake::handleInput(SDL_Event& even)
 
 bool snake::bitWall()
 {
-	if (HEAD.rect_.x > SCREEN_WIDTH - 30 || HEAD.rect_.y > SCREEN_HEIGHT - 30 || HEAD.rect_.x < 0 || HEAD.rect_.y < 0)
+	if (HEAD.rect_.x > SCREEN_WIDTH - 60 || HEAD.rect_.y > SCREEN_HEIGHT - 150 || HEAD.rect_.x < 30 || HEAD.rect_.y < 30)
 	{
 		return true;
 	}
@@ -299,21 +299,14 @@ bool snake::isAlive()
 	alive = false;
 	return alive;
 }
-void snake::tangScore()//Hàm này gọi trong eatFood()
-{
-	++score;
-}
+
 
 bool snake::eatFood(SDL_Rect FOOD) {
 	if (HEAD.rect_.x == FOOD.x&&HEAD.rect_.y==FOOD.y)
 	{
-		tangScore();
 		return true;
 	}
 	return false;
 }
 
-int snake::inScore()
-{
-	return score;
-}
+

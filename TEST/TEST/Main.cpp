@@ -4,6 +4,9 @@
 #include"Food.h"
 #include"TIMER.h"
 #include"TEXT.h"
+#include"score.h"
+#include"boder.h"
+
 
 using namespace std;
 
@@ -17,29 +20,25 @@ baseObject backGround;
 baseObject nhanESC;
 baseObject loss;
 TTF_Font* font_score=NULL;
-TTF_Font* font_timer = NULL;
-
-void randomRec(SDL_Rect& recc)
-{
-	recc = { (rand() % 36) * 30,(rand() % 30) * 30,30,30 };
-}
+TTF_Font* highest = NULL;
+BODER hangrao;
 
 bool setBack()
 {
 		bool ok = true;
 		backGround.loadImg("anh//BACKGROUND//backok.bmp", screen);
-		backGround.render(screen, NULL);
+		backGround.render(screen, NULL);// có thể xóa 
 
 		hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
 		hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
 		hoa3.loadImg("anh//BACKGROUND//hoa3.bmp", screen);
 
-		if (backGround.getObject() == NULL)
+		if (backGround.getObject() == NULL||hoa1.getObject()==NULL||hoa2.getObject()==NULL||hoa3.getObject()==NULL)
 		{
 			ok = false;
 		}
 		return ok;
-		
+
 }
 
 bool setPause()
@@ -58,7 +57,7 @@ bool setPause()
 bool setLoss()
 {
 	bool ok = true;
-	loss.loadImg("anh//BACKGROUND//loss.bmp", screen);
+	loss.loadImg("anh//BACKGROUND//gameover2.bmp", screen);
 	loss.render(screen, NULL);
 	if (loss.getObject() == NULL)
 	{
@@ -78,30 +77,35 @@ void close() { //closes everything properly
 
 
 bool game_Screen() { //creates the game surface and the render as wll
+	
 	bool success = true;
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0||TTF_Init()==-1) 
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0||TTF_Init()<0) 
 	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		
 		success = false;
 	}
 	else {
 		window = SDL_CreateWindow("SNAKE FIT", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			
 			success = false;
 		}
 		else {
 			screen = SDL_CreateRenderer(window, -1, 0);
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
-			font_score = TTF_OpenFont("font//hunter.otf", 30);
-			font_timer= TTF_OpenFont("font//hunter.otf", 30);
-			if (font_score != NULL&&font_timer!=NULL)
+			font_score = TTF_OpenFont("font//xe.ttf", SIZE_FONT);
+			highest = TTF_OpenFont("font//xe.ttf", SIZE_FONT);
+			if (font_score == NULL|| highest==NULL)
 			{
+				
 				success = false;
 			}
 		}
 	}
+	
 	return success;
 }// HÀM INIT,CREATE,SET RENDERER
 
@@ -128,26 +132,30 @@ int main(int argc, char* args[])
 	{
 		cout << "LOAD LOSS ERROR" << endl;
 	}
+	hangrao.setIMG(screen);
 home:
 
 	bool quit = false;
 	SDL_Event even;
+	SCORE scoreG;// class score
+	
+	scoreG.openFileScore();
 
-	TextObject scoreG;
-	TextObject timeG;
 
-	timeG.SetColor(TextObject::WHITE_TEXT);
 	scoreG.SetColor(TextObject::WHITE_TEXT);
 
 
+
 	snake ran(screen);
-	cake.loadImg("anh//FOOD//food.bmp", screen);
+	cake.loadImg("anh//FOOD//apple.bmp", screen);
 	cake.setup_and_render(screen);
 	TIME thoigian;
 	while (!quit)
 	{
 		bool rePlay = false;
 		thoigian.start();
+		
+		
 			bool eaten = false;
 			while (SDL_PollEvent(&even))
 			{
@@ -175,8 +183,10 @@ home:
 				cout << "chet" << endl;
 				
 				loss.render(screen, NULL);
+				scoreG.newHighest();
 				if (rePlay)
 				{
+					scoreG.resetScore(rePlay);
 					goto home;
 				}
 				goto los;
@@ -186,7 +196,7 @@ home:
 			{
 				eaten = true;
 				ran.addTail();
-				
+				scoreG.updateScore();
 				cake.setupAgain(screen);
 				cout << "EAT FOOD" << endl;
 			}
@@ -207,16 +217,16 @@ home:
 			}
 			ran.showfullbodysnake(screen, eaten);
 			cake.render(screen, &cake.rect_);
-			
+			hangrao.renderBoder(screen);
 		los:
 
-			if (ran.inScore() >= 5)
+			if (scoreG.finalScore() >= 5)
 			{
 				scoreG.SetColor(TextObject::BLACK_TEXT);
 			}
-			string str_val = "Your Score : "+to_string(ran.inScore());
+			scoreG.SCORE_to_STRING();
 
-			scoreG.SetText(str_val);
+			
 			scoreG.LoadFromRenderText(font_score, screen);
 			scoreG.RenderText(screen, SCREEN_WIDTH/2-100, SCREEN_HEIGHT-90);// 30 30 ma gia ko co y nghia trong code nay
 		
@@ -224,9 +234,7 @@ home:
 		int real_time = thoigian.get_ticks();
 		int time_one_frame = 1000 / FRAME_PER_SECOND;
 		
-		timeG.SetText(to_string(SDL_GetTicks()/1000));
-		timeG.LoadFromRenderText(font_timer, screen);
-		timeG.RenderText(screen, SCREEN_WIDTH / 2 - 100-100, SCREEN_HEIGHT - 90);
+	
 
 		SDL_RenderPresent(screen);
 
@@ -236,7 +244,7 @@ home:
 			if (delay_time >= 0)
 			{
 				SDL_Delay(delay_time);
-				cout << "DELAY TIME " << delay_time << endl;
+				
 			}
 		}
 

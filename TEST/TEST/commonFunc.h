@@ -14,6 +14,7 @@
 #include<iostream>
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
+#include<fstream>
 
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 960;
@@ -24,7 +25,7 @@ const int COLOR_KEY_R = 99;
 const int COLOR_KEY_G = 99;
 const int COLOR_KEY_B = 99;
 
-
+const int SIZE_FONT = 60;
 
 #endif // ! COMMON_H_
 

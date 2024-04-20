@@ -14,7 +14,7 @@ public:
 	};
 	void setupAgain(SDL_Renderer* ren)
 	{
-		rect_ = { (rand() % 20) * 30, (rand() % 30) * 30, 30, 30 };
+		rect_ = { (rand() % 33+1) * 30, (rand() % 33+1) * 30, 30, 30 };
 	};
 	
 protected:

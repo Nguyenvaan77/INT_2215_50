@@ -23,8 +23,7 @@ public:
 	void updateTail(SDL_Renderer* ren);       // update vị trí rect và trạng thái dir của từng phần trong snake 
 	bool setIMGforIterm(SDL_Renderer* ren);    // 1 phần nhỏ của showfullbodysnake phía dưới nhưng không dùng nữa 
 
-	void tangScore();
-	int  inScore();
+	
 
 	void handleInput(SDL_Event &even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
@@ -67,7 +66,7 @@ protected:
 	bool alive = true;
 	bool isMove = true;
 
-	int score;
+	
 };
 
 
