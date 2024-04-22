@@ -135,6 +135,7 @@
     <ClCompile Include="boder.cpp" />
     <ClCompile Include="commonFunc.cpp" />
     <ClCompile Include="Food.cpp" />
+    <ClCompile Include="MENU.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="snak.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="boder.h" />
     <ClInclude Include="commonFunc.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="MENU.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="snak.h" />
     <ClInclude Include="TEXT.h" />

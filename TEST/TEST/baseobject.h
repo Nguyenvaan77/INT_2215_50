@@ -8,10 +8,10 @@ class baseObject
 public:
 	baseObject();
 	~baseObject();
-	void setRect(const int& a, const int& b) { this->rect_.x = a; this->rect_.y = b;  };
+	void setRect(const int& a, const int& b) { this->rect_.x = a; this->rect_.y = b; };
 	SDL_Texture* getObject() { return object_; };
-	bool loadImg(std::string path,SDL_Renderer* ren);
-	void render(SDL_Renderer* ren,SDL_Rect* rec);
+	bool loadImg(std::string path, SDL_Renderer* ren);
+	void render(SDL_Renderer* ren, SDL_Rect* rec);
 	SDL_Rect getRect() { return rect_; };
 	void Free();
 

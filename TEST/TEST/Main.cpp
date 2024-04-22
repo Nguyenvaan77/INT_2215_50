@@ -43,8 +43,8 @@ bool setBack()
 bool setPause()
 {
 	bool ok = true;
-	nhanESC.loadImg("anh//BACKGROUND//pause.bmp", screen);
-	SDL_Rect recPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+	nhanESC.loadImg("anh//BACKGROUND//pauseok.bmp", screen);
+	SDL_Rect recPause = { SCREEN_WIDTH / 6 ,SCREEN_HEIGHT / 6,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 	nhanESC.render(screen, &recPause);
 	if (nhanESC.getObject() == NULL)
 	{
@@ -134,6 +134,7 @@ int main(int argc, char* args[])
 	
 home:
 
+
 	bool quit = false;
 	SDL_Event even;
 	SCORE scoreG;// class score
@@ -141,16 +142,17 @@ home:
 	scoreG.openFileScore();
 
 
-	scoreG.SetColor(TextObject::WHITE_TEXT);
+	scoreG.SetColor(SCORE::WHITE_TEXT);
 
 
-
+	
 	snake ran(screen);
 	cake.loadImg("anh//FOOD//apple.bmp", screen);
 	cake.setup_and_render(screen);
 	TIME thoigian;
 	while (!quit)
 	{
+		
 		bool rePlay = false;
 		thoigian.start();
 
@@ -164,7 +166,7 @@ home:
 			}
 			if (even.type == SDL_KEYDOWN)
 			{
-				ran.dichuyen(true);
+				
 				ran.handleInput(even);
 				if (even.key.keysym.sym == SDLK_y)
 				{
@@ -175,11 +177,12 @@ home:
 
 		}
 
-
+		
 
 		if (!ran.isAlive())
 		{
 			cout << "chet" << endl;
+
 
 			loss.render(screen, NULL);
 			scoreG.newHighest();
@@ -190,13 +193,15 @@ home:
 			}
 			goto los;
 		}
+
+
 		ran.xulyDichuyen(ran.dangDichuyen());
 		if (ran.eatFood(cake.getRect()))
 		{
 			eaten = true;
 			ran.addTail();
 			scoreG.updateScore();
-			cake.setupAgain(screen);
+			cake.setupAgain1P(screen,ran);
 			cout << "EAT FOOD" << endl;
 		}
 
@@ -204,30 +209,38 @@ home:
 		{
 			ran.updateTail(screen);
 		}
+		//SDL_RenderClear(screen);
+
+		//backGround.render(screen, NULL);
+
+
+		/*if (!ran.dangDichuyen())
+		{
+			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+			nhanESC.render(screen, &rPause);
+		}*/
+		//ran.showfullbodysnake(screen, eaten);
+		//cake.render(screen, &cake.rect_);
+	
+	los:
+
+
 		SDL_RenderClear(screen);
+
 
 		backGround.render(screen, NULL);
 
+		ran.showfullbodysnake(screen,cake.getRect());
+		cake.render(screen, &cake.rect_);
 
 		if (!ran.dangDichuyen())
 		{
 			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 			nhanESC.render(screen, &rPause);
 		}
-		//ran.showfullbodysnake(screen, eaten);
-		//cake.render(screen, &cake.rect_);
-	
-	los:
-		SDL_RenderClear(screen);
-		backGround.render(screen, NULL);
-		ran.showfullbodysnake(screen, eaten);
-		cake.render(screen, &cake.rect_);
-
-
-		if (scoreG.finalScore() >= 5)
-		{
-			scoreG.SetColor(TextObject::BLACK_TEXT);
-		};
+		
+			
+		
 		scoreG.SCORE_to_STRING();
 		scoreG.LoadFromRenderText(font_score, screen);
 		scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT -tile_frame*5/2-SIZE_FONT/2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 

@@ -6,8 +6,8 @@ baseObject::baseObject()
 	object_ = NULL;
 	rect_.x = 0;
 	rect_.y = 0;
-	rect_.w = 30;
-	rect_.h = 30;
+	rect_.w = tile_frame;
+	rect_.h = tile_frame;
 };
 
 baseObject::~baseObject()

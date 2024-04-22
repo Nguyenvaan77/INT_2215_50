@@ -23,7 +23,7 @@ public:
 		ngang.setRect(0, 0);
 		SDL_RenderCopy(ren, ngang.getObject(), NULL, &ngang.rect_);
 
-		doctrai.setRect(0,30);
+		doctrai.setRect(0, 30);
 		SDL_RenderCopy(ren, doctrai.getObject(), NULL, &doctrai.rect_);
 
 		docphai.setRect(SCREEN_WIDTH - 30, 30);

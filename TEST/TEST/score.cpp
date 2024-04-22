@@ -70,6 +70,7 @@ bool SCORE::newHighest()
 			HIGHESTSCORE = score;
 			highestsc << HIGHESTSCORE;
 			highestsc.close();
+
 			return true;
 		}
 	}

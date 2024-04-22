@@ -45,6 +45,9 @@
     <ClCompile Include="boder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MENU.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseobject.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="boder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MENU.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
