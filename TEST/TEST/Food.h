@@ -9,12 +9,12 @@ class food :public baseObject
 public:
 	void setup_and_render(SDL_Renderer* ren)
 	{
-		rect_ = { (rand() % 20) * 30, (rand() % 30) * 30, 30, 30 };
+		rect_ = { (rand() % 34+1) * tile_frame, (rand() % 23+1) * tile_frame, tile_frame, tile_frame };
 		SDL_RenderCopy(ren, object_, NULL, &rect_);
 	};
 	void setupAgain(SDL_Renderer* ren)
 	{
-		rect_ = { (rand() % 33+1) * 30, (rand() % 33+1) * 30, 30, 30 };
+		rect_ = { (rand() % 34+1) * tile_frame, (rand() % 23+1) * tile_frame, tile_frame, tile_frame };
 	};
 	
 protected:
