@@ -9,10 +9,10 @@ using namespace std;
 class snake
 {
 public:
-	snake(SDL_Renderer*ren);
+	snake(SDL_Renderer* ren);
 	~snake() { ; };
 
-	void setpos(int a, int b) { HEAD.rect_.x = a;HEAD.rect_.y = b; HEAD.rect_.w = 30; HEAD.rect_.h = 30; };//set HEAD snake
+	void setpos(int a, int b) { HEAD.rect_.x = a; HEAD.rect_.y = b; HEAD.rect_.w = tile_frame; HEAD.rect_.h = tile_frame; };//set HEAD snake
 	bool dangDichuyen() { return isMove; };
 	void dichuyen(bool a) { isMove = a; }
 	bool isAlive();                           // check chết chưa 
@@ -23,15 +23,15 @@ public:
 	void updateTail(SDL_Renderer* ren);       // update vị trí rect và trạng thái dir của từng phần trong snake 
 	bool setIMGforIterm(SDL_Renderer* ren);    // 1 phần nhỏ của showfullbodysnake phía dưới nhưng không dùng nữa 
 
-	
 
-	void handleInput(SDL_Event &even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
-	
+	void handleInput(SDL_Event& even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
+
+
 
 	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
-	
-	
+
+
 
 	void xulyDichuyen(bool ismove)                          // dùng để cho con rắn chạy tự động khi không nhân phím 
 	{
@@ -47,9 +47,9 @@ public:
 		}
 	}
 
-	bool showfullbodysnake(SDL_Renderer* ren,bool eat);// hàm render lên màn hình con rắn hoàn thiện 
-	bool loadHEAD(int dir,SDL_Renderer*ren,bool eat);// hàm load thành phần của rắn theo từng trạng thái
-	bool loadBODY(int dir_trc,int dir_now, SDL_Renderer* ren);//...
+	bool showfullbodysnake(SDL_Renderer* ren, bool eat);// hàm render lên màn hình con rắn hoàn thiện 
+	bool loadHEAD(int dir, SDL_Renderer* ren, bool eat);// hàm load thành phần của rắn theo từng trạng thái
+	bool loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren);//...
 	bool loadTAIL(int dir, SDL_Renderer* ren);//...
 
 
@@ -66,7 +66,7 @@ protected:
 	bool alive = true;
 	bool isMove = true;
 
-	
+
 };
 
 
