@@ -15,17 +15,19 @@
 #include<SDL_mixer.h>
 #include<SDL_ttf.h>
 #include<fstream>
+#include<cmath>
 
-const int SCREEN_WIDTH = 1080;
-const int SCREEN_HEIGHT = 960;
-const int tile_frame = 30;
+const int SCREEN_WIDTH = 900;
+const int SCREEN_HEIGHT = 725;
+const int tile_frame = 25;//SCREEN_WIDTH/tile_frame=36 
 const int FRAME_PER_SECOND = 15;
 
 const int COLOR_KEY_R = 99;
 const int COLOR_KEY_G = 99;
 const int COLOR_KEY_B = 99;
 
-const int SIZE_FONT = 60;
+const int SIZE_FONT = 40;
+const std::string FONT_ = "font//xe.ttf";
 
 #endif // ! COMMON_H_
 
