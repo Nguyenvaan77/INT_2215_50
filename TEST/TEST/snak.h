@@ -17,6 +17,7 @@ public:
 	void dichuyen(bool a) { isMove = a; }
 	bool isAlive();                           // check chết chưa 
 	bool bitWall();                           // đụng tường
+	bool nearlyFood(SDL_Rect FOOD);
 	bool eatFood(SDL_Rect FOOD);              // check ăn quả
 	bool bitHimSelf();                        //check tự cắn bản thân
 	void addTail();                           // khi ăn quả thì sẽ được thêm phần đuôi 
@@ -47,11 +48,11 @@ public:
 		}
 	}
 
-	bool showfullbodysnake(SDL_Renderer* ren, bool eat);// hàm render lên màn hình con rắn hoàn thiện 
+	bool showfullbodysnake(SDL_Renderer* ren, SDL_Rect Food);// hàm render lên màn hình con rắn hoàn thiện 
 	bool loadHEAD(int dir, SDL_Renderer* ren, bool eat);// hàm load thành phần của rắn theo từng trạng thái
 	bool loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren);//...
 	bool loadTAIL(int dir, SDL_Renderer* ren);//...
-
+	vector<SDL_Rect> diachiRan() { return SNAKE; };
 
 	int dirHead;
 protected:

@@ -98,9 +98,9 @@ void snake::showfullbody(SDL_Renderer* ren)
 }
 
 
-bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool eat)
+bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool nearEat)
 {
-	if (eat)
+	if (nearEat)
 	{
 		switch (dir)
 		{
@@ -228,10 +228,11 @@ bool snake::loadTAIL(int dir, SDL_Renderer* ren)
 	return true;
 }
 
-bool snake::showfullbodysnake(SDL_Renderer* ren, bool  eat)//load ảnh theo trạng thái của từng phần(rect) của snake 
+bool snake::showfullbodysnake(SDL_Renderer* ren,SDL_Rect Food)//load ảnh theo trạng thái của từng phần(rect) của snake 
 {
+	
 	bool ok = true;
-	if (loadHEAD(dir_of_iterm[0], ren, eat))
+	if (loadHEAD(dir_of_iterm[0], ren, nearlyFood(Food)))
 	{
 		HEAD.render(ren, &SNAKE[0]);
 
@@ -277,31 +278,33 @@ void snake::handleInput(SDL_Event& even)
 		if (dirHead != 4)
 		{
 			dirHead = 3;
+			isMove = true;
 		}
 		break;
 	case SDLK_RIGHT:
 		if (dirHead != 3)
 		{
-
 			dirHead = 4;
+			isMove = true;
 		}
 		break;
 	case SDLK_UP:
 		if (dirHead != 2)
 		{
 			dirHead = 1;
+			isMove = true;
 		}
 		break;
 	case SDLK_DOWN:
 		if (dirHead != 1)
 		{
 			dirHead = 2;
+			isMove = true;
 		}
 		break;
 	case SDLK_ESCAPE:
 		isMove = false;
 		break;
-
 	default:
 		break;
 	}
@@ -353,4 +356,16 @@ bool snake::eatFood(SDL_Rect FOOD) {
 	return false;
 }
 
+bool snake::nearlyFood(SDL_Rect FOOD)//hàm tính này được tích hợp trong hàm showfullbodysnake
+{
+	// sử dụng thư viện cmath dùng các biểu thức toán học để tính khoảng cách đỉnh rect thứ ăn với đầu rắn để kéo dài và thực tế hơn trạng thái há miệng ăn thức ăn của rắn 
+	int x_food = FOOD.x;
+	int y_food = FOOD.y;
+	float KhoangCachDinhRect = (float)sqrt(pow(HEAD.getRect().x - x_food, 2) + pow(HEAD.getRect().y - y_food, 2));
+	if (KhoangCachDinhRect <= 25 * sqrt(2))
+	{
+		return true;
+	}
+	return false;
+}
 
