@@ -18,7 +18,7 @@ SDL_Surface* ICON = NULL;
 baseObject hoa1, hoa2, hoa3;
 baseObject backGround;
 baseObject nhanESC;
-baseObject loss;
+
 baseObject howplay;//huong dan choi
 baseObject reDo;//quay tro lai
 
@@ -56,17 +56,7 @@ bool setPause()
 	return ok;
 }
 
-bool setLoss()
-{
-	bool ok = true;
-	loss.loadImg("anh//BACKGROUND//gameover2.bmp", screen);
-	
-	if (loss.getObject() == NULL)
-	{
-		ok = false;
-	}
-	return ok;
-}
+
 
 
 void close() { //closes everything properly
@@ -121,7 +111,6 @@ int main(int argc, char* args[])
 	{
 		cout << "LOAD SCREEN ERROR" << endl;
 	}
-
 	if (!setBack())
 	{
 		cout << "Load BACKGROUND ERROR" << endl;
@@ -130,29 +119,31 @@ int main(int argc, char* args[])
 	{
 		cout << "Load PAUSE ERROR" << endl;
 	};
-	if (!setLoss())
-	{
-		cout << "LOAD LOSS ERROR" << endl;
-	}
 	
-
+	
 	MENUGAME menu;
 	
 	home:
 
 	int click = menu.setupMenu(screen);
 
-	if (click ==0|| click == 3)
+	switch (click)
 	{
-		close();
-		return 0;
+	case 0: goto OUTGAME;       break;
+	case 1: goto PlayGame;      break;
+	case 2: goto directionGame; break;
+	case 3: goto OUTGAME;       break;
+	case 4: 
+	case 5:
+	default:
+		break;
 	}
-	else
-	{
-		if (click == 2)
+
+		
 		{
+			directionGame:
 			howplay.loadImg("anh//button//indirectionGame.bmp", screen);
-			howplay.render(screen, NULL);
+			
 			SDL_Event evenForbackButton;
 			bool quit = false;
 			bool control_in_back = false;
@@ -162,7 +153,7 @@ int main(int argc, char* args[])
 				{
 					if (evenForbackButton.type == SDL_QUIT)
 					{
-						goto out;
+						goto OUTGAME;
 					}
 					if (evenForbackButton.type == SDL_MOUSEMOTION)
 					{
@@ -197,15 +188,17 @@ int main(int argc, char* args[])
 				{
 					reDo.loadImg("anh//button//back2.bmp", screen);
 				}
+				SDL_RenderClear(screen);
+				howplay.render(screen, NULL);
 				reDo.render(screen, &rect_for_backbut);
 				SDL_RenderPresent(screen);
 				SDL_Delay(90);
 			}
 		}
-		else//khi menu.setupMenu(screen) ==  1
+		//khi menu.setupMenu(screen) ==  1
 		{
 
-		CHOILAI:
+		PlayGame:
 
 
 
@@ -217,7 +210,7 @@ int main(int argc, char* args[])
 			scoreG.SetColor(SCORE::WHITE_TEXT);
 
 			snake ran(screen);
-			
+
 
 			cake.loadImg("anh//FOOD//apple.bmp", screen);
 			cake.setup_and_render(screen);
@@ -229,7 +222,7 @@ int main(int argc, char* args[])
 			{
 				bool gohome = false;
 				bool rePlay = false;
-				
+
 				thoigian.start();
 
 
@@ -246,7 +239,7 @@ int main(int argc, char* args[])
 						ran.handleInput(even);
 						if (even.key.keysym.sym == SDLK_ESCAPE)
 						{
-							ran.dichuyen(false) ;
+							ran.dichuyen(false);
 							pausingGame = true;
 						}
 						if (even.key.keysym.sym == SDLK_y)
@@ -272,7 +265,7 @@ int main(int argc, char* args[])
 					if (rePlay)
 					{
 						scoreG.resetScore(rePlay);
-						goto CHOILAI;
+						goto PlayGame;
 					}
 					if (gohome)
 					{
@@ -284,19 +277,22 @@ int main(int argc, char* args[])
 				}
 
 
-				ran.xulyDichuyen(ran.dangDichuyen());
-				if (ran.eatFood(cake.getRect()))
-				{
-					eaten = true;
-					ran.addTail();
-					scoreG.updateScore();
-					cake.setupAgain1P(screen, ran);
-					cout << "EAT FOOD" << endl;
-				}
-
 				if (ran.dangDichuyen())
 				{
+					ran.xulyDichuyen(ran.dangDichuyen());
+
+					if (ran.eatFood(cake.getRect()))
+					{
+						eaten = true;
+						ran.addTail();
+						scoreG.updateScore();
+						cake.setupAgain1P(screen, ran);
+						cout << "EAT FOOD" << endl;
+					}
+
+
 					ran.updateTail(screen);
+
 				}
 			los:
 
@@ -309,7 +305,7 @@ int main(int argc, char* args[])
 				ran.showfullbodysnake(screen, cake.getRect());
 				cake.render(screen, &cake.rect_);
 
-				if (!ran.dangDichuyen())
+				if (!ran.dangDichuyen() || pausingGame)
 				{
 					SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 					nhanESC.render(screen, &rPause);
@@ -335,8 +331,7 @@ int main(int argc, char* args[])
 				}
 			}
 		}
-	}
-    out:
+    OUTGAME:
 	close();
 	return 0;
 }
