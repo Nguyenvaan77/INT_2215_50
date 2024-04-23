@@ -10,6 +10,7 @@
 
 using namespace std;
 
+int index_wingame;
 
 SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
@@ -30,7 +31,6 @@ bool setBack()
 	bool ok = true;
 	backGround.loadImg("anh//BACKGROUND//backclone.bmp", screen);
 	
-
 	hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
 	hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
 	hoa3.loadImg("anh//BACKGROUND//hoa3.bmp", screen);
@@ -120,87 +120,46 @@ int main(int argc, char* args[])
 		cout << "Load PAUSE ERROR" << endl;
 	};
 	
-	
-	MENUGAME menu;
-	
-	home:
-
-	int click = menu.setupMenu(screen);
-
-	switch (click)
 	{
-	case 0: goto OUTGAME;       break;
-	case 1: goto PlayGame;      break;
-	case 2: goto directionGame; break;
-	case 3: goto OUTGAME;       break;
-	case 4: 
-	case 5:
-	default:
-		break;
+		
+	home:
+		MENUGAME menu;
+		int click = menu.setupMenu(screen);
+
+		switch (click)
+		{
+		case 0: goto OUTGAME;       break;
+		case 1: goto gameMode;      break;
+		case 2: goto directionGame; break;
+		case 3: goto OUTGAME;       break;
+		default:
+			break;
+		}
 	}
 
-		
+
+
+	{
+
+	gameMode:
+
+		MODECHOISEGAME modechoise;
+		int clickMode = modechoise.setupMODECHOISE(screen);
+		switch (clickMode)
 		{
-			directionGame:
-			howplay.loadImg("anh//button//indirectionGame.bmp", screen);
-			
-			SDL_Event evenForbackButton;
-			bool quit = false;
-			bool control_in_back = false;
-			while (!quit)
-			{
-				while(SDL_PollEvent(&evenForbackButton))
-				{
-					if (evenForbackButton.type == SDL_QUIT)
-					{
-						goto OUTGAME;
-					}
-					if (evenForbackButton.type == SDL_MOUSEMOTION)
-					{
-						if (evenForbackButton.motion.x <=150 && evenForbackButton.motion.x >= 0 && evenForbackButton.motion.y >= 0 && evenForbackButton.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
-						{
-							control_in_back = true;
-						}
-						else
-						{
-							control_in_back = false;
-						}
-					}
-					if (evenForbackButton.type == SDL_MOUSEBUTTONDOWN)
-					{
-						if (evenForbackButton.button.button == SDL_BUTTON_LMASK)
-						{
-							int x, y;
-							Uint32 h = SDL_GetMouseState(&x, &y);
-							if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
-							{
-								goto home;
-							}
-						}
-					}
-				}
-				SDL_Rect rect_for_backbut = { 0,0,150,150 };
-				if (control_in_back)
-				{
-					reDo.loadImg("anh//button//back1.bmp", screen);
-				}
-				else
-				{
-					reDo.loadImg("anh//button//back2.bmp", screen);
-				}
-				SDL_RenderClear(screen);
-				howplay.render(screen, NULL);
-				reDo.render(screen, &rect_for_backbut);
-				SDL_RenderPresent(screen);
-				SDL_Delay(90);
-			}
+		case 0: goto OUTGAME;  break;
+		case 1: goto PlayGame; break;
+		case 2: goto PlayGame2player; break;
+		case 3: goto home;     break;
+		default:
+			break;
 		}
+	}
+
 		//khi menu.setupMenu(screen) ==  1
 		{
 
 		PlayGame:
-
-
 
 			bool quit = false;
 			SDL_Event even;
@@ -209,7 +168,7 @@ int main(int argc, char* args[])
 			scoreG.openFileScore();
 			scoreG.SetColor(SCORE::WHITE_TEXT);
 
-			snake ran(screen);
+			snake ran(1);
 
 
 			cake.loadImg("anh//FOOD//apple.bmp", screen);
@@ -231,12 +190,14 @@ int main(int argc, char* args[])
 				{
 					if (even.type == SDL_QUIT)
 					{
-						quit = true;
+						quit = true;// KHÔNG QUAN TRỌNG						
+						goto OUTGAME;
 					}
 					if (even.type == SDL_KEYDOWN)
 					{
 
 						ran.handleInput(even);
+						if (ran.dangDichuyen()) { pausingGame = false; };
 						if (even.key.keysym.sym == SDLK_ESCAPE)
 						{
 							ran.dichuyen(false);
@@ -294,7 +255,7 @@ int main(int argc, char* args[])
 					ran.updateTail(screen);
 
 				}
-			los:
+			
 
 
 				SDL_RenderClear(screen);
@@ -305,7 +266,7 @@ int main(int argc, char* args[])
 				ran.showfullbodysnake(screen, cake.getRect());
 				cake.render(screen, &cake.rect_);
 
-				if (!ran.dangDichuyen() || pausingGame)
+				if (pausingGame )
 				{
 					SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 					nhanESC.render(screen, &rPause);
@@ -317,6 +278,7 @@ int main(int argc, char* args[])
 				scoreG.LoadFromRenderText(font_score, screen);
 				scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
 
+				
 
 				int real_time = thoigian.get_ticks();
 				int time_one_frame = 1000 / FRAME_PER_SECOND;
@@ -331,6 +293,211 @@ int main(int argc, char* args[])
 				}
 			}
 		}
+
+
+		{
+		PlayGame2player:
+
+		bool quit = false;
+		SDL_Event even;
+		snake ran1(1);
+		snake ran2(2);
+		bool ran1ready = false;
+		bool ran2ready = false;
+
+
+		baseObject loadOk;
+
+
+		cake.loadImg("anh//FOOD//apple.bmp", screen);
+		cake.setup_and_render(screen);
+
+		TIME thoigian;;
+
+		while (!quit)
+		{
+			bool gohome = false;
+			bool rePlay = false;
+
+			thoigian.start();
+
+
+			bool eaten = false;
+
+			while (SDL_PollEvent(&even))
+			{
+				if (even.type == SDL_QUIT)
+				{
+					quit = true;
+					goto OUTGAME;
+				}
+				if (even.type == SDL_KEYDOWN)
+				{
+					ran1.handleInput(even);
+					ran2.handleInput(even);
+					if (ran1.dangDichuyen())
+					{
+						cout << "Ran 1 " << endl;
+					}
+					if (ran2.dangDichuyen())
+					{
+						cout << "Ran 2 " << endl;
+					}
+
+					if (even.key.keysym.sym == SDLK_ESCAPE)
+					{
+						ran1.dichuyen(false);
+						ran2.dichuyen(false);
+					}
+					if (even.key.keysym.sym == SDLK_y)
+					{
+						rePlay = true;
+					}
+					if (even.key.keysym.sym == SDLK_h)
+					{
+						gohome = true;
+					}
+				}
+
+			}
+
+			
+
+			if (!ran1.isAlive() || !ran2.isAlive())
+			{
+				cout << "chetchetchetchetchetchetchet" << endl;
+
+				if (!ran1.isAlive() && !ran2.isAlive())
+				{
+					index_wingame = 3;//tie thi 3
+				}
+				else
+				{
+					if (!ran1.isAlive())
+					{
+						index_wingame = 2;// p2 win thi 2
+					}
+					if (!ran2.isAlive())
+					{
+						index_wingame = 1;//p1 win thi 1
+					}
+				}
+				goto win;
+			}
+
+
+			if (ran1.dangDichuyen() && ran2.dangDichuyen())
+			{
+				ran1.xulyDichuyen(ran1.dangDichuyen());
+				ran2.xulyDichuyen(ran2.dangDichuyen());
+
+				if (ran1.eatFood(cake.getRect()))
+				{
+					eaten = true;
+					ran1.addTail();
+
+					cake.setupAgain1P(screen, ran1);
+					cout << "EAT FOOD" << endl;
+				}
+				if (ran2.eatFood(cake.getRect()))
+				{
+					eaten = true;
+					ran2.addTail();
+
+					cake.setupAgain1P(screen, ran2);
+					cout << "EAT FOOD" << endl;
+				}
+
+
+				ran1.updateTail(screen);
+				ran2.updateTail(screen);
+
+			}
+			
+
+			SDL_RenderClear(screen);
+			
+			backGround.render(screen, NULL);
+			ran1.renderShit(screen);
+			ran2.renderShit(screen);
+			ran1.showfullbodysnake(screen, cake.getRect());
+			ran2.showfullbodysnake(screen, cake.getRect());
+			cake.render(screen, &cake.rect_);
+
+			/*if (pausingGame)
+			{
+				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+				nhanESC.render(screen, &rPause);
+			}*/
+
+			int real_time = thoigian.get_ticks();
+			int time_one_frame = 1000 / FRAME_PER_SECOND;
+			SDL_RenderPresent(screen);
+			if (real_time < time_one_frame)
+			{
+				int delay_time = time_one_frame - real_time;
+				if (delay_time >= 0)
+				{
+					SDL_Delay(delay_time);
+				}
+			}
+		}
+		}
+
+		{
+		win:
+			SCREEN_WIN_GAME wingame;
+			int click_win_game = wingame.setupGAMEOK(screen, index_wingame);//1 : p1 win, 2: p2 win, 3: tie
+			switch (click_win_game)
+			{
+			case 0: goto OUTGAME; break;
+
+			case 1: goto PlayGame2player; break;
+
+			case 2: goto home;     break;
+
+			case 3: goto gameMode; break;
+
+			default: break;
+			}
+		}
+
+		{
+		los://khi thua se den day
+			SCREEN_WIN_GAME wingame;
+			int click_win_game = wingame.setupGAMEOK(screen, 0);//0 la thua
+			switch (click_win_game)
+			{
+			case 0: goto OUTGAME; break;
+
+			case 1: goto PlayGame; break;
+
+			case 2: goto home;     break;
+
+			case 3: goto gameMode; break;
+
+			default: break;
+			}
+		}
+
+
+		{
+
+		directionGame:// Huong dan choi game 
+
+		INDIRECTIONGAME inforG;
+		int clickIndirect = inforG.setupINDIRECTION(screen);
+		if (clickIndirect)
+		{
+			goto home;
+		}
+		else
+		{
+			goto OUTGAME;
+		}
+
+		}
+
     OUTGAME:
 	close();
 	return 0;
