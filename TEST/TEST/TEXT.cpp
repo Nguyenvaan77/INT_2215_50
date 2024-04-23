@@ -40,7 +40,7 @@ bool TextObject::LoadFromRenderText(TTF_Font* font, SDL_Renderer* screen)
 	}
 	if (text != NULL)
 	{
-		std::cout << "LOAD FONT OK" << std::endl;
+		
 		return true;
 	}
 	else

@@ -1,29 +1,57 @@
 ﻿#include"snak.h"
 
-snake::snake(SDL_Renderer* ren)
+snake::snake(int indexPlayer)// 1 nếu là player 1 , 2 cho player 2 
 {
-	isMove = false;
-	alive = true;
-	HEAD.rect_ = { 7 * tile_frame,(rand() % 15+3) * tile_frame,tile_frame,tile_frame };
+	    
+		isMove = false;
+		alive = true;
+		diem = 0;
+		if (indexPlayer == 1)
+		{
+
+			setupPlay1();
+		}
+		else
+		{
+			setupPlay2();
+		}
+};
+
+void snake::setupPlay1()
+{
+	HEAD.rect_ = { 7 * tile_frame,10 * tile_frame,tile_frame,tile_frame };
 	SNAKE.push_back(HEAD.rect_);
 	dir_of_iterm.push_back(4);
-	HEAD.render(ren, &HEAD.rect_);
+
 	for (int i = 1; i <= 3; ++i)
 	{
 		SDL_Rect rec_;
 		rec_ = { SNAKE[0].x - i * tile_frame, SNAKE[0].y, tile_frame, tile_frame, };
 		SNAKE.push_back(rec_);
 		dir_of_iterm.push_back(4);
-		BODY.render(ren, &SNAKE[i]);
+
 	};
-	cout << "Do dai ran = " << SNAKE.size() << endl;
-
+	index_of_player = 1;
 	dirHead = 4;//huong ban dau la right =4;
-	diem = 0;
+}
 
-	
-};
+void snake::setupPlay2()
+{
+	HEAD.rect_ = { 28 * tile_frame,(24-10) * tile_frame,tile_frame,tile_frame };
+	SNAKE.push_back(HEAD.rect_);
+	dir_of_iterm.push_back(3);
 
+	for (int i = 1; i <= 3; ++i)
+	{
+		SDL_Rect rec_;
+		rec_ = { SNAKE[0].x + i * tile_frame, SNAKE[0].y, tile_frame, tile_frame, };
+		SNAKE.push_back(rec_);
+		dir_of_iterm.push_back(3);
+
+	};
+	index_of_player = 2;
+	dirHead = 3;//huong ban dau la right =4;
+}
 
 bool snake::setIMGforIterm(SDL_Renderer* ren)
 {
@@ -86,7 +114,7 @@ void snake::updateTail(SDL_Renderer* ren)
 		prev_dir = tempDIR;
 
 	}
-	cout << "head :" << HEAD.rect_.x << " " << HEAD.rect_.y << endl;
+	
 }
 
 void snake::showfullbody(SDL_Renderer* ren)
@@ -104,24 +132,50 @@ bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool nearEat)
 {
 	if (nearEat)
 	{
-		switch (dir)
+		if (index_of_player == 1)
 		{
-		case 1: HEAD.loadImg("anh//HEAD//eatup.bmp", ren); break;
-		case 2: HEAD.loadImg("anh//HEAD//eatdown.bmp", ren); break;
-		case 3: HEAD.loadImg("anh//HEAD//eatleft.bmp", ren); break;
-		case 4: HEAD.loadImg("anh//HEAD//eatright.bmp", ren); break;
+			switch (dir)
+			{
+			case 1: HEAD.loadImg("anh//HEAD//eatup.bmp", ren); break;
+			case 2: HEAD.loadImg("anh//HEAD//eatdown.bmp", ren); break;
+			case 3: HEAD.loadImg("anh//HEAD//eatleft.bmp", ren); break;
+			case 4: HEAD.loadImg("anh//HEAD//eatright.bmp", ren); break;
+			}
+		}
+		else
+		{
+			switch (dir)
+			{
+			case 1: HEAD.loadImg("anh//HEAD//player2//eatup2.bmp", ren); break;
+			case 2: HEAD.loadImg("anh//HEAD//player2//eatdown2.bmp", ren); break;
+			case 3: HEAD.loadImg("anh//HEAD//player2//eatleft2.bmp", ren); break;
+			case 4: HEAD.loadImg("anh//HEAD//player2//eatright.bmp", ren); break;
+			}
 		}
 	}
 	else
 	{
 		if (alive)
 		{
-			switch (dir)
+			if (index_of_player == 1)
 			{
-			case 1: HEAD.loadImg("anh//HEAD//up.bmp", ren); cout << "LOAD HEAD UP" << endl;  break;
-			case 2: HEAD.loadImg("anh//HEAD//down.bmp", ren); break;
-			case 3: HEAD.loadImg("anh//HEAD//left.bmp", ren); break;
-			case 4: HEAD.loadImg("anh//HEAD//right.bmp", ren); break;
+				switch (dir)
+				{
+				case 1: HEAD.loadImg("anh//HEAD//up.bmp", ren);   break;
+				case 2: HEAD.loadImg("anh//HEAD//down.bmp", ren); break;
+				case 3: HEAD.loadImg("anh//HEAD//left.bmp", ren); break;
+				case 4: HEAD.loadImg("anh//HEAD//right.bmp", ren); break;
+				}
+			}
+			else
+			{
+				switch (dir)
+				{
+				case 1: HEAD.loadImg("anh//HEAD//player2//up2.bmp", ren);  break;
+				case 2: HEAD.loadImg("anh//HEAD//player2//down2.bmp", ren); break;
+				case 3: HEAD.loadImg("anh//HEAD//player2//left2.bmp", ren); break;
+				case 4: HEAD.loadImg("anh//HEAD//player2//right2.bmp", ren); break;
+				}
 			}
 		}
 		else
@@ -151,31 +205,66 @@ bool snake::loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren)
 	{
 		if (dir_trc == dir_now)
 		{
-			switch (dir_now)
+			if (index_of_player == 1)
 			{
-			case 1:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
-			case 2:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
-			case 3:BODY.loadImg("anh//BODY//body.bmp", ren); break;
-			case 4:BODY.loadImg("anh//BODY//body.bmp", ren); break;
+				switch (dir_now)
+				{
+				case 1:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
+				case 2:BODY.loadImg("anh//BODY//body1.bmp", ren); break;
+				case 3:BODY.loadImg("anh//BODY//body.bmp", ren); break;
+				case 4:BODY.loadImg("anh//BODY//body.bmp", ren); break;
+				}
+			}
+			else
+			{
+				switch (dir_now)
+				{
+				case 1:BODY.loadImg("anh//BODY//player2//body21.bmp", ren); break;
+				case 2:BODY.loadImg("anh//BODY//player2//body21.bmp", ren); break;
+				case 3:BODY.loadImg("anh//BODY//player2//body2.bmp", ren); break;
+				case 4:BODY.loadImg("anh//BODY//player2//body2.bmp", ren); break;
+				}
 			}
 		}
 		else
 		{
-			if ((dir_trc == 1 && dir_now == 3) || (dir_trc == 4 && dir_now == 2))
+			if (index_of_player == 1)
 			{
-				BODY.loadImg("anh//BODY//body2.bmp", ren);
+				if ((dir_trc == 1 && dir_now == 3) || (dir_trc == 4 && dir_now == 2))
+				{
+					BODY.loadImg("anh//BODY//body2.bmp", ren);
+				}
+				if ((dir_trc == 1 && dir_now == 4) || (dir_trc == 3 && dir_now == 2))
+				{
+					BODY.loadImg("anh//BODY//body3.bmp", ren);
+				}
+				if ((dir_trc == 3 && dir_now == 1) || (dir_trc == 2 && dir_now == 4))
+				{
+					BODY.loadImg("anh//BODY//body4.bmp", ren);
+				}
+				if ((dir_trc == 4 && dir_now == 1) || (dir_trc == 2 && dir_now == 3))
+				{
+					BODY.loadImg("anh//BODY//body5.bmp", ren);
+				}
 			}
-			if ((dir_trc == 1 && dir_now == 4) || (dir_trc == 3 && dir_now == 2))
+			else
 			{
-				BODY.loadImg("anh//BODY//body3.bmp", ren);
-			}
-			if ((dir_trc == 3 && dir_now == 1) || (dir_trc == 2 && dir_now == 4))
-			{
-				BODY.loadImg("anh//BODY//body4.bmp", ren);
-			}
-			if ((dir_trc == 4 && dir_now == 1) || (dir_trc == 2 && dir_now == 3))
-			{
-				BODY.loadImg("anh//BODY//body5.bmp", ren);
+				if ((dir_trc == 1 && dir_now == 3) || (dir_trc == 4 && dir_now == 2))
+				{
+					BODY.loadImg("anh//BODY//player2//body22.bmp", ren);
+				}
+				if ((dir_trc == 1 && dir_now == 4) || (dir_trc == 3 && dir_now == 2))
+				{
+					BODY.loadImg("anh//BODY//player2//body23.bmp", ren);
+				}
+				if ((dir_trc == 3 && dir_now == 1) || (dir_trc == 2 && dir_now == 4))
+				{
+					BODY.loadImg("anh//BODY//player2//body24.bmp", ren);
+				}
+				if ((dir_trc == 4 && dir_now == 1) || (dir_trc == 2 && dir_now == 3))
+				{
+					BODY.loadImg("anh//BODY//player2//body25.bmp", ren);
+				}
 			}
 		}
 	}
@@ -203,12 +292,25 @@ bool snake::loadTAIL(int dir, SDL_Renderer* ren)
 {
 	if (alive)
 	{
-		switch (dir)
+		if (index_of_player == 1)
 		{
-		case 1:TAIL.loadImg("anh//TAIL//up.bmp", ren); break;
-		case 2:TAIL.loadImg("anh//TAIL//down.bmp", ren); break;
-		case 3:TAIL.loadImg("anh//TAIL//left.bmp", ren); break;
-		case 4:TAIL.loadImg("anh//TAIL//right.bmp", ren); break;
+			switch (dir)
+			{
+			case 1:TAIL.loadImg("anh//TAIL//up.bmp", ren); break;
+			case 2:TAIL.loadImg("anh//TAIL//down.bmp", ren); break;
+			case 3:TAIL.loadImg("anh//TAIL//left.bmp", ren); break;
+			case 4:TAIL.loadImg("anh//TAIL//right.bmp", ren); break;
+			}
+		}
+		else
+		{
+			switch (dir)
+			{
+			case 1:TAIL.loadImg("anh//TAIL//player2//up2.bmp", ren); break;
+			case 2:TAIL.loadImg("anh//TAIL//player2//down2.bmp", ren); break;
+			case 3:TAIL.loadImg("anh//TAIL//player2//left2.bmp", ren); break;
+			case 4:TAIL.loadImg("anh//TAIL//player2//right2.bmp", ren); break;
+			}
 		}
 	}
 	else
@@ -275,40 +377,75 @@ bool snake::showfullbodysnake(SDL_Renderer* ren,SDL_Rect Food)//load ảnh theo 
 
 void snake::handleInput(SDL_Event& even)
 {
-	switch (even.key.keysym.sym) {
-	case SDLK_LEFT:
-		if (dirHead != 4)
-		{
-			dirHead = 3;
-			isMove = true;
+	if (index_of_player == 1)
+	{
+		switch (even.key.keysym.sym) {
+		case SDLK_a:
+			if (dirHead != 4)
+			{
+				dirHead = 3;
+				isMove = true;
+			}
+			break;
+		case SDLK_d:
+			if (dirHead != 3)
+			{
+				dirHead = 4;
+				isMove = true;
+			}
+			break;
+		case SDLK_w:
+			if (dirHead != 2)
+			{
+				dirHead = 1;
+				isMove = true;
+			}
+			break;
+		case SDLK_s:
+			if (dirHead != 1)
+			{
+				dirHead = 2;
+				isMove = true;
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	case SDLK_RIGHT:
-		if (dirHead != 3)
-		{
-			dirHead = 4;
-			isMove = true;
+	}
+	else
+	{
+		switch (even.key.keysym.sym) {
+		case SDLK_LEFT:
+			if (dirHead != 4)
+			{
+				dirHead = 3;
+				isMove = true;
+			}
+			break;
+		case SDLK_RIGHT:
+			if (dirHead != 3)
+			{
+				dirHead = 4;
+				isMove = true;
+			}
+			break;
+		case SDLK_UP:
+			if (dirHead != 2)
+			{
+				dirHead = 1;
+				isMove = true;
+			}
+			break;
+		case SDLK_DOWN:
+			if (dirHead != 1)
+			{
+				dirHead = 2;
+				isMove = true;
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	case SDLK_UP:
-		if (dirHead != 2)
-		{
-			dirHead = 1;
-			isMove = true;
-		}
-		break;
-	case SDLK_DOWN:
-		if (dirHead != 1)
-		{
-			dirHead = 2;
-			isMove = true;
-		}
-		break;
-	
-
-		break;
-	default:
-		break;
 	}
 }
 

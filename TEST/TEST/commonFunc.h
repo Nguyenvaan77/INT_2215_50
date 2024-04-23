@@ -21,6 +21,7 @@ const int SCREEN_WIDTH = 900;
 const int SCREEN_HEIGHT = 725;
 const int tile_frame = 25;//SCREEN_WIDTH/tile_frame=36 
 const int FRAME_PER_SECOND = 15;
+const int TOCDO = tile_frame;
 
 const int COLOR_KEY_R = 99;
 const int COLOR_KEY_G = 99;

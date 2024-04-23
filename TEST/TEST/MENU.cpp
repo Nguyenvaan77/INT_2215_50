@@ -69,7 +69,7 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 			}
 		}
 		
-		BackStr.render(ren, NULL);
+		
 		
 
 		if (control_in_PLAY)
@@ -103,9 +103,299 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 		HowToPlayBut.setRect(685, 300);
 		EXITBut.setRect(315, 360);
 
+		SDL_RenderClear(ren);
+
+		BackStr.render(ren, NULL);
 		playGameBut.render(ren, &playGameBut.rect_);
 		EXITBut.render(ren, &EXITBut.rect_);
 		HowToPlayBut.render(ren, &HowToPlayBut.rect_);
+
+		SDL_RenderPresent(ren);
+		SDL_Delay(90);
+	}
+}
+
+int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
+{
+	bool control_in_ONE = false;
+	bool control_in_TWO = false;
+	bool control_in_REDOT = false;
+
+	SDL_Event ev;
+
+	while (1)
+	{
+		while (SDL_PollEvent(&ev))
+		{
+			if (ev.type == SDL_QUIT)
+			{
+				return 0;//tat game
+			}
+			if (ev.type == SDL_MOUSEMOTION)
+			{
+				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 400 && ev.motion.y <= 530)//tự chọn vị trí cho nút PLAY 
+				{
+					control_in_ONE = true;
+				}
+				else
+				{
+					control_in_ONE = false;
+				}
+
+				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 580 && ev.motion.y <= 710)//tự chọn vị trí cho nút INFOR 
+				{
+					control_in_TWO = true;
+				}
+				else
+				{
+					control_in_TWO = false;
+				}
+				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				{
+					control_in_REDOT = true;
+				}
+				else
+				{
+					control_in_REDOT = false;
+				}
+			}
+			if (ev.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if (ev.button.button == SDL_BUTTON_LMASK)
+				{
+					int x, y;
+					Uint32 h = SDL_GetMouseState(&x, &y);
+					if (x <= 600 && x>=300 && y >= 400 && y <= 530)
+					{
+						return 1;//1player
+					}
+					if (x <= 600 && x >= 300 && y >= 580 && y <= 710)
+					{
+						return 2;//2player
+					}
+					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					{
+						return 3;//gohome
+					}
+				}
+			}
+		}
+
+		
+		if (control_in_ONE)
+		{
+			ONEplayerBut.loadImg("anh//button//1player1.bmp", ren);
+		}
+		else
+		{
+			ONEplayerBut.loadImg("anh//button//1player2.bmp", ren);
+		};
+
+		if (control_in_TWO)
+		{
+			TWOplayerBut.loadImg("anh//button//2player1.bmp", ren);
+		}
+		else
+		{
+			TWOplayerBut.loadImg("anh//button//2player2.bmp", ren);
+		}
+
+		if (control_in_REDOT)
+		{
+			reDot.loadImg("anh//button//back1.bmp", ren);
+		}
+		else
+		{
+			reDot.loadImg("anh//button//back2.bmp", ren);
+		}
+		BackMode.loadImg("anh//BACKGROUND//backmode.bmp", ren);
+
+		ONEplayerBut.setRect(300, 400);
+		TWOplayerBut.setRect(300, 580);
+		reDot.setRect(0, 0);
+
+		SDL_RenderClear(ren);
+
+		BackMode.render(ren, NULL);
+		ONEplayerBut.render(ren, &ONEplayerBut.rect_);
+		TWOplayerBut.render(ren, &TWOplayerBut.rect_);
+		reDot.render(ren, &reDot.rect_);
+
+		SDL_RenderPresent(ren);
+		SDL_Delay(90);
+	}
+}
+
+int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
+{
+	bool control_in_REDOT = false;
+
+	SDL_Event ev;
+
+	while (1)
+	{
+		while (SDL_PollEvent(&ev))
+		{
+			if (ev.type == SDL_QUIT)
+			{
+				return 0;//tat game
+			}
+			if (ev.type == SDL_MOUSEMOTION)
+			{
+				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				{
+					control_in_REDOT = true;
+				}
+				else
+				{
+					control_in_REDOT = false;
+				}
+			}
+			if (ev.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if (ev.button.button == SDL_BUTTON_LMASK)
+				{
+					int x, y;
+					Uint32 h = SDL_GetMouseState(&x, &y);
+					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					{
+						return 1;//gohome
+					}
+				}
+			}
+		}
+
+
+		
+
+		if (control_in_REDOT)
+		{
+			reDot.loadImg("anh//button//back1.bmp", ren);
+		}
+		else
+		{
+			reDot.loadImg("anh//button//back2.bmp", ren);
+		}
+		BackINDIRECT.loadImg("anh//button//indirectionGame.bmp", ren);
+
+		
+		reDot.setRect(0, 0);
+
+		SDL_RenderClear(ren);
+
+		BackINDIRECT.render(ren, NULL);
+		reDot.render(ren, &reDot.rect_);
+
+		SDL_RenderPresent(ren);
+		SDL_Delay(90);
+	}
+}
+
+int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin)
+{
+	bool control_in_PLAYAGAIN = false;
+	bool control_in_EXIT = false;
+	bool control_in_REDOT = false;
+
+	SDL_Event ev;
+
+	while (1)
+	{
+		while (SDL_PollEvent(&ev))
+		{
+			if (ev.type == SDL_QUIT)
+			{
+				return 0;//tat game
+			}
+			if (ev.type == SDL_MOUSEMOTION)
+			{
+				if (ev.motion.x <= 550 && ev.motion.x >= 350 && ev.motion.y >= 400 && ev.motion.y <= 495)//tự chọn vị trí cho nút PLAY 
+				{
+					control_in_PLAYAGAIN = true;
+				}
+				else
+				{
+					control_in_PLAYAGAIN = false;
+				}
+
+				if (ev.motion.x <= 550 && ev.motion.x >= 350 && ev.motion.y >= 545 && ev.motion.y <= 640)//tự chọn vị trí cho nút INFOR 
+				{
+					control_in_EXIT = true;
+				}
+				else
+				{
+					control_in_EXIT = false;
+				}
+				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				{
+					control_in_REDOT = true;
+				}
+				else
+				{
+					control_in_REDOT = false;
+				}
+			}
+			if (ev.type == SDL_MOUSEBUTTONDOWN)
+			{
+				if (ev.button.button == SDL_BUTTON_LMASK)
+				{
+					int x, y;
+					Uint32 h = SDL_GetMouseState(&x, &y);
+					if (x <= 600 && x >= 300 && y >= 400 && y <= 530)
+					{
+						return 1;//playAGAIN
+					}
+					if (x <= 600 && x >= 300 && y >= 580 && y <= 710)
+					{
+						return 2;//EXITTHOME
+					}
+					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					{
+						return 3;//REDOT
+					}
+				}
+			}
+		}
+
+
+		if (control_in_PLAYAGAIN)
+		{
+			PlayAgainBut.loadImg("anh//button//playagain1.bmp", ren);
+		}
+		else
+		{
+			PlayAgainBut.loadImg("anh//button//playagain2.bmp", ren);
+		};
+
+		if (control_in_EXIT)
+		{
+			ExitBut.loadImg("anh//button//exithome1.bmp", ren);
+		}
+		else
+		{
+			ExitBut.loadImg("anh//button//exithome2.bmp", ren);
+		}
+
+		if (control_in_REDOT)
+		{
+			reDot.loadImg("anh//button//back1.bmp", ren);
+		}
+		else
+		{
+			reDot.loadImg("anh//button//back2.bmp", ren);
+		}
+		SCREEN_WIN_GAME::loadBack(ren, WhoWin);
+
+		PlayAgainBut.setRect(350, 400);
+		ExitBut.setRect(350, 545);
+		reDot.setRect(0, 0);
+
+		SDL_RenderClear(ren);
+
+		BackWin.render(ren, NULL);
+		PlayAgainBut.render(ren, &PlayAgainBut.rect_);
+		ExitBut.render(ren, &ExitBut.rect_);
+		reDot.render(ren, &reDot.rect_);
 
 		SDL_RenderPresent(ren);
 		SDL_Delay(90);

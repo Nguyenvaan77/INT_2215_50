@@ -7,7 +7,7 @@
 #include"TEXT.h"
 #include"score.h"
 #include"boder.h"
-
+#include"MENU.h"
 
 using namespace std;
 
@@ -19,7 +19,10 @@ SDL_Surface* ICON = NULL;
 baseObject hoa1, hoa2, hoa3;
 baseObject backGround;
 baseObject nhanESC;
-baseObject loss;
+
+baseObject howplay;//huong dan choi
+baseObject reDo;//quay tro lai
+
 TTF_Font* font_score = NULL;
 TTF_Font* highest = NULL;
 
@@ -27,7 +30,6 @@ bool setBack()
 {
 	bool ok = true;
 	backGround.loadImg("anh//BACKGROUND//backclone.bmp", screen);
-	backGround.render(screen, NULL);// có thể xóa
 
 	hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
 	hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
@@ -46,7 +48,7 @@ bool setPause()
 	bool ok = true;
 	nhanESC.loadImg("anh//BACKGROUND//pauseok.bmp", screen);
 	SDL_Rect recPause = { SCREEN_WIDTH / 6 ,SCREEN_HEIGHT / 6,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
-	nhanESC.render(screen, &recPause);
+
 	if (nhanESC.getObject() == NULL)
 	{
 		ok = false;
@@ -54,17 +56,7 @@ bool setPause()
 	return ok;
 }
 
-bool setLoss()
-{
-	bool ok = true;
-	loss.loadImg("anh//BACKGROUND//gameover2.bmp", screen);
-	loss.render(screen, NULL);
-	if (loss.getObject() == NULL)
-	{
-		ok = false;
-	}
-	return ok;
-}
+
 
 
 void close() { //closes everything properly
@@ -119,7 +111,6 @@ int main(int argc, char* args[])
 	{
 		cout << "LOAD SCREEN ERROR" << endl;
 	}
-
 	if (!setBack())
 	{
 		cout << "Load BACKGROUND ERROR" << endl;
@@ -128,139 +119,217 @@ int main(int argc, char* args[])
 	{
 		cout << "Load PAUSE ERROR" << endl;
 	};
-	if (!setLoss())
-	{
-		cout << "LOAD LOSS ERROR" << endl;
-	}
+
+
+	MENUGAME menu;
 
 home:
 
+	int click = menu.setupMenu(screen);
 
-	bool quit = false;
-	SDL_Event even;
-	SCORE scoreG;// class score
-
-	scoreG.openFileScore();
-
-
-	scoreG.SetColor(SCORE::WHITE_TEXT);
-
-
-
-	snake ran(screen);
-	cake.loadImg("anh//FOOD//apple.bmp", screen);
-	cake.setup_and_render(screen);
-	TIME thoigian;
-	while (!quit)
+	switch (click)
 	{
+	case 0: goto OUTGAME;       break;
+	case 1: goto PlayGame;      break;
+	case 2: goto directionGame; break;
+	case 3: goto OUTGAME;       break;
+	default:
+		break;
+	}
 
-		bool rePlay = false;
-		thoigian.start();
+	{
+	directionGame:// Huong dan choi game 
+		howplay.loadImg("anh//button//indirectionGame.bmp", screen);
 
-
-		bool eaten = false;
-		while (SDL_PollEvent(&even))
+		SDL_Event evenForbackButton;
+		bool quit = false;
+		bool control_in_back = false;
+		while (!quit)
 		{
-			if (even.type == SDL_QUIT)
+			while (SDL_PollEvent(&evenForbackButton))
 			{
-				quit = true;
-			}
-			if (even.type == SDL_KEYDOWN)
-			{
-
-				ran.handleInput(even);
-				if (even.key.keysym.sym == SDLK_y)
+				if (evenForbackButton.type == SDL_QUIT)
 				{
-					rePlay = true;
+					goto OUTGAME;
+				}
+				if (evenForbackButton.type == SDL_MOUSEMOTION)
+				{
+					if (evenForbackButton.motion.x <= 150 && evenForbackButton.motion.x >= 0 && evenForbackButton.motion.y >= 0 && evenForbackButton.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+					{
+						control_in_back = true;
+					}
+					else
+					{
+						control_in_back = false;
+					}
+				}
+				if (evenForbackButton.type == SDL_MOUSEBUTTONDOWN)
+				{
+					if (evenForbackButton.button.button == SDL_BUTTON_LMASK)
+					{
+						int x, y;
+						Uint32 h = SDL_GetMouseState(&x, &y);
+						if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+						{
+							goto home;
+						}
+					}
 				}
 			}
-
-
-		}
-
-
-
-		if (!ran.isAlive())
-		{
-			cout << "chet" << endl;
-
-
-			loss.render(screen, NULL);
-			scoreG.newHighest();
-			if (rePlay)
+			SDL_Rect rect_for_backbut = { 0,0,150,150 };
+			if (control_in_back)
 			{
-				scoreG.resetScore(rePlay);
-				goto home;
+				reDo.loadImg("anh//button//back1.bmp", screen);
 			}
-			goto los;
-		}
-
-
-		ran.xulyDichuyen(ran.dangDichuyen());
-		if (ran.eatFood(cake.getRect()))
-		{
-			eaten = true;
-			ran.addTail();
-			scoreG.updateScore();
-			cake.setupAgain1P(screen, ran);
-			cout << "EAT FOOD" << endl;
-		}
-
-		if (ran.dangDichuyen())
-		{
-			ran.updateTail(screen);
-		}
-		//SDL_RenderClear(screen);
-
-		//backGround.render(screen, NULL);
-
-
-		/*if (!ran.dangDichuyen())
-		{
-			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
-			nhanESC.render(screen, &rPause);
-		}
-		//ran.showfullbodysnake(screen, eaten);
-		//cake.render(screen, &cake.rect_);
-
-	los:
-
-
-		SDL_RenderClear(screen);
-
-
-		backGround.render(screen, NULL);
-
-		ran.showfullbodysnake(screen, cake.getRect());
-		cake.render(screen, &cake.rect_);
-
-		if (!ran.dangDichuyen())
-		{
-			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
-			nhanESC.render(screen, &rPause);
-		}
-
-
-
-		scoreG.SCORE_to_STRING();
-		scoreG.LoadFromRenderText(font_score, screen);
-		scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
-
-
-		int real_time = thoigian.get_ticks();
-		int time_one_frame = 1000 / FRAME_PER_SECOND;
-		SDL_RenderPresent(screen);
-		if (real_time < time_one_frame)
-		{
-			int delay_time = time_one_frame - real_time;
-			if (delay_time >= 0)
+			else
 			{
-				SDL_Delay(delay_time);
+				reDo.loadImg("anh//button//back2.bmp", screen);
+			}
+			SDL_RenderClear(screen);
+			howplay.render(screen, NULL);
+			reDo.render(screen, &rect_for_backbut);
+			SDL_RenderPresent(screen);
+			SDL_Delay(90);
+		}
+	}
+
+
+	//khi menu.setupMenu(screen) ==  1
+	{
+
+	PlayGame:
+
+		bool quit = false;
+		SDL_Event even;
+		SCORE scoreG;// class score
+
+		scoreG.openFileScore();
+		scoreG.SetColor(SCORE::WHITE_TEXT);
+
+		snake ran(screen);
+
+
+		cake.loadImg("anh//FOOD//apple.bmp", screen);
+		cake.setup_and_render(screen);
+
+		bool pausingGame = false;
+
+		TIME thoigian;
+		while (!quit)
+		{
+			bool gohome = false;
+			bool rePlay = false;
+
+			thoigian.start();
+
+
+			bool eaten = false;
+			while (SDL_PollEvent(&even))
+			{
+				if (even.type == SDL_QUIT)
+				{
+					quit = true;
+				}
+				if (even.type == SDL_KEYDOWN)
+				{
+
+					ran.handleInput(even);
+					if (even.key.keysym.sym == SDLK_ESCAPE)
+					{
+						ran.dichuyen(false);
+						pausingGame = true;
+					}
+					if (even.key.keysym.sym == SDLK_y)
+					{
+						rePlay = true;
+					}
+					if (even.key.keysym.sym == SDLK_h)
+					{
+						gohome = true;
+					}
+				}
+
+
+			}
+
+
+
+			if (!ran.isAlive())
+			{
+				cout << "chet" << endl;
+
+				scoreG.newHighest();
+				if (rePlay)
+				{
+					scoreG.resetScore(rePlay);
+					goto PlayGame;
+				}
+				if (gohome)
+				{
+					scoreG.resetScore(rePlay);
+					goto home;
+				}
+
+				goto los;
+			}
+
+
+			if (ran.dangDichuyen())
+			{
+				ran.xulyDichuyen(ran.dangDichuyen());
+
+				if (ran.eatFood(cake.getRect()))
+				{
+					eaten = true;
+					ran.addTail();
+					scoreG.updateScore();
+					cake.setupAgain1P(screen, ran);
+					cout << "EAT FOOD" << endl;
+				}
+
+
+				ran.updateTail(screen);
+
+			}
+		los:
+
+
+			SDL_RenderClear(screen);
+
+
+			backGround.render(screen, NULL);
+			ran.renderShit(screen);
+			ran.showfullbodysnake(screen, cake.getRect());
+			cake.render(screen, &cake.rect_);
+
+			if (!ran.dangDichuyen() || pausingGame)
+			{
+				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+				nhanESC.render(screen, &rPause);
+			}
+
+
+
+			scoreG.SCORE_to_STRING();
+			scoreG.LoadFromRenderText(font_score, screen);
+			scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
+
+
+			int real_time = thoigian.get_ticks();
+			int time_one_frame = 1000 / FRAME_PER_SECOND;
+			SDL_RenderPresent(screen);
+			if (real_time < time_one_frame)
+			{
+				int delay_time = time_one_frame - real_time;
+				if (delay_time >= 0)
+				{
+					SDL_Delay(delay_time);
+				}
 			}
 		}
 	}
+OUTGAME:
 	close();
-
 	return 0;
 }
 */

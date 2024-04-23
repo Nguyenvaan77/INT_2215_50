@@ -9,7 +9,8 @@ using namespace std;
 class snake
 {
 public:
-	snake(SDL_Renderer* ren);
+	snake(int indexPlayer);
+	
 	~snake() { ; };
 
 	void setpos(int a, int b) { HEAD.rect_.x = a; HEAD.rect_.y = b; HEAD.rect_.w = tile_frame; HEAD.rect_.h = tile_frame; };//set HEAD snake
@@ -29,7 +30,8 @@ public:
 
 	void handleInput(SDL_Event& even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
-	
+	void setupPlay1();
+	void setupPlay2();
 
 	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
 
@@ -41,10 +43,10 @@ public:
 		{
 			switch (dirHead)
 			{
-			case 1: HEAD.rect_.y -= tile_frame; break;
-			case 2:HEAD.rect_.y += tile_frame; break;
-			case 3:HEAD.rect_.x -= tile_frame; break;
-			case 4:HEAD.rect_.x += tile_frame; break;
+			case 1: HEAD.rect_.y -= TOCDO; break;
+			case 2:HEAD.rect_.y += TOCDO; break;
+			case 3:HEAD.rect_.x -= TOCDO; break;
+			case 4:HEAD.rect_.x += TOCDO; break;
 			}
 		}
 	}
@@ -69,10 +71,13 @@ protected:
 	baseObject TAIL;
 	baseObject shit;
 
+	int index_of_player;
+
 	bool alive = true;
 	bool isMove = true;
 
 	int diem;
+	
 };
 
 

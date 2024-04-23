@@ -14,7 +14,7 @@ baseObject::~baseObject()
 {
 	if (object_ != NULL)
 	{
-		std::cout << "destroy Texture"<<std::endl;
+		
 		SDL_DestroyTexture(object_);
 	}
 	object_ = NULL;
@@ -61,7 +61,7 @@ void baseObject::Free()
 {
 	if (object_ != NULL)
 	{
-		std::cout << "destroy Texture" << std::endl;
+		
 		SDL_DestroyTexture(object_);
 	}
 	object_ = NULL;
