@@ -19,7 +19,9 @@ snake::snake(SDL_Renderer* ren)
 	cout << "Do dai ran = " << SNAKE.size() << endl;
 
 	dirHead = 4;//huong ban dau la right =4;
+	diem = 0;
 
+	
 };
 
 
@@ -302,8 +304,8 @@ void snake::handleInput(SDL_Event& even)
 			isMove = true;
 		}
 		break;
-	case SDLK_ESCAPE:
-		isMove = false;
+	
+
 		break;
 	default:
 		break;
@@ -333,9 +335,22 @@ bool snake::bitHimSelf()
 	}
 	return false;
 }
+
+bool snake::eatSHIT()
+{
+	for (int i = 0; i < shit_on_map.size(); ++i)
+	{
+		if (HEAD.rect_.x == shit_on_map[i].x && HEAD.rect_.y == shit_on_map[i].y)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool snake::isAlive()
 {
-	if (!bitWall() && !bitHimSelf())
+	if (!bitWall() && !bitHimSelf()&&!eatSHIT())
 	{
 		alive = true;
 		return alive;
@@ -347,13 +362,52 @@ bool snake::isAlive()
 	return alive;
 }
 
+void snake::peeShit()//goi trong ham eatfoood
+{
+	if (diem > 0 && diem % 5 == 0)
+	{
+		shit_on_map.push_back(SNAKE[SNAKE.size() - 2]);
+	}
+}
 
 bool snake::eatFood(SDL_Rect FOOD) {
 	if (HEAD.rect_.x == FOOD.x && HEAD.rect_.y == FOOD.y)
 	{
+		++diem;
+		peeShit();
 		return true;
 	}
 	return false;
+}
+
+void snake::renderShit(SDL_Renderer* ren)
+{
+	int ramd = rand() % 12 + 1;
+	switch (ramd)
+	{
+	case 1:
+	case 2:
+		shit.loadImg("anh//FOOD//shit1.bmp", ren); break;
+	case 3:
+	case 4:
+		shit.loadImg("anh//FOOD//shit2.bmp", ren); break;
+	case 5:
+	case 6:
+		shit.loadImg("anh//FOOD//shit3.bmp", ren); break;
+	case 7:
+	case 8:
+		shit.loadImg("anh//FOOD//shit4.bmp", ren); break;
+	case 9:
+	case 10:
+		shit.loadImg("anh//FOOD//shit5.bmp", ren); break;
+	case 11:
+	case 12:
+		shit.loadImg("anh//FOOD//shit6.bmp", ren); break;
+	}
+	for (int i = 0; i < shit_on_map.size(); ++i)
+	{
+		shit.render(ren, &shit_on_map[i]);
+	}
 }
 
 bool snake::nearlyFood(SDL_Rect FOOD)//hàm tính này được tích hợp trong hàm showfullbodysnake

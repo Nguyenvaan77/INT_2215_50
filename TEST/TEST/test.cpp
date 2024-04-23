@@ -1,4 +1,5 @@
-﻿/*#include"commonFunc.h"
+﻿/*
+#include"commonFunc.h"
 #include"baseobject.h"
 #include"snak.h"
 #include"Food.h"
@@ -21,13 +22,12 @@ baseObject nhanESC;
 baseObject loss;
 TTF_Font* font_score = NULL;
 TTF_Font* highest = NULL;
-BODER hangrao;
 
 bool setBack()
 {
 	bool ok = true;
-	backGround.loadImg("anh//BACKGROUND//backok.bmp", screen);
-	backGround.render(screen, NULL);// có thể xóa 
+	backGround.loadImg("anh//BACKGROUND//backclone.bmp", screen);
+	backGround.render(screen, NULL);// có thể xóa
 
 	hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
 	hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
@@ -44,8 +44,8 @@ bool setBack()
 bool setPause()
 {
 	bool ok = true;
-	nhanESC.loadImg("anh//BACKGROUND//pause.bmp", screen);
-	SDL_Rect recPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+	nhanESC.loadImg("anh//BACKGROUND//pauseok.bmp", screen);
+	SDL_Rect recPause = { SCREEN_WIDTH / 6 ,SCREEN_HEIGHT / 6,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 	nhanESC.render(screen, &recPause);
 	if (nhanESC.getObject() == NULL)
 	{
@@ -96,8 +96,8 @@ bool game_Screen() { //creates the game surface and the render as wll
 			screen = SDL_CreateRenderer(window, -1, 0);
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
-			font_score = TTF_OpenFont("font//xe.ttf", SIZE_FONT);
-			highest = TTF_OpenFont("font//xe.ttf", SIZE_FONT);
+			font_score = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
+			highest = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
 			if (font_score == NULL || highest == NULL)
 			{
 
@@ -132,8 +132,9 @@ int main(int argc, char* args[])
 	{
 		cout << "LOAD LOSS ERROR" << endl;
 	}
-	hangrao.setIMG(screen);
+
 home:
+
 
 	bool quit = false;
 	SDL_Event even;
@@ -142,7 +143,7 @@ home:
 	scoreG.openFileScore();
 
 
-	scoreG.SetColor(TextObject::WHITE_TEXT);
+	scoreG.SetColor(SCORE::WHITE_TEXT);
 
 
 
@@ -152,6 +153,7 @@ home:
 	TIME thoigian;
 	while (!quit)
 	{
+
 		bool rePlay = false;
 		thoigian.start();
 
@@ -165,7 +167,7 @@ home:
 			}
 			if (even.type == SDL_KEYDOWN)
 			{
-				ran.dichuyen(true);
+
 				ran.handleInput(even);
 				if (even.key.keysym.sym == SDLK_y)
 				{
@@ -182,6 +184,7 @@ home:
 		{
 			cout << "chet" << endl;
 
+
 			loss.render(screen, NULL);
 			scoreG.newHighest();
 			if (rePlay)
@@ -191,13 +194,15 @@ home:
 			}
 			goto los;
 		}
+
+
 		ran.xulyDichuyen(ran.dangDichuyen());
 		if (ran.eatFood(cake.getRect()))
 		{
 			eaten = true;
 			ran.addTail();
 			scoreG.updateScore();
-			cake.setupAgain(screen);
+			cake.setupAgain1P(screen, ran);
 			cout << "EAT FOOD" << endl;
 		}
 
@@ -205,49 +210,54 @@ home:
 		{
 			ran.updateTail(screen);
 		}
+		//SDL_RenderClear(screen);
+
+		//backGround.render(screen, NULL);
+
+
+		/*if (!ran.dangDichuyen())
+		{
+			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+			nhanESC.render(screen, &rPause);
+		}
+		//ran.showfullbodysnake(screen, eaten);
+		//cake.render(screen, &cake.rect_);
+
+	los:
+
+
 		SDL_RenderClear(screen);
+
 
 		backGround.render(screen, NULL);
 
+		ran.showfullbodysnake(screen, cake.getRect());
+		cake.render(screen, &cake.rect_);
 
 		if (!ran.dangDichuyen())
 		{
 			SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 			nhanESC.render(screen, &rPause);
 		}
-		ran.showfullbodysnake(screen, eaten);
-		cake.render(screen, &cake.rect_);
-		hangrao.renderBoder(screen);
-	los:
 
-		if (scoreG.finalScore() >= 5)
-		{
-			scoreG.SetColor(TextObject::BLACK_TEXT);
-		}
+
+
 		scoreG.SCORE_to_STRING();
-
-
 		scoreG.LoadFromRenderText(font_score, screen);
-		scoreG.RenderText(screen, SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT - 90);// 30 30 ma gia ko co y nghia trong code nay
+		scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
 
 
 		int real_time = thoigian.get_ticks();
 		int time_one_frame = 1000 / FRAME_PER_SECOND;
-
-
-
 		SDL_RenderPresent(screen);
-
 		if (real_time < time_one_frame)
 		{
 			int delay_time = time_one_frame - real_time;
 			if (delay_time >= 0)
 			{
 				SDL_Delay(delay_time);
-
 			}
 		}
-
 	}
 	close();
 

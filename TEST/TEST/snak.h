@@ -16,19 +16,20 @@ public:
 	bool dangDichuyen() { return isMove; };
 	void dichuyen(bool a) { isMove = a; }
 	bool isAlive();                           // check chết chưa 
-	bool bitWall();                           // đụng tường
+	bool bitWall();    // đụng tường
 	bool nearlyFood(SDL_Rect FOOD);
 	bool eatFood(SDL_Rect FOOD);              // check ăn quả
+	bool eatSHIT();
 	bool bitHimSelf();                        //check tự cắn bản thân
 	void addTail();                           // khi ăn quả thì sẽ được thêm phần đuôi 
 	void updateTail(SDL_Renderer* ren);       // update vị trí rect và trạng thái dir của từng phần trong snake 
 	bool setIMGforIterm(SDL_Renderer* ren);    // 1 phần nhỏ của showfullbodysnake phía dưới nhưng không dùng nữa 
 
-
+	void peeShit();
 
 	void handleInput(SDL_Event& even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 
-
+	
 
 	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
 
@@ -49,25 +50,29 @@ public:
 	}
 
 	bool showfullbodysnake(SDL_Renderer* ren, SDL_Rect Food);// hàm render lên màn hình con rắn hoàn thiện 
+	void renderShit(SDL_Renderer* ren);
 	bool loadHEAD(int dir, SDL_Renderer* ren, bool eat);// hàm load thành phần của rắn theo từng trạng thái
 	bool loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren);//...
 	bool loadTAIL(int dir, SDL_Renderer* ren);//...
 	vector<SDL_Rect> diachiRan() { return SNAKE; };
+	int printDiem() { return diem; };
 
 	int dirHead;
 protected:
 
 	vector<SDL_Rect> SNAKE;
 	vector<int> dir_of_iterm;
+	vector<SDL_Rect> shit_on_map;
 
 	baseObject HEAD;
 	baseObject BODY;
 	baseObject TAIL;
+	baseObject shit;
 
 	bool alive = true;
 	bool isMove = true;
 
-
+	int diem;
 };
 
 
