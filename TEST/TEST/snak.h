@@ -29,13 +29,13 @@ public:
 	void peeShit();
 
 	void handleInput(SDL_Event& even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
-
+	
 	void setupPlay1();
 	void setupPlay2();
 
 	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
 
-
+	SDL_Rect getRectHEAD() { return HEAD.getRect(); };
 
 	void xulyDichuyen(bool ismove)                          // dùng để cho con rắn chạy tự động khi không nhân phím 
 	{
@@ -43,7 +43,7 @@ public:
 		{
 			switch (dirHead)
 			{
-			case 1: HEAD.rect_.y -= TOCDO; break;
+			case 1:HEAD.rect_.y -= TOCDO; break;
 			case 2:HEAD.rect_.y += TOCDO; break;
 			case 3:HEAD.rect_.x -= TOCDO; break;
 			case 4:HEAD.rect_.x += TOCDO; break;
@@ -58,6 +58,7 @@ public:
 	bool loadTAIL(int dir, SDL_Renderer* ren);//...
 	vector<SDL_Rect> diachiRan() { return SNAKE; };
 	int printDiem() { return diem; };
+	int getDIRHEAD() { return dirHead; };
 
 	int dirHead;
 protected:

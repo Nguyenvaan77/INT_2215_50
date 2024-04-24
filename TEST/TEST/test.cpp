@@ -332,4 +332,77 @@ OUTGAME:
 	close();
 	return 0;
 }
+void snake::handleInput(SDL_Event& even,int lastDirhead)
+{
+	if (index_of_player == 1)
+	{
+		switch (even.key.keysym.sym) {
+		case SDLK_a:
+			if (dirHead != 4)
+			{
+				dirHead = 3;
+				isMove = true;
+			}
+			break;
+		case SDLK_d:
+			if (dirHead != 3)
+			{
+				dirHead = 4;
+				isMove = true;
+			}
+			break;
+		case SDLK_w:
+			if (dirHead != 2)
+			{
+				dirHead = 1;
+				isMove = true;
+			}
+			break;
+		case SDLK_s:
+			if (dirHead != 1)
+			{
+				dirHead = 2;
+				isMove = true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else// index_player =2
+	{
+		switch (even.key.keysym.sym) {
+		case SDLK_LEFT:
+			if (dirHead != 4)
+			{
+				dirHead = 3;
+				isMove = true;
+			}
+			break;
+		case SDLK_RIGHT:
+			if (dirHead != 3)
+			{
+				dirHead = 4;
+				isMove = true;
+			}
+			break;
+		case SDLK_UP:
+			if (dirHead != 2)
+			{
+				dirHead = 1;
+				isMove = true;
+			}
+			break;
+		case SDLK_DOWN:
+			if (dirHead != 1)
+			{
+				dirHead = 2;
+				isMove = true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
 */

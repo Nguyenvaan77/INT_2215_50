@@ -4,6 +4,7 @@
 #include"commonFunc.h"
 #include"TEXT.h"
 #include"baseobject.h"
+#include"score.h"
 
 class MENUGAME 
 {
@@ -56,7 +57,14 @@ public:
 	SCREEN_WIN_GAME() { ; };
 	~SCREEN_WIN_GAME() { ; };
 
-	int setupGAMEOK(SDL_Renderer* ren,int WhoWin);
+	void setDiem(int diem,TTF_Font* font) 
+	{ 
+		DIEM.SetColor(SCORE::BLACK_TEXT);
+		DIEM.intscore_toString(diem);
+		DIEM.SCORE_to_STRING(); 
+	};
+
+	int setupGAMEOK(SDL_Renderer* ren,int WhoWin,TTF_Font* font);
 	void loadBack(SDL_Renderer* ren, int WhoWin)
 	{
 		switch (WhoWin)
@@ -74,6 +82,8 @@ private:
 	baseObject	 PlayAgainBut;
 	baseObject   ExitBut;
 	baseObject	 reDot;
+
+	SCORE DIEM;
 };
 
 #endif // !MENU_H_

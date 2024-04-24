@@ -85,10 +85,18 @@ void TextObject::SetColor(int type)
 	}
 }
 
-void TextObject::RenderText(SDL_Renderer* ren,int xp, int yp)
+void TextObject::RenderText(SDL_Renderer* ren,int xp, int yp,bool scoreingame)
 {
-	SDL_Rect rec = { 0,0, width,height  };
-	SDL_Rect rec1 = { xp,yp,width,height };
-	SDL_RenderCopy(ren, text, &rec, &rec1);
+	if (scoreingame)
+	{
+		SDL_Rect rec = { 0,0, width,height };
+		SDL_Rect rec1 = { xp,yp,width,height };
+		SDL_RenderCopy(ren, text, NULL, &rec1);
+	}
+	else
+	{
+		SDL_Rect rec1 = { xp,yp,600,300 };
+		SDL_RenderCopy(ren, text, NULL, &rec1);
+	}
 }
 

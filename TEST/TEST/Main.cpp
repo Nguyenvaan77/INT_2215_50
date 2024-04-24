@@ -12,6 +12,8 @@ using namespace std;
 
 int index_wingame;
 
+
+
 SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
 SDL_Surface* ICON = NULL;
@@ -24,7 +26,7 @@ baseObject howplay;//huong dan choi
 baseObject reDo;//quay tro lai
 
 TTF_Font* font_score = NULL;
-TTF_Font* highest = NULL;
+
 
 bool setBack()
 {
@@ -89,8 +91,8 @@ bool game_Screen() { //creates the game surface and the render as wll
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
 			font_score = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
-			highest = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
-			if (font_score == NULL || highest == NULL)
+			
+			if (font_score == NULL )
 			{
 
 				success = false;
@@ -159,139 +161,146 @@ int main(int argc, char* args[])
 		//khi menu.setupMenu(screen) ==  1
 		{
 
-		PlayGame:
+	    PlayGame:
 
-			bool quit = false;
-			SDL_Event even;
-			SCORE scoreG;// class score
+				bool quit = false;
+				SDL_Event even;
+				SCORE scoreG;// class score
 
-			scoreG.openFileScore();
-			scoreG.SetColor(SCORE::WHITE_TEXT);
+				scoreG.openFileScore();
+				scoreG.SetColor(SCORE::WHITE_TEXT);
 
-			snake ran(1);
-
-
-			cake.loadImg("anh//FOOD//apple.bmp", screen);
-			cake.setup_and_render(screen);
-
-			bool pausingGame = false;
-
-			TIME thoigian;
-			while (!quit)
-			{
-				bool gohome = false;
-				bool rePlay = false;
-
-				thoigian.start();
+				snake ran(1);
 
 
-				bool eaten = false;
-				while (SDL_PollEvent(&even))
+				cake.loadImg("anh//FOOD//apple.bmp", screen);
+				cake.setup_and_render(screen);
+
+				bool pausingGame = false;
+
+				TIME thoigian;
+				while (!quit)
 				{
-					if (even.type == SDL_QUIT)
+					
+
+					thoigian.start();
+
+
+					bool eaten = false;
+					while (SDL_PollEvent(&even))
 					{
-						quit = true;// KHÔNG QUAN TRỌNG						
-						goto OUTGAME;
+						if (even.type == SDL_QUIT)
+						{
+							quit = true;// KHÔNG QUAN TRỌNG						
+							goto OUTGAME;
+						}
+						if (even.type == SDL_KEYDOWN)
+						{
+
+							ran.handleInput(even);
+							if (ran.dangDichuyen()) { pausingGame = false; };
+							if (even.key.keysym.sym == SDLK_ESCAPE)
+							{
+								ran.dichuyen(false);
+								pausingGame = true;
+							}
+
+						}
+
+
 					}
-					if (even.type == SDL_KEYDOWN)
+
+
+
+					if (!ran.isAlive())
 					{
+						cout << "chet" << endl;
 
-						ran.handleInput(even);
-						if (ran.dangDichuyen()) { pausingGame = false; };
-						if (even.key.keysym.sym == SDLK_ESCAPE)
-						{
-							ran.dichuyen(false);
-							pausingGame = true;
-						}
-						if (even.key.keysym.sym == SDLK_y)
-						{
-							rePlay = true;
-						}
-						if (even.key.keysym.sym == SDLK_h)
-						{
-							gohome = true;
-						}
+						scoreG.newHighest();
+						
+
+						goto losPlayer1;
 					}
 
 
+					if (ran.dangDichuyen())
+					{
+						ran.xulyDichuyen(ran.dangDichuyen());
+
+						if (ran.eatFood(cake.getRect()))
+						{
+							eaten = true;
+							ran.addTail();
+							scoreG.updateScore();
+							cake.setupAgain1P(screen, ran);
+							cout << "EAT FOOD" << endl;
+						}
+
+
+						ran.updateTail(screen);
+
+					}
+
+
+
+					SDL_RenderClear(screen);
+
+
+					backGround.render(screen, NULL);
+					ran.renderShit(screen);
+					ran.showfullbodysnake(screen, cake.getRect());
+					cake.render(screen, &cake.rect_);
+
+					if (pausingGame)
+					{
+						SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+						nhanESC.render(screen, &rPause);
+					}
+
+
+
+					scoreG.SCORE_to_STRING();
+					scoreG.LoadFromRenderText(font_score, screen);
+					scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2,true);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
+
+
+
+					int real_time = thoigian.get_ticks();
+					int time_one_frame = 1000 / FRAME_PER_SECOND;
+					SDL_RenderPresent(screen);
+					if (real_time < time_one_frame)
+					{
+						int delay_time = time_one_frame - real_time;
+						if (delay_time >= 0)
+						{
+							SDL_Delay(delay_time);
+						}
+					}
 				}
 
-
-
-				if (!ran.isAlive())
 				{
-					cout << "chet" << endl;
+				losPlayer1://khi thua se den day
 
-					scoreG.newHighest();
-					if (rePlay)
+					SCREEN_WIN_GAME wingame;
+					wingame.setDiem(scoreG.finalScore(),font_score);
+					cout << scoreG.finalScore() << endl;
+					cout << "losPlayer1" << endl;
+					int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
+					scoreG.resetScore();
+					switch (click_win_game)
 					{
-						scoreG.resetScore(rePlay);
-						goto PlayGame;
+					case 0: goto OUTGAME; break;
+
+					case 1: goto PlayGame; break;//nut replay-> playgame
+
+					case 2: goto home;     break;// nut home-> manhinhchinh home
+
+					case 3: goto gameMode; break;//nut back -> gamemode
+
+					default: break;
 					}
-					if (gohome)
-					{
-						scoreG.resetScore(rePlay);
-						goto home;
-					}
-
-					goto los;
-				}
-
-
-				if (ran.dangDichuyen())
-				{
-					ran.xulyDichuyen(ran.dangDichuyen());
-
-					if (ran.eatFood(cake.getRect()))
-					{
-						eaten = true;
-						ran.addTail();
-						scoreG.updateScore();
-						cake.setupAgain1P(screen, ran);
-						cout << "EAT FOOD" << endl;
-					}
-
-
-					ran.updateTail(screen);
-
 				}
 			
-
-
-				SDL_RenderClear(screen);
-
-
-				backGround.render(screen, NULL);
-				ran.renderShit(screen);
-				ran.showfullbodysnake(screen, cake.getRect());
-				cake.render(screen, &cake.rect_);
-
-				if (pausingGame )
-				{
-					SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
-					nhanESC.render(screen, &rPause);
-				}
-
-
-
-				scoreG.SCORE_to_STRING();
-				scoreG.LoadFromRenderText(font_score, screen);
-				scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
-
-				
-
-				int real_time = thoigian.get_ticks();
-				int time_one_frame = 1000 / FRAME_PER_SECOND;
-				SDL_RenderPresent(screen);
-				if (real_time < time_one_frame)
-				{
-					int delay_time = time_one_frame - real_time;
-					if (delay_time >= 0)
-					{
-						SDL_Delay(delay_time);
-					}
-				}
-			}
 		}
 
 
@@ -302,20 +311,24 @@ int main(int argc, char* args[])
 		SDL_Event even;
 		snake ran1(1);
 		snake ran2(2);
-		bool ran1ready = false;
-		bool ran2ready = false;
+		
 
 
 		baseObject loadOk;
-
+		loadOk.loadImg("anh//button//ready.bmp", screen);
 
 		cake.loadImg("anh//FOOD//apple.bmp", screen);
 		cake.setup_and_render(screen);
 
 		TIME thoigian;;
+		bool pausing = false;
+
+		int lastDIRwhenPauseRan1=ran1.getDIRHEAD(), lastDIRwhenPauseRan2=ran2.getDIRHEAD();
 
 		while (!quit)
 		{
+
+
 			bool gohome = false;
 			bool rePlay = false;
 
@@ -333,40 +346,39 @@ int main(int argc, char* args[])
 				}
 				if (even.type == SDL_KEYDOWN)
 				{
+
 					ran1.handleInput(even);
 					ran2.handleInput(even);
-					if (ran1.dangDichuyen())
-					{
-						cout << "Ran 1 " << endl;
-					}
-					if (ran2.dangDichuyen())
-					{
-						cout << "Ran 2 " << endl;
-					}
+					
 
 					if (even.key.keysym.sym == SDLK_ESCAPE)
 					{
 						ran1.dichuyen(false);
 						ran2.dichuyen(false);
-					}
-					if (even.key.keysym.sym == SDLK_y)
-					{
-						rePlay = true;
-					}
-					if (even.key.keysym.sym == SDLK_h)
-					{
-						gohome = true;
+						if (pausing = false)
+						{
+							lastDIRwhenPauseRan1 = ran1.getDIRHEAD();
+							lastDIRwhenPauseRan2 = ran2.getDIRHEAD();
+							
+							pausing = true;
+						}
 					}
 				}
 
 			}
-
 			
+			
+
+			if (ran1.dangDichuyen() && ran2.dangDichuyen()) { pausing = false; };
+
+			cout << "Last ran1: " << lastDIRwhenPauseRan1 << endl;
+			cout << "Last ran2: " << lastDIRwhenPauseRan2 << endl;
 
 			if (!ran1.isAlive() || !ran2.isAlive())
 			{
 				cout << "chetchetchetchetchetchetchet" << endl;
-
+				cout << "Ran 1 " << ran1.getDIRHEAD() << endl;
+				cout << "Ran 2 " << ran2.getDIRHEAD() << endl;
 				if (!ran1.isAlive() && !ran2.isAlive())
 				{
 					index_wingame = 3;//tie thi 3
@@ -424,11 +436,30 @@ int main(int argc, char* args[])
 			ran2.showfullbodysnake(screen, cake.getRect());
 			cake.render(screen, &cake.rect_);
 
-			/*if (pausingGame)
+			if ((ran1.dangDichuyen()&&!ran2.dangDichuyen())|| (!ran1.dangDichuyen() && ran2.dangDichuyen()))
+			{
+				if (ran1.dangDichuyen())
+				{
+					loadOk.setRect(ran1.getRectHEAD().x, ran1.getRectHEAD().y - loadOk.getRect().h);
+					SDL_Rect imgOK = loadOk.getRect();
+					loadOk.render(screen, &imgOK);
+				}
+				if (ran2.dangDichuyen())
+				{
+					loadOk.setRect(ran2.getRectHEAD().x, ran2.getRectHEAD().y - loadOk.getRect().h);
+					SDL_Rect imgOK = loadOk.getRect();
+					loadOk.render(screen, &imgOK);
+				}
+			}
+
+			if (pausing)
 			{
 				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 				nhanESC.render(screen, &rPause);
-			}*/
+			}
+
+
+			
 
 			int real_time = thoigian.get_ticks();
 			int time_one_frame = 1000 / FRAME_PER_SECOND;
@@ -447,7 +478,7 @@ int main(int argc, char* args[])
 		{
 		win:
 			SCREEN_WIN_GAME wingame;
-			int click_win_game = wingame.setupGAMEOK(screen, index_wingame);//1 : p1 win, 2: p2 win, 3: tie
+			int click_win_game = wingame.setupGAMEOK(screen, index_wingame,font_score);//1 : p1 win, 2: p2 win, 3: tie
 			switch (click_win_game)
 			{
 			case 0: goto OUTGAME; break;
@@ -465,16 +496,16 @@ int main(int argc, char* args[])
 		{
 		los://khi thua se den day
 			SCREEN_WIN_GAME wingame;
-			int click_win_game = wingame.setupGAMEOK(screen, 0);//0 la thua
+			int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
 			switch (click_win_game)
 			{
 			case 0: goto OUTGAME; break;
 
-			case 1: goto PlayGame; break;
+			case 1: goto PlayGame; break;//nut replay-> playgame
 
-			case 2: goto home;     break;
+			case 2: goto home;     break;// nut home-> manhinhchinh home
 
-			case 3: goto gameMode; break;
+			case 3: goto gameMode; break;//nut back -> gamemode
 
 			default: break;
 			}

@@ -1,4 +1,4 @@
-#ifndef TEXT_H_
+﻿#ifndef TEXT_H_
 #define TEXT_H_
 
 #include"commonFunc.h"
@@ -23,7 +23,7 @@ public:
 	void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 	void SetColor(int type);
 
-	void RenderText(SDL_Renderer* ren, int xp,  int yp);
+	void RenderText(SDL_Renderer* ren, int xp,  int yp,bool scoreingame);// score in game: hiện điểm tỏng game đang chơi, false là hiện khi kết thúc màn chơi 
 
 	int GetWidth()const { return width; };
 	int GetHeight() const { return height; };

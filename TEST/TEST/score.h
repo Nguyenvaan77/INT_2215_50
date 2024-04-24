@@ -13,15 +13,18 @@ public:
 	~SCORE();
 	//inGame
 	bool openFileScore();//Mở khi bắt đầu game để cài đặt điểm cao nhất 
-	void resetScore(bool isRePlay);
+	void resetScore();
 	void updateScore();
 	int  finalScore();
 
 
 	void SCORE_to_STRING();
-
+	
 	bool newHighest();//Check điểm có phải cao nhất không và thay thế nếu turn này cao nhất 
 
+	void intscore_toString(int n) {
+		score = n;
+	}
 
 protected:
 	int score;

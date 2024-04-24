@@ -291,7 +291,7 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 	}
 }
 
-int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin)
+int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin,TTF_Font* font)
 {
 	bool control_in_PLAYAGAIN = false;
 	bool control_in_EXIT = false;
@@ -385,6 +385,8 @@ int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin)
 			reDot.loadImg("anh//button//back2.bmp", ren);
 		}
 		SCREEN_WIN_GAME::loadBack(ren, WhoWin);
+		
+
 
 		PlayAgainBut.setRect(350, 400);
 		ExitBut.setRect(350, 545);
@@ -393,6 +395,13 @@ int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin)
 		SDL_RenderClear(ren);
 
 		BackWin.render(ren, NULL);
+
+		if (WhoWin == 0)//load SCORE
+		{
+			DIEM.LoadFromRenderText(font, ren);
+			DIEM.RenderText(ren, 150, 100,false);
+		}
+
 		PlayAgainBut.render(ren, &PlayAgainBut.rect_);
 		ExitBut.render(ren, &ExitBut.rect_);
 		reDot.render(ren, &reDot.rect_);

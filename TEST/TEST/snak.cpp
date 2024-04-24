@@ -50,7 +50,7 @@ void snake::setupPlay2()
 
 	};
 	index_of_player = 2;
-	dirHead = 3;//huong ban dau la right =4;
+	dirHead = 3;//huong ban dau la left=3;
 }
 
 bool snake::setIMGforIterm(SDL_Renderer* ren)
@@ -373,8 +373,6 @@ bool snake::showfullbodysnake(SDL_Renderer* ren,SDL_Rect Food)//load ảnh theo 
 
 
 
-
-
 void snake::handleInput(SDL_Event& even)
 {
 	if (index_of_player == 1)
@@ -388,21 +386,21 @@ void snake::handleInput(SDL_Event& even)
 			}
 			break;
 		case SDLK_d:
-			if (dirHead != 3)
+			if (dirHead != 3 )
 			{
 				dirHead = 4;
 				isMove = true;
 			}
 			break;
 		case SDLK_w:
-			if (dirHead != 2)
+			if (dirHead != 2 )
 			{
 				dirHead = 1;
 				isMove = true;
 			}
 			break;
 		case SDLK_s:
-			if (dirHead != 1)
+			if (dirHead != 1 )
 			{
 				dirHead = 2;
 				isMove = true;
@@ -412,32 +410,32 @@ void snake::handleInput(SDL_Event& even)
 			break;
 		}
 	}
-	else
+	else// index_player =2 
 	{
 		switch (even.key.keysym.sym) {
 		case SDLK_LEFT:
-			if (dirHead != 4)
+			if (dirHead != 4 )
 			{
 				dirHead = 3;
 				isMove = true;
 			}
 			break;
 		case SDLK_RIGHT:
-			if (dirHead != 3)
+			if (dirHead != 3 )
 			{
 				dirHead = 4;
 				isMove = true;
 			}
 			break;
 		case SDLK_UP:
-			if (dirHead != 2)
+			if (dirHead != 2 )
 			{
 				dirHead = 1;
 				isMove = true;
 			}
 			break;
 		case SDLK_DOWN:
-			if (dirHead != 1)
+			if (dirHead != 1 )
 			{
 				dirHead = 2;
 				isMove = true;

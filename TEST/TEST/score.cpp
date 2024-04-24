@@ -10,12 +10,11 @@ SCORE::~SCORE()
 
 }
 
-void SCORE::resetScore(bool isRePlay)
+void SCORE::resetScore()
 {
-	if (isRePlay)
-	{
+	
 		score = 0;
-	};
+	
 }
 
 void SCORE::updateScore()
@@ -30,8 +29,10 @@ int SCORE::finalScore()
 
 void SCORE::SCORE_to_STRING()
 {
-	str_val = "Your score: "+std::to_string(score);
+	str_val = "Your score: "+ std::to_string(score);
 }
+
+
 
 bool SCORE::openFileScore()
 {
