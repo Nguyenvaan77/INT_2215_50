@@ -20,7 +20,7 @@
 
 - Game có hình ảnh gần gũi, đồ họa cực kì độc đáo, mới lạ không khiến người chơi phải ngừng trầm trồ.
 
-- Video demo: https://youtu.be/I_IGbPugyH0
+- Video demo:
 
 ### *Điều khiển* 
 
