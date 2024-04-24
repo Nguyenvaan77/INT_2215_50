@@ -332,6 +332,9 @@ OUTGAME:
 	close();
 	return 0;
 }
+
+
+
 void snake::handleInput(SDL_Event& even,int lastDirhead)
 {
 	if (index_of_player == 1)

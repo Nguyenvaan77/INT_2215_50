@@ -30,15 +30,6 @@ const int COLOR_KEY_B = 99;
 const int SIZE_FONT = 40;
 const std::string FONT_ = "font//xe.ttf";
 
-enum TRANGTHAI
-{
-	up=1,
-	down=2,
-	left=3,
-	right=4
-};
-
-bool checkdoidien(int trangthai1, int trangthai2);
-
+const int scoreWIN = 5;
 
 #endif // ! COMMON_H_

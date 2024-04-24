@@ -73,6 +73,7 @@ public:
 		case 1: BackWin.loadImg("anh//BACKGROUND//p1win.bmp", ren); break;
 		case 2: BackWin.loadImg("anh//BACKGROUND//p2win.bmp", ren); break;
 		case 3: BackWin.loadImg("anh//BACKGROUND//tie.bmp", ren);   break;
+		case 4: BackWin.loadImg("anh//BACKGROUND//win.bmp", ren); break;
 		default :    break;
 		}
 	}

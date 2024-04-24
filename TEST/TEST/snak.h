@@ -19,6 +19,7 @@ public:
 	bool isAlive();                           // check chết chưa 
 	bool bitWall();    // đụng tường
 	bool nearlyFood(SDL_Rect FOOD);
+	
 	bool eatFood(SDL_Rect FOOD);              // check ăn quả
 	bool eatSHIT();
 	bool bitHimSelf();                        //check tự cắn bản thân
@@ -78,7 +79,7 @@ protected:
 	bool isMove = true;
 
 	int diem;
-	
+
 };
 
 

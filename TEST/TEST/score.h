@@ -16,7 +16,7 @@ public:
 	void resetScore();
 	void updateScore();
 	int  finalScore();
-
+	bool checkWIN();
 
 	void SCORE_to_STRING();
 	

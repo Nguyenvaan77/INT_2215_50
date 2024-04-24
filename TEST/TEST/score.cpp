@@ -78,3 +78,7 @@ bool SCORE::newHighest()
 	return false;
 }
 
+bool SCORE::checkWIN()
+{
+	return score == scoreWIN;
+}

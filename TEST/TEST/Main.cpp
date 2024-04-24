@@ -58,9 +58,6 @@ bool setPause()
 	return ok;
 }
 
-
-
-
 void close() { //closes everything properly
 	SDL_DestroyRenderer(screen);
 	TTF_Quit();
@@ -103,8 +100,8 @@ bool game_Screen() { //creates the game surface and the render as wll
 	return success;
 }// HÀM INIT,CREATE,SET RENDERER
 
-food cake;
-food chanh;
+
+
 
 int main(int argc, char* args[])
 {
@@ -172,7 +169,7 @@ int main(int argc, char* args[])
 
 				snake ran(1);
 
-
+				food cake;
 				cake.loadImg("anh//FOOD//apple.bmp", screen);
 				cake.setup_and_render(screen);
 
@@ -218,6 +215,7 @@ int main(int argc, char* args[])
 
 						scoreG.newHighest();
 						
+						
 
 						goto losPlayer1;
 					}
@@ -232,6 +230,7 @@ int main(int argc, char* args[])
 							eaten = true;
 							ran.addTail();
 							scoreG.updateScore();
+							
 							cake.setupAgain1P(screen, ran);
 							cout << "EAT FOOD" << endl;
 						}
@@ -263,7 +262,13 @@ int main(int argc, char* args[])
 					scoreG.LoadFromRenderText(font_score, screen);
 					scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2,true);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
 
-
+					if (scoreG.checkWIN())
+					{
+						if (scoreG.checkWIN())
+						{
+							goto winPlayer1;
+						}
+					}
 
 					int real_time = thoigian.get_ticks();
 					int time_one_frame = 1000 / FRAME_PER_SECOND;
@@ -300,6 +305,27 @@ int main(int argc, char* args[])
 					default: break;
 					}
 				}
+
+				{
+				winPlayer1://khi thua se den day
+
+					SCREEN_WIN_GAME wingame;
+					
+					int click_win_game = wingame.setupGAMEOK(screen, 4, font_score);//0 la thua khi choi 1player
+					
+					switch (click_win_game)
+					{
+					case 0: goto OUTGAME; break;
+
+					case 1: goto PlayGame; break;//nut replay-> playgame
+
+					case 2: goto home;     break;// nut home-> manhinhchinh home
+
+					case 3: goto gameMode; break;//nut back -> gamemode
+
+					default: break;
+					}
+				}
 			
 		}
 
@@ -317,13 +343,14 @@ int main(int argc, char* args[])
 		baseObject loadOk;
 		loadOk.loadImg("anh//button//ready.bmp", screen);
 
+		food cake;
 		cake.loadImg("anh//FOOD//apple.bmp", screen);
 		cake.setup_and_render(screen);
 
-		TIME thoigian;;
+		TIME thoigian;
 		bool pausing = false;
 
-		int lastDIRwhenPauseRan1=ran1.getDIRHEAD(), lastDIRwhenPauseRan2=ran2.getDIRHEAD();
+		
 
 		while (!quit)
 		{
@@ -337,6 +364,8 @@ int main(int argc, char* args[])
 
 			bool eaten = false;
 
+			
+
 			while (SDL_PollEvent(&even))
 			{
 				if (even.type == SDL_QUIT)
@@ -347,38 +376,31 @@ int main(int argc, char* args[])
 				if (even.type == SDL_KEYDOWN)
 				{
 
+					
 					ran1.handleInput(even);
 					ran2.handleInput(even);
+					
 					
 
 					if (even.key.keysym.sym == SDLK_ESCAPE)
 					{
 						ran1.dichuyen(false);
 						ran2.dichuyen(false);
-						if (pausing = false)
-						{
-							lastDIRwhenPauseRan1 = ran1.getDIRHEAD();
-							lastDIRwhenPauseRan2 = ran2.getDIRHEAD();
-							
-							pausing = true;
-						}
+						pausing = true;
 					}
 				}
 
 			}
 			
+			if (ran1.dangDichuyen() && ran2.dangDichuyen()) { cout << 1 << endl; pausing = false; };
+
+
 			
-
-			if (ran1.dangDichuyen() && ran2.dangDichuyen()) { pausing = false; };
-
-			cout << "Last ran1: " << lastDIRwhenPauseRan1 << endl;
-			cout << "Last ran2: " << lastDIRwhenPauseRan2 << endl;
+			
 
 			if (!ran1.isAlive() || !ran2.isAlive())
 			{
-				cout << "chetchetchetchetchetchetchet" << endl;
-				cout << "Ran 1 " << ran1.getDIRHEAD() << endl;
-				cout << "Ran 2 " << ran2.getDIRHEAD() << endl;
+				
 				if (!ran1.isAlive() && !ran2.isAlive())
 				{
 					index_wingame = 3;//tie thi 3
@@ -409,7 +431,7 @@ int main(int argc, char* args[])
 					ran1.addTail();
 
 					cake.setupAgain1P(screen, ran1);
-					cout << "EAT FOOD" << endl;
+					
 				}
 				if (ran2.eatFood(cake.getRect()))
 				{
@@ -417,7 +439,7 @@ int main(int argc, char* args[])
 					ran2.addTail();
 
 					cake.setupAgain1P(screen, ran2);
-					cout << "EAT FOOD" << endl;
+					
 				}
 
 
@@ -454,6 +476,7 @@ int main(int argc, char* args[])
 
 			if (pausing)
 			{
+				
 				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 				nhanESC.render(screen, &rPause);
 			}
@@ -493,7 +516,7 @@ int main(int argc, char* args[])
 			}
 		}
 
-		{
+		{//hientai chua dung den
 		los://khi thua se den day
 			SCREEN_WIN_GAME wingame;
 			int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player

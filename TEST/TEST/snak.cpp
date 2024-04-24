@@ -545,6 +545,7 @@ void snake::renderShit(SDL_Renderer* ren)
 	}
 }
 
+
 bool snake::nearlyFood(SDL_Rect FOOD)//hàm tính này được tích hợp trong hàm showfullbodysnake
 {
 	// sử dụng thư viện cmath dùng các biểu thức toán học để tính khoảng cách đỉnh rect thứ ăn với đầu rắn để kéo dài và thực tế hơn trạng thái há miệng ăn thức ăn của rắn 
