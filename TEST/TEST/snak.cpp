@@ -499,7 +499,7 @@ bool snake::isAlive()
 
 void snake::peeShit()//goi trong ham eatfoood
 {
-	if (diem > 0 && diem % 5 == 0)
+	if (diem > 0 && diem % 10 == 0)
 	{
 		shit_on_map.push_back(SNAKE[SNAKE.size() - 2]);
 	}

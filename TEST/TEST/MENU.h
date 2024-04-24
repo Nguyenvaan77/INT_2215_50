@@ -69,7 +69,7 @@ public:
 	{
 		switch (WhoWin)
 		{
-		case 0: BackWin.loadImg("anh//BACKGROUND//over.bmp", ren); break;
+		case 0: BackWin.loadImg("anh//BACKGROUND//over1.bmp", ren); break;
 		case 1: BackWin.loadImg("anh//BACKGROUND//p1win.bmp", ren); break;
 		case 2: BackWin.loadImg("anh//BACKGROUND//p2win.bmp", ren); break;
 		case 3: BackWin.loadImg("anh//BACKGROUND//tie.bmp", ren);   break;

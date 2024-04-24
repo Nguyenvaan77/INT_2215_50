@@ -30,6 +30,6 @@ const int COLOR_KEY_B = 99;
 const int SIZE_FONT = 40;
 const std::string FONT_ = "font//xe.ttf";
 
-const int scoreWIN = 5;
+const int scoreWIN = 700;
 
 #endif // ! COMMON_H_

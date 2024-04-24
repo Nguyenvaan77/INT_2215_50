@@ -4,7 +4,7 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 {
 	bool control_in_playgame = false;
 	
-	BackStr.loadImg("anh//BACKGROUND//backstart.bmp", ren);
+	BackStr.loadImg("anh//BACKGROUND//234.bmp", ren);
 
 	bool control_in_PLAY = false;
 	bool control_in_INFOR = false;
@@ -133,7 +133,7 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 			}
 			if (ev.type == SDL_MOUSEMOTION)
 			{
-				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 400 && ev.motion.y <= 530)//tự chọn vị trí cho nút PLAY 
+				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 270 && ev.motion.y <= 400)//tự chọn vị trí cho nút PLAY 
 				{
 					control_in_ONE = true;
 				}
@@ -142,7 +142,7 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 					control_in_ONE = false;
 				}
 
-				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 580 && ev.motion.y <= 710)//tự chọn vị trí cho nút INFOR 
+				if (ev.motion.x <= 600 && ev.motion.x >= 300 && ev.motion.y >= 450 && ev.motion.y <= 580)//tự chọn vị trí cho nút INFOR 
 				{
 					control_in_TWO = true;
 				}
@@ -150,7 +150,7 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 				{
 					control_in_TWO = false;
 				}
-				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				if (ev.motion.x <= 64 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 64)//tự chọn vị trí cho nút PLAY 
 				{
 					control_in_REDOT = true;
 				}
@@ -165,15 +165,15 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 				{
 					int x, y;
 					Uint32 h = SDL_GetMouseState(&x, &y);
-					if (x <= 600 && x>=300 && y >= 400 && y <= 530)
+					if (x <= 600 && x>=300 && y >= 270 && y <= 400)
 					{
 						return 1;//1player
 					}
-					if (x <= 600 && x >= 300 && y >= 580 && y <= 710)
+					if (x <= 600 && x >= 300 && y >= 450 && y <= 580)
 					{
 						return 2;//2player
 					}
-					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
 						return 3;//gohome
 					}
@@ -208,10 +208,10 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 		{
 			reDot.loadImg("anh//button//back2.bmp", ren);
 		}
-		BackMode.loadImg("anh//BACKGROUND//backmode.bmp", ren);
+		BackMode.loadImg("anh//BACKGROUND//backmode1.bmp", ren);
 
-		ONEplayerBut.setRect(300, 400);
-		TWOplayerBut.setRect(300, 580);
+		ONEplayerBut.setRect(300, 270);
+		TWOplayerBut.setRect(300, 450);
 		reDot.setRect(0, 0);
 
 		SDL_RenderClear(ren);
@@ -242,7 +242,7 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 			}
 			if (ev.type == SDL_MOUSEMOTION)
 			{
-				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				if (ev.motion.x <= 64 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 64)//tự chọn vị trí cho nút PLAY 
 				{
 					control_in_REDOT = true;
 				}
@@ -257,7 +257,7 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 				{
 					int x, y;
 					Uint32 h = SDL_GetMouseState(&x, &y);
-					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
 						return 1;//gohome
 					}
@@ -276,7 +276,7 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 		{
 			reDot.loadImg("anh//button//back2.bmp", ren);
 		}
-		BackINDIRECT.loadImg("anh//button//indirectionGame.bmp", ren);
+		BackINDIRECT.loadImg("anh//BACKGROUND//infor.bmp", ren);
 
 		
 		reDot.setRect(0, 0);
@@ -326,7 +326,7 @@ int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin,TTF_Font* font)
 				{
 					control_in_EXIT = false;
 				}
-				if (ev.motion.x <= 150 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 150)//tự chọn vị trí cho nút PLAY 
+				if (ev.motion.x <= 64 && ev.motion.x >= 0 && ev.motion.y >= 0 && ev.motion.y <= 64)//tự chọn vị trí cho nút PLAY 
 				{
 					control_in_REDOT = true;
 				}
@@ -349,7 +349,7 @@ int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin,TTF_Font* font)
 					{
 						return 2;//EXITTHOME
 					}
-					if (x <= 150 && x >= 0 && y >= 0 && y <= 150)
+					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
 						return 3;//REDOT
 					}
