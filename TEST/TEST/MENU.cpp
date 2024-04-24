@@ -200,6 +200,10 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 			TWOplayerBut.loadImg("anh//button//2player2.bmp", ren);
 		}
 
+
+
+
+
 		if (control_in_REDOT)
 		{
 			reDot.loadImg("anh//button//back1.bmp", ren);
