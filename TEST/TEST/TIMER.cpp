@@ -62,6 +62,22 @@ int TIME::get_ticks()
 	return 0;
 }
 
+int TIME::timeinGAME()
+{
+	if (is_start == true)
+	{
+		if (is_pause == true)
+		{
+			return time_to_win_2players -pause_tick/1000;
+		}
+		else
+		{
+			return time_to_win_2players -(SDL_GetTicks() - start_tick)/1000;
+		}
+	}
+	return 0;
+}
+
 bool TIME::isStart()
 {
 	return is_start;

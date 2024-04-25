@@ -32,7 +32,15 @@ void SCORE::SCORE_to_STRING()
 	str_val = "Your score: "+ std::to_string(score);
 }
 
+void SCORE::SCORE_to_STRINGplayer1()
+{
+	str_val ="Player 1 : "+ std::to_string(score);
+}
 
+void SCORE::SCORE_to_STRINGplayer2()
+{
+	str_val = "Player 2 : " + std::to_string(score);
+}
 
 bool SCORE::openFileScore()
 {
@@ -78,7 +86,13 @@ bool SCORE::newHighest()
 	return false;
 }
 
-bool SCORE::checkWIN()
+bool SCORE::checkWIN(int numberplayer)
 {
-	return score == scoreWIN;
+	if (numberplayer == 1) {
+		return score = scoreWIN1payer;
+	}
+	else
+	{
+		return score = scoreWIN2player;
+	}
 }

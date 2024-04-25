@@ -27,9 +27,11 @@ const int COLOR_KEY_R = 99;
 const int COLOR_KEY_G = 99;
 const int COLOR_KEY_B = 99;
 
-const int SIZE_FONT = 40;
+const int SIZE_FONT = 30;
 const std::string FONT_ = "font//xe.ttf";
 
-const int scoreWIN = 700;
+const int scoreWIN1payer = 700;
 
+const int scoreWIN2player = 20;
+const int time_to_win_2players = 60;
 #endif // ! COMMON_H_

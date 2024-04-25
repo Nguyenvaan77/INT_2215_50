@@ -16,10 +16,12 @@ public:
 	void resetScore();
 	void updateScore();
 	int  finalScore();
-	bool checkWIN();
+	bool checkWIN(int numberplayer);
 
 	void SCORE_to_STRING();
-	
+	void SCORE_to_STRINGplayer1();
+	void SCORE_to_STRINGplayer2();
+
 	bool newHighest();//Check điểm có phải cao nhất không và thay thế nếu turn này cao nhất 
 
 	void intscore_toString(int n) {

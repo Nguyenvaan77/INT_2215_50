@@ -1,7 +1,10 @@
 #ifndef TIME_H_
 #define TIME_H_
 
-class TIME
+#include"commonFunc.h"
+#include"TEXT.h"
+
+class TIME:public TextObject
 {
 public:
 	TIME();
@@ -16,6 +19,9 @@ public:
 
 	bool isStart();
 	bool isPause();
+
+	int timeinGAME();
+
 
 private:
 

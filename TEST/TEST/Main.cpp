@@ -12,37 +12,34 @@ using namespace std;
 
 int index_wingame;
 
-
+enum number_players
+{
+	oneplayer=1,
+	twoplayer=2
+};
 
 SDL_Window* window = NULL;
 SDL_Renderer* screen = NULL;
 SDL_Surface* ICON = NULL;
 
-baseObject hoa1, hoa2, hoa3;
+
 baseObject backGround;
 baseObject nhanESC;
 
-baseObject howplay;//huong dan choi
-baseObject reDo;//quay tro lai
-
 TTF_Font* font_score = NULL;
+TTF_Font* font_time = NULL;
 
 
 bool setBack()
 {
 	bool ok = true;
 	backGround.loadImg("anh//BACKGROUND//backclone.bmp", screen);
-	
-	hoa1.loadImg("anh//BACKGROUND//hoa.bmp", screen);
-	hoa2.loadImg("anh//BACKGROUND//hoa2.bmp", screen);
-	hoa3.loadImg("anh//BACKGROUND//hoa3.bmp", screen);
 
-	if (backGround.getObject() == NULL || hoa1.getObject() == NULL || hoa2.getObject() == NULL || hoa3.getObject() == NULL)
+	if (backGround.getObject() == NULL)
 	{
 		ok = false;
 	}
 	return ok;
-
 }
 
 bool setPause()
@@ -66,7 +63,6 @@ void close() { //closes everything properly
 	SDL_Quit();
 }
 
-
 bool game_Screen() { //creates the game surface and the render as wll
 
 	bool success = true;
@@ -88,7 +84,7 @@ bool game_Screen() { //creates the game surface and the render as wll
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
 			font_score = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
-			
+			font_time= TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
 			if (font_score == NULL )
 			{
 
@@ -99,9 +95,6 @@ bool game_Screen() { //creates the game surface and the render as wll
 
 	return success;
 }// HÀM INIT,CREATE,SET RENDERER
-
-
-
 
 int main(int argc, char* args[])
 {
@@ -167,7 +160,7 @@ int main(int argc, char* args[])
 				scoreG.openFileScore();
 				scoreG.SetColor(SCORE::WHITE_TEXT);
 
-				snake ran(1);
+				snake ran(oneplayer);
 
 				food cake;
 				cake.loadImg("anh//FOOD//apple.bmp", screen);
@@ -262,9 +255,9 @@ int main(int argc, char* args[])
 					scoreG.LoadFromRenderText(font_score, screen);
 					scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2,true);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
 
-					if (scoreG.checkWIN())
+					if (scoreG.checkWIN(oneplayer))
 					{
-						if (scoreG.checkWIN())
+						if (scoreG.checkWIN(oneplayer))
 						{
 							goto winPlayer1;
 						}
@@ -335,11 +328,20 @@ int main(int argc, char* args[])
 
 		bool quit = false;
 		SDL_Event even;
-		snake ran1(1);
-		snake ran2(2);
+
+		snake ran1(oneplayer);
+		snake ran2(twoplayer);
+
+		SCORE score_ran1;
+		SCORE score_ran2;
+
+		score_ran1.SetColor(SCORE::WHITE_TEXT);
+		score_ran2.SetColor(SCORE::WHITE_TEXT);
+
+		TIME timeFPS;
+		TIME time_of_turn_game;
+		int time_run_backwards = time_to_win_2players;
 		
-
-
 		baseObject loadOk;
 		loadOk.loadImg("anh//button//ready.bmp", screen);
 
@@ -347,7 +349,7 @@ int main(int argc, char* args[])
 		cake.loadImg("anh//FOOD//apple.bmp", screen);
 		cake.setup_and_render(screen);
 
-		TIME thoigian;
+		
 		bool pausing = false;
 
 		
@@ -359,12 +361,12 @@ int main(int argc, char* args[])
 			bool gohome = false;
 			bool rePlay = false;
 
-			thoigian.start();
+			timeFPS.start();
 
 
 			bool eaten = false;
 
-			
+			time_run_backwards = time_to_win_2players - (int)(time_of_turn_game.get_ticks()) / 1000;
 
 			while (SDL_PollEvent(&even))
 			{
@@ -387,33 +389,65 @@ int main(int argc, char* args[])
 						ran1.dichuyen(false);
 						ran2.dichuyen(false);
 						pausing = true;
+						time_of_turn_game.pause();
 					}
 				}
 
 			}
 			
-			if (ran1.dangDichuyen() && ran2.dangDichuyen()) { cout << 1 << endl; pausing = false; };
-
-
-			
-			
-
-			if (!ran1.isAlive() || !ran2.isAlive())
-			{
-				
-				if (!ran1.isAlive() && !ran2.isAlive())
+			if (ran1.dangDichuyen() && ran2.dangDichuyen()) 
+			{ 
+				cout << 1 << endl; 
+				pausing = false;  
+				if (!time_of_turn_game.isStart())
 				{
-					index_wingame = 3;//tie thi 3
+					time_of_turn_game.start();
+				}
+				time_of_turn_game.unpause();
+				
+			};
+
+
+			
+			
+			if (time_run_backwards >0)
+			{
+				if (!ran1.isAlive() || !ran2.isAlive())
+				{
+					time_of_turn_game.stopGame();
+					if (!ran1.isAlive() && !ran2.isAlive())
+					{
+						index_wingame = 3;//tie thi 3
+					}
+					else
+					{
+						if (!ran1.isAlive())
+						{
+							index_wingame = 2;// p2 win thi 2
+						}
+						if (!ran2.isAlive())
+						{
+							index_wingame = 1;//p1 win thi 1
+						}
+					}
+					goto win;
+				}
+			}
+			else
+			{
+				if (score_ran1.finalScore() > score_ran2.finalScore())
+				{
+					index_wingame = 1;
 				}
 				else
 				{
-					if (!ran1.isAlive())
+					if (score_ran1.finalScore() < score_ran2.finalScore())
 					{
-						index_wingame = 2;// p2 win thi 2
+						index_wingame = 2;
 					}
-					if (!ran2.isAlive())
+					else
 					{
-						index_wingame = 1;//p1 win thi 1
+						index_wingame = 3;
 					}
 				}
 				goto win;
@@ -428,6 +462,7 @@ int main(int argc, char* args[])
 				if (ran1.eatFood(cake.getRect()))
 				{
 					eaten = true;
+					score_ran1.updateScore();
 					ran1.addTail();
 
 					cake.setupAgain1P(screen, ran1);
@@ -436,6 +471,7 @@ int main(int argc, char* args[])
 				if (ran2.eatFood(cake.getRect()))
 				{
 					eaten = true;
+					score_ran2.updateScore();
 					ran2.addTail();
 
 					cake.setupAgain1P(screen, ran2);
@@ -482,9 +518,21 @@ int main(int argc, char* args[])
 			}
 
 
-			
+			score_ran1.SCORE_to_STRINGplayer1();
+			score_ran1.LoadFromRenderText(font_score, screen);
+			score_ran1.RenderText(screen, 300, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
 
-			int real_time = thoigian.get_ticks();
+			score_ran2.SCORE_to_STRINGplayer2();
+			score_ran2.LoadFromRenderText(font_score, screen);
+			score_ran2.RenderText(screen, 600, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
+
+			
+			
+			time_of_turn_game.SetText("Time : "+ to_string(time_run_backwards));
+			time_of_turn_game.LoadFromRenderText(font_score, screen);
+			time_of_turn_game.RenderText(screen, 0, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
+
+			int real_time = timeFPS.get_ticks();
 			int time_one_frame = 1000 / FRAME_PER_SECOND;
 			SDL_RenderPresent(screen);
 			if (real_time < time_one_frame)
