@@ -38,7 +38,7 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 				{
 					control_in_INFOR = false;
 				}
-				if (ev.motion.x <= 585 && ev.motion.x >= 315 && ev.motion.y >= 360 && ev.motion.y <= 500)//tự chọn vị trí cho nút PLAY 
+				if (ev.motion.x <= 497 && ev.motion.x >= 403 && ev.motion.y >= 360 && ev.motion.y <= 420)//tự chọn vị trí cho nút EXIT 
 				{
 					control_in_EXIT = true;
 				}
@@ -61,7 +61,7 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 					{
 						return 2;//infor
 					}
-					if (x <= 585 && x >= 315 && y >= 360 && y <= 500)
+					if (x <= 497 && x >= 403 && y >= 360 && y <= 420)
 					{
 						return 3;//exit
 					}
@@ -101,7 +101,7 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 
 		playGameBut.setRect(315, 300);
 		HowToPlayBut.setRect(685, 300);
-		EXITBut.setRect(315, 360);
+		EXITBut.setRect(404, 360);
 
 		SDL_RenderClear(ren);
 
