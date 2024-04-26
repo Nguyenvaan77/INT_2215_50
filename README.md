@@ -84,7 +84,7 @@
 <a name="caidat"></a>
 ### **Cài đặt** 
 - *Cách 1*: Không cần các ứng dụng code
-    1. Truy cập vào link Drive: [LINK DRIVE GAME](https://drive.google.com/drive/folders/17XO4HrayORJW3ACzZssHn64Kc9X0tj20?usp=drive_link) và tải file zip về máy
+    1. Truy cập vào link Drive: [LINK DRIVE GAME](https://drive.google.com/drive/folders/17XO4HrayORJW3ACzZssHn64Kc9X0tj20?usp=drive_link) và tải file zip về máy (Hiện tại file .exe của mình đang bị virus nên để đảm bảo mọi người hãy bật diệt virus lên rồi tải nhé - Máy mình vẫn chạy được game)
 
     2. Giải nén file, vào file vừa giải nén, rồi nhấn vào file .exe để khởi động game.
 
