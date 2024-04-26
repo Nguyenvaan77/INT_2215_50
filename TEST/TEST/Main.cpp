@@ -286,7 +286,7 @@ int main(int argc, char* args[])
 				}
 
 				{
-				winPlayer1://khi thua se den day
+				winPlayer1 : //khi thua se den day
 
 					Mix_PlayChannel(-1, sound_win, 0);
 					SCREEN_WIN_GAME wingame;

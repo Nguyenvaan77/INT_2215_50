@@ -28,7 +28,7 @@ public:
 		}
 		rect_ = { (rand() % 34+1) * tile_frame, (rand() % 23+1) * tile_frame, tile_frame, tile_frame };
 	};
-	
+
 protected:
 
 } ;

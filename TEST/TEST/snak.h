@@ -50,7 +50,9 @@ public:
 	vector<SDL_Rect> diachiRan() { return SNAKE; };
 	int printDiem() { return diem; };
 	int getDIRHEAD() { return dirHead; };
-	
+
+
+
 protected:
 	vector<SDL_Rect> SNAKE;
 	vector<int> dir_of_iterm;
@@ -69,7 +71,5 @@ protected:
 
 	int diem;
 };
-
-
 
 #endif 

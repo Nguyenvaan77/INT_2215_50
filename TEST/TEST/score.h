@@ -6,6 +6,7 @@
 class SCORE: public TextObject
 {
 public:
+
 	SCORE();
 	~SCORE();
 	//inGame
@@ -28,7 +29,7 @@ public:
 
 protected:
 	int score;
-	 int HIGHESTSCORE;
+	int HIGHESTSCORE;
 };
 
 #endif // !SCORE_H_
