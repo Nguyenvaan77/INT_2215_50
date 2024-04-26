@@ -9,20 +9,20 @@
  SNAKE FIT là sản phẩm dự án lớn của mình trong môn Lập trình nâng cao( Trường đại học Công Nghệ - Đại học Quốc gia Hà Nội )  do thầy Lê Đức Trọng và thầy Trần Trường Thủy phụ trách.
  Đây là game được code bằng ngôn ngữ C++ có sử dụng thư viện ngoài là SDL 2.0 và có thể chạy được trên môi trường Window sau đây mình sẽ giới thiệu và hướng dẫn mọi người có thể tải và chơi con game này.
 ## **Mục lục**
-[1. Giới thiệu](#gioithieu)
-- [i. Cấu trúc và hướng dẫn chơi game](#cautrucvahuongdanchoi)
-  + [Thành phần game](#thanhphangame)
-  + [Hướng dẫn chơi](#huongdanchoi)
-  + [Điều khiển](#dieukhien)
-  + [Hình ảnh game](#hinhanhgame)
-- [ii. Cài đặt](#caidat)
-[2. Chi tiết](#chitiet)
-- [i. Chức năng và kiến thức áp dụng](#cacchucnangvakienthucapdung)
-- [ii. Nguồn tham khảo](#nguonthamkhao)
-[3. Tổng kết](#tongket)
-- [i. Điều tâm đắc](#dieutamdac)
-- [ii. Điểm hạn chế](#diemhanche)
-- [iii. Định hướng phát triển và cải thiện](#dinhhuongphattrienvacaithien)
+1. [1. Giới thiệu](#gioithieu)
+   - [i. Cấu trúc và hướng dẫn chơi game](#cautrucvahuongdanchoi)
+    + [Thành phần game](#thanhphangame)
+    + [Hướng dẫn chơi](#huongdanchoi)
+    + [Điều khiển](#dieukhien)
+    + [Hình ảnh game](#hinhanhgame)
+   - [ii. Cài đặt](#caidat)
+2. [2. Chi tiết](#chitiet)
+   - [i. Chức năng và kiến thức áp dụng](#cacchucnangvakienthucapdung)
+   - [ii. Nguồn tham khảo](#nguonthamkhao)
+3. [3. Tổng kết](#tongket)
+   - [i. Điều tâm đắc](#dieutamdac)
+   - [ii. Điểm hạn chế](#diemhanche)
+   - [iii. Định hướng phát triển và cải thiện](#dinhhuongphattrienvacaithien)
  <a name="gioithieu"></a>
 ## **Giới thiệu** 
 <a name="cautrucvahuongdanchoi"></a>
@@ -161,7 +161,7 @@ Mike Shah, . . .
 
 - Quá trình làm dự án này giúp mình thêm phần tự tin, niềm yêu thích trong lập trình vì đã tạo ra những sản phẩm thú vị hay ho, không nhàm chán như chạy Console.
 
-<a name="diemhanchediemhanche"></a>
+<a name="diemhanche"></a>
 ### ***Điểm hạn chế*** 
 
 - Rắn trong chương trình vẫn được khởi tạo và xử lí dựa trên Vector trong thư viện <vector.h>
