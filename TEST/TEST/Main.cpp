@@ -23,12 +23,18 @@ SDL_Renderer* screen = NULL;
 SDL_Surface* ICON = NULL;
 
 
+static Mix_Chunk* sound_eat=NULL;
+static Mix_Chunk* sound_win = NULL;
+static Mix_Chunk* sound_loss = NULL;
+int volume = 100;
+
 baseObject backGround;
 baseObject nhanESC;
 
 TTF_Font* font_score = NULL;
 TTF_Font* font_time = NULL;
 
+TextObject diemcao;
 
 bool setBack()
 {
@@ -56,6 +62,13 @@ bool setPause()
 }
 
 void close() { //closes everything properly
+	Mix_FreeChunk(sound_eat); 
+	Mix_FreeChunk(sound_click);
+	Mix_FreeChunk(sound_bit);
+	Mix_FreeChunk(sound_win);
+	Mix_FreeChunk(sound_loss);
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_DestroyRenderer(screen);
 	TTF_Quit();
 	SDL_FreeSurface(ICON);
@@ -66,7 +79,8 @@ void close() { //closes everything properly
 bool game_Screen() { //creates the game surface and the render as wll
 
 	bool success = true;
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0 || TTF_Init() < 0)
+	Mix_Init(MIX_INIT_MP3);
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0 || TTF_Init() < 0|| Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048)<0)
 	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 
@@ -83,6 +97,7 @@ bool game_Screen() { //creates the game surface and the render as wll
 			screen = SDL_CreateRenderer(window, -1, 0);
 			ICON = SDL_LoadBMP("anh//BACKGROUND//icon.bmp");
 			SDL_SetWindowIcon(window, ICON);
+
 			font_score = TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
 			font_time= TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
 			if (font_score == NULL )
@@ -90,9 +105,18 @@ bool game_Screen() { //creates the game surface and the render as wll
 
 				success = false;
 			}
+
+			
+			sound_eat = Mix_LoadWAV("sound//eat.wav");
+			sound_click = Mix_LoadWAV("sound//click1.wav");
+			sound_bit= Mix_LoadWAV("sound//bonk.wav");
+			sound_win= Mix_LoadWAV("sound//win1p.wav");
+			sound_loss= Mix_LoadWAV("sound//loss.wav");
+
+			diemcao.SetColor(203, 36, 111);
+
 		}
 	}
-
 	return success;
 }// HÀM INIT,CREATE,SET RENDERER
 
@@ -112,12 +136,14 @@ int main(int argc, char* args[])
 		cout << "Load PAUSE ERROR" << endl;
 	};
 	
+	
+
 	{
 		
 	home:
 		MENUGAME menu;
 		int click = menu.setupMenu(screen);
-
+		Mix_PlayChannel(-1, sound_click, 0);
 		switch (click)
 		{
 		case 0: goto OUTGAME;       break;
@@ -129,7 +155,7 @@ int main(int argc, char* args[])
 		}
 	}
 
-
+	
 
 	{
 
@@ -137,6 +163,7 @@ int main(int argc, char* args[])
 
 		MODECHOISEGAME modechoise;
 		int clickMode = modechoise.setupMODECHOISE(screen);
+		Mix_PlayChannel(-1, sound_click, 0);
 		switch (clickMode)
 		{
 		case 0: goto OUTGAME;  break;
@@ -152,13 +179,15 @@ int main(int argc, char* args[])
 		{
 
 	    PlayGame:
-
+		
 				bool quit = false;
 				SDL_Event even;
 				SCORE scoreG;// class score
 
 				scoreG.openFileScore();
 				scoreG.SetColor(SCORE::WHITE_TEXT);
+
+				diemcao.SetText("Highest score : "+to_string(scoreG.getHIGHESTSCORE()));
 
 				snake ran(oneplayer);
 
@@ -205,7 +234,7 @@ int main(int argc, char* args[])
 					if (!ran.isAlive())
 					{
 						cout << "chet" << endl;
-
+						
 						scoreG.newHighest();
 						
 						
@@ -223,7 +252,7 @@ int main(int argc, char* args[])
 							eaten = true;
 							ran.addTail();
 							scoreG.updateScore();
-							
+							Mix_PlayChannel(-1, sound_eat, 0);
 							cake.setupAgain1P(screen, ran);
 							cout << "EAT FOOD" << endl;
 						}
@@ -249,22 +278,24 @@ int main(int argc, char* args[])
 						nhanESC.render(screen, &rPause);
 					}
 
+					
+					
+					diemcao.LoadFromRenderText(font_score, screen);
+					diemcao.RenderText(screen, 0, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
 
-
+					
 					scoreG.SCORE_to_STRING();
 					scoreG.LoadFromRenderText(font_score, screen);
 					scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2,true);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
 
 					if (scoreG.checkWIN(oneplayer))
 					{
-						if (scoreG.checkWIN(oneplayer))
-						{
-							goto winPlayer1;
-						}
+						goto winPlayer1;
 					}
 
 					int real_time = thoigian.get_ticks();
 					int time_one_frame = 1000 / FRAME_PER_SECOND;
+					
 					SDL_RenderPresent(screen);
 					if (real_time < time_one_frame)
 					{
@@ -272,12 +303,16 @@ int main(int argc, char* args[])
 						if (delay_time >= 0)
 						{
 							SDL_Delay(delay_time);
+							cout << delay_time << endl;
 						}
 					}
+					
 				}
 
 				{
 				losPlayer1://khi thua se den day
+
+				Mix_PlayChannel(-1, sound_loss, 0);
 
 					SCREEN_WIN_GAME wingame;
 					wingame.setDiem(scoreG.finalScore(),font_score);
@@ -285,6 +320,7 @@ int main(int argc, char* args[])
 					cout << "losPlayer1" << endl;
 					int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
 					scoreG.resetScore();
+					Mix_PlayChannel(-1, sound_click, 0);
 					switch (click_win_game)
 					{
 					case 0: goto OUTGAME; break;
@@ -302,10 +338,11 @@ int main(int argc, char* args[])
 				{
 				winPlayer1://khi thua se den day
 
+					Mix_PlayChannel(-1, sound_win, 0);
 					SCREEN_WIN_GAME wingame;
-					
+		
 					int click_win_game = wingame.setupGAMEOK(screen, 4, font_score);//0 la thua khi choi 1player
-					
+					Mix_PlayChannel(-1, sound_click, 0);
 					switch (click_win_game)
 					{
 					case 0: goto OUTGAME; break;
@@ -335,11 +372,12 @@ int main(int argc, char* args[])
 		SCORE score_ran1;
 		SCORE score_ran2;
 
-		score_ran1.SetColor(SCORE::WHITE_TEXT);
+		score_ran1.SetColor(203,36,111);
 		score_ran2.SetColor(SCORE::WHITE_TEXT);
 
 		TIME timeFPS;
 		TIME time_of_turn_game;
+		time_of_turn_game.SetColor(255, 205, 28);
 		int time_run_backwards = time_to_win_2players;
 		
 		baseObject loadOk;
@@ -414,6 +452,7 @@ int main(int argc, char* args[])
 			{
 				if (!ran1.isAlive() || !ran2.isAlive())
 				{
+					Mix_PlayChannel(-1, sound_bit, 0);
 					time_of_turn_game.stopGame();
 					if (!ran1.isAlive() && !ran2.isAlive())
 					{
@@ -464,7 +503,7 @@ int main(int argc, char* args[])
 					eaten = true;
 					score_ran1.updateScore();
 					ran1.addTail();
-
+					Mix_PlayChannel(-1, sound_eat, 0);
 					cake.setupAgain1P(screen, ran1);
 					
 				}
@@ -473,7 +512,7 @@ int main(int argc, char* args[])
 					eaten = true;
 					score_ran2.updateScore();
 					ran2.addTail();
-
+					Mix_PlayChannel(-1, sound_eat, 0);
 					cake.setupAgain1P(screen, ran2);
 					
 				}
@@ -518,6 +557,8 @@ int main(int argc, char* args[])
 			}
 
 
+
+
 			score_ran1.SCORE_to_STRINGplayer1();
 			score_ran1.LoadFromRenderText(font_score, screen);
 			score_ran1.RenderText(screen, 300, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
@@ -529,7 +570,7 @@ int main(int argc, char* args[])
 			
 			
 			time_of_turn_game.SetText("Time : "+ to_string(time_run_backwards));
-			time_of_turn_game.LoadFromRenderText(font_score, screen);
+			time_of_turn_game.LoadFromRenderText(font_time, screen);
 			time_of_turn_game.RenderText(screen, 0, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
 
 			int real_time = timeFPS.get_ticks();
@@ -548,8 +589,10 @@ int main(int argc, char* args[])
 
 		{
 		win:
+		Mix_PlayChannel(-1, sound_win, 0);
 			SCREEN_WIN_GAME wingame;
 			int click_win_game = wingame.setupGAMEOK(screen, index_wingame,font_score);//1 : p1 win, 2: p2 win, 3: tie
+			Mix_PlayChannel(-1, sound_click, 0);
 			switch (click_win_game)
 			{
 			case 0: goto OUTGAME; break;
@@ -568,6 +611,7 @@ int main(int argc, char* args[])
 		los://khi thua se den day
 			SCREEN_WIN_GAME wingame;
 			int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
+			Mix_PlayChannel(-1, sound_click, 0);
 			switch (click_win_game)
 			{
 			case 0: goto OUTGAME; break;
@@ -589,6 +633,7 @@ int main(int argc, char* args[])
 
 		INDIRECTIONGAME inforG;
 		int clickIndirect = inforG.setupINDIRECTION(screen);
+		Mix_PlayChannel(-1, sound_click, 0);
 		if (clickIndirect)
 		{
 			goto home;
