@@ -44,15 +44,7 @@
     + ***1 Player***: Bạn sẽ sử dụng bộ bàn phím `w, a, s, d` để di chuyển con rắn đang chú ý đến trái táo xuất hiện trên bản đồ để giúp chú có thể đạt được điểm số cao nhất và chiến thắng với số điểm là 700. Tuy nhiên để đến được chiến thắng thì ngoài `HÀNG RÀO`![](TEST/TEST/show/doc25.png)![](TEST/TEST/show/ngang34.png) bao quanh thì các chướng ngại vật mà người chơi cần chú ý tránh cắn phải bản thân và `SHIT`![](TEST/TEST/show/shit2.png) của mình thải ra khi ăn đủ 10 quả táo ![](TEST/TEST/show/apple.png).
 
     + ***2 Players***: Người chơi thứ nhất sử dụng các phím `w, a, s, d` còn người chơi thứ 2 dùng `4 phím mũi tên` để di chuyển. 2 người chơi 
-    sẽ phải né thêm những chướng ngại vật trên đường đi để ăn được táo. Trận đấu giữa 2 người chỉ kết thúc khi rắn của 1 hoặc cả 2 chết.
-
-- Game có đầy đủ chức năng của một trò chơi hoàn chỉnh với các phím chức năng hỗ trợ người chơi như lựa chọn chế độ chơi, thoát trò chơi, nhấn phím *`ESC`* để tạm dừng, thoát trò chơi,... 
-
-- Game có hình ảnh gần gũi, đồ họa cực kì độc đáo, mới lạ không khiến người chơi phải ngừng trầm trồ.
-
-- Âm thanh game được lựa chọn và edit chinh chu, người chơi sẽ cảm nhận được đầy đủ mọi cung bậc cảm xúc khi chơi.
-
-- Video demo: https://youtu.be/yA4ymVDPtuU (Do la mình bị xác minh trên youtube nên trong video đó không thể gắn bất cứ link nào vào đó)
+    sẽ phải né thêm những chướng ngại vật trên đường đi để ăn được táo. Trận đấu minh)
 <a name="dieukhien"></a>
 #### *Điều khiển* 
 
