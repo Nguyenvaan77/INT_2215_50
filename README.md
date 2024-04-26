@@ -2,9 +2,9 @@
 
 ## **Introduction** 
 
-+ Họ và tên: Nguyễn Văn An - K68CCUET 
-+ Mã sinh viên: 23020002
-+ Tên game bài tập lớn: SNAKE FIT  (A.K.A RẮN SĂN MỒI)
++ Họ và tên: *Nguyễn Văn An - K68CC - UET* 
++ Mã sinh viên: *23020002*
++ Tên game bài tập lớn: **SNAKE FIT**  *(A.K.A RẮN SĂN MỒI)*
 
 ## **Description** 
 
