@@ -15,7 +15,7 @@
 ### *Cấu trúc và hướng dẫn chơi* 
 #### *Cấu trúc game*
 
-Trong trò chơi bạn phải điều khiển rắn của 
+Trong trò chơi bạn phải điều khiển rắn của mình ![](show/win.png): ưqwd
 
 #### *Hướng dẫn chơi*
 - Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị, trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
