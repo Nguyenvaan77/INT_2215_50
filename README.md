@@ -1,4 +1,4 @@
-# ***SNAKE FIT*** 
+# ***SNAKE FIT*** ![](TEST/TEST/show/icon.png)
 
 ## **Introduction** 
 
@@ -10,7 +10,7 @@
  Đây là game được code bằng ngôn ngữ C++ có sử dụng thư viện ngoài là SDL 2.0 và có thể chạy được trên môi trường Window sau đây mình sẽ giới thiệu và hướng dẫn mọi người có thể tải và chơi con game này.
 ## **Mục lục**
 
-## **Description** 
+## **Giới thiệu** 
 
 ### *Thành phần và hướng dẫn chơi* 
 #### *Thành phần game*
@@ -22,27 +22,33 @@
 - **`Điểm số`**![](TEST/TEST/show/diemingame.png): Điểm số mà bạn dành được, 1 `APPLE`![](TEST/TEST/show/apple.png) ăn được ứng với `1 điểm`.
 - **`Thời gian`** ![](TEST/TEST/show/thoigian.png): Trong chế độ 2 người, đôi khi thời gian chính là thứ làm người chơi đau đầu hơn là đối thủ.
 #### *Hướng dẫn chơi*
-- Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị, trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
+- Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị. Khi vào trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
 
-    + 1 Player`: Bạn sẽ sử dụng bộ bàn phím w, a, s, d để di chuyển con rắn đang chú ý đến trái táo xuất hiện trên bản đồ để giúp chú có thể đạt được điểm số cao nhất và chiến thắng với số điểm là 700. Tuy nhiên để đến được chiến thắng thì ngoài HÀNG RÀO bao quanh thì các chướng ngại vật mà người chơi cần chú ý tránh cắn phải bản thân và SHIT của mình thải ra khi ăn đủ 10 quả táo.
+    + ***1 Player***: Bạn sẽ sử dụng bộ bàn phím `w, a, s, d` để di chuyển con rắn đang chú ý đến trái táo xuất hiện trên bản đồ để giúp chú có thể đạt được điểm số cao nhất và chiến thắng với số điểm là 700. Tuy nhiên để đến được chiến thắng thì ngoài `HÀNG RÀO`![](TEST/TEST/show/doc25.png)![](TEST/TEST/show/ngang34.png) bao quanh thì các chướng ngại vật mà người chơi cần chú ý tránh cắn phải bản thân và `SHIT`![](TEST/TEST/show/shit2.png) của mình thải ra khi ăn đủ 10 quả táo ![](TEST/TEST/show/apple.png).
 
-    + 2 Players: Người chơi thứ nhất sử dụng các phím w, a, s, d còn người chơi thứ 2 dùng 4 phím mũi têntên để di chuyển. 2 người chơi 
+    + ***2 Players***: Người chơi thứ nhất sử dụng các phím `w, a, s, d` còn người chơi thứ 2 dùng `4 phím mũi tên` để di chuyển. 2 người chơi 
     sẽ phải né thêm những chướng ngại vật trên đường đi để ăn được táo. Trận đấu giữa 2 người chỉ kết thúc khi rắn của 1 hoặc cả 2 chết.
 
 - Game có đầy đủ chức năng của một trò chơi hoàn chỉnh với các phím chức năng hỗ trợ người chơi như lựa chọn chế độ chơi, thoát trò chơi, nhấn phím ESC để tạm dừng, thoát trò chơi,... 
 
 - Game có hình ảnh gần gũi, đồ họa cực kì độc đáo, mới lạ không khiến người chơi phải ngừng trầm trồ.
 
+- Âm thanh game được lựa chọn và edit chinh chu, người chơi sẽ cảm nhận được đầy đủ mọi cung bậc cảm xúc khi chơi.
+
 - Video demo:
 
 ### *Điều khiển* 
 
-| Hướng | Player 1 | Player 2 | 
+| Hướng   | Player 1 | Player 2 | 
 |---------|----------|----------|
-| LÊN     |     w    |     ↑    |
-| XUỐNG   |     s    |     ↓    |
-| TRÁI    |     a    |     ←    |
-| PHPHẢI  |     d    |     →    | 
+| `LÊN`   |     w    |     ↑    |
+| `XUỐNG` |     s    |     ↓    |
+| `TRÁI`  |     a    |     ←    |
+| `PHẢI`  |     d    |     →    | 
+
+### *Hình ảnh Game*
+
+
 
 ## **Thêm**  
 
