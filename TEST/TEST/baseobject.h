@@ -16,7 +16,9 @@ public:
 	void Free();
 
 	SDL_Rect     rect_;
+
 protected:
+
 	SDL_Texture* object_;
 	
 };
