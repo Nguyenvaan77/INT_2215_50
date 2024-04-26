@@ -228,7 +228,8 @@ int main(int argc, char* args[])
 					backGround.render(screen, NULL);
 					ran.renderShit(screen);
 					ran.showfullbodysnake(screen, cake.getRect());
-					cake.render(screen, &cake.rect_);
+					SDL_Rect reectCake= cake.getRect();
+					cake.render(screen, &reectCake);
 					if (pausingGame)
 					{
 						SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
@@ -456,7 +457,8 @@ int main(int argc, char* args[])
 			ran2.renderShit(screen);
 			ran1.showfullbodysnake(screen, cake.getRect());
 			ran2.showfullbodysnake(screen, cake.getRect());
-			cake.render(screen, &cake.rect_);
+			SDL_Rect rectCake = cake.getRect();
+			cake.render(screen, &rectCake);
 
 			if ((ran1.dangDichuyen()&&!ran2.dangDichuyen())|| (!ran1.dangDichuyen() && ran2.dangDichuyen()))
 			{

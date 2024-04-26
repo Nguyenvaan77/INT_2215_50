@@ -28,7 +28,6 @@ public:
 	void handleInput(SDL_Event& even);         // nhận sự kiện chỉ có bạn phím để thay đổi dir 
 	void setupPlay1();
 	void setupPlay2();
-	void showfullbody(SDL_Renderer* ren);       // bản demo của showfullbodysnake phía dưới(ko dùng)
 	SDL_Rect getRectHEAD() { return HEAD.getRect(); };
 	void xulyDichuyen(bool ismove)                          // dùng để cho con rắn chạy tự động khi không nhân phím 
 	{
@@ -51,7 +50,7 @@ public:
 	vector<SDL_Rect> diachiRan() { return SNAKE; };
 	int printDiem() { return diem; };
 	int getDIRHEAD() { return dirHead; };
-	int dirHead;
+	
 protected:
 	vector<SDL_Rect> SNAKE;
 	vector<int> dir_of_iterm;
@@ -66,6 +65,7 @@ protected:
 
 	bool alive = true;
 	bool isMove = true;
+	int dirHead;
 
 	int diem;
 };

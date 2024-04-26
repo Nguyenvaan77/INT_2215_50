@@ -77,16 +77,6 @@ void snake::updateTail(SDL_Renderer* ren)
 	}
 }
 
-void snake::showfullbody(SDL_Renderer* ren)
-{
-	HEAD.render(ren, &SNAKE[0]);
-	for (int i = 1; i < SNAKE.size() - 1; ++i)
-	{
-		BODY.render(ren, &SNAKE[i]);
-	};
-	TAIL.render(ren, &SNAKE[SNAKE.size() - 1]);
-}
-
 
 bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool nearEat)
 {
