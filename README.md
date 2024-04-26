@@ -9,7 +9,9 @@
  SNAKE FIT là sản phẩm dự án lớn của mình trong môn Lập trình nâng cao( Trường đại học Công Nghệ - Đại học Quốc gia Hà Nội )  do thầy Lê Đức Trọng và thầy Trần Trường Thủy phụ trách.
  Đây là game được code bằng ngôn ngữ C++ có sử dụng thư viện ngoài là SDL 2.0 và có thể chạy được trên môi trường Window sau đây mình sẽ giới thiệu và hướng dẫn mọi người có thể tải và chơi con game này.
 ## **Mục lục**
-
+[1. Giới thiệu](Thành phần và hướng dẫn chơi)
+- [i. Thành phần và hướng dẫn chơi](Thành phần và hướng dẫn chơi)
+- 
 ## **Giới thiệu** 
 
 ### *Thành phần và hướng dẫn chơi* 
