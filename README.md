@@ -21,6 +21,7 @@
 - **`Shit`**![](TEST/TEST/show/shit2.png): Là hậu quả của sự tham ăn, **RẮN** sẽ thải ngay trong chính bản đồ của mình.
 - **`Điểm số`**![](TEST/TEST/show/diemingame.png): Điểm số mà bạn dành được, 1 `APPLE`![](TEST/TEST/show/apple.png) ăn được ứng với `1 điểm`.
 - **`Thời gian`** ![](TEST/TEST/show/thoigian.png): Trong chế độ 2 người, đôi khi thời gian chính là thứ làm người chơi đau đầu hơn là đối thủ.
+- **`READY`** ![](TEST/TEST/show/ready.png): Khi 1 người đã sẵn sàng, trạng thái `READY` sẽ xuất hiện để thông báo người thứ 2 bắt đầu màn chơi.
 #### *Hướng dẫn chơi*
 - Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị. Khi vào trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
 
@@ -29,7 +30,7 @@
     + ***2 Players***: Người chơi thứ nhất sử dụng các phím `w, a, s, d` còn người chơi thứ 2 dùng `4 phím mũi tên` để di chuyển. 2 người chơi 
     sẽ phải né thêm những chướng ngại vật trên đường đi để ăn được táo. Trận đấu giữa 2 người chỉ kết thúc khi rắn của 1 hoặc cả 2 chết.
 
-- Game có đầy đủ chức năng của một trò chơi hoàn chỉnh với các phím chức năng hỗ trợ người chơi như lựa chọn chế độ chơi, thoát trò chơi, nhấn phím ESC để tạm dừng, thoát trò chơi,... 
+- Game có đầy đủ chức năng của một trò chơi hoàn chỉnh với các phím chức năng hỗ trợ người chơi như lựa chọn chế độ chơi, thoát trò chơi, nhấn phím *`ESC`* để tạm dừng, thoát trò chơi,... 
 
 - Game có hình ảnh gần gũi, đồ họa cực kì độc đáo, mới lạ không khiến người chơi phải ngừng trầm trồ.
 
@@ -48,9 +49,9 @@
 
 ### *Hình ảnh Game*
 
-1. Màn hình chính, dao diện game
-![](TEST/TEST/show/ran.png)
-
+1. Màn hình chính, giao diện game diện game![](TEST/TEST/show/startgame.png)
+2. Màn hình hướng dẫn chơi\\
+![](TEST/TEST/show/indirect.png)
 ## **Thêm**  
 
 ### *Các chức năng và thành phần tạo game*  
