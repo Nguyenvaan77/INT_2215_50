@@ -48,7 +48,8 @@
 
 ### *Hình ảnh Game*
 
-
+1. Màn hình chính, dao diện game
+![](TEST/TEST/show/ran.png)
 
 ## **Thêm**  
 
