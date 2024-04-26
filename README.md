@@ -65,9 +65,28 @@
 9. Khi thắng game
 ![](TEST/TEST/show/win.png)
 
-## **Thêm**  
 
-### *Các chức năng và thành phần tạo game*  
+### **Cài đặt** 
+- *Cách 1*: Không cần các ứng dụng code
+    1. Truy cập vào link Drive: [LINK DRIVE GAME](https://drive.google.com/drive/folders/17XO4HrayORJW3ACzZssHn64Kc9X0tj20?usp=drive_link) và tải file zip về máy
+
+    2. Giải nén file, vào file vừa giải nén, rồi nhấn vào file .exe để khởi động game.
+
+- *Cách 2*: Cần ứng dụng code để chơi, ở đây mình dùng Visual Studio để viết và chạy game nên mình sẽ hướng dẫn các bạn cài đặt VStudio và thứ viện của game:
+
+    1. Đầu tiên các bạn vào trang chủ của [MS VISUAL STUDIO](https://code.visualstudio.com/download) và install phiên bản Community 2022.
+
+    2. Sau khi cài đặt xong, bạn thiết lập môi trường chạy game và tải ngôn ngữ C++ khi bắt đầu vào phần mềm, đây là điều tối thiểu để chạy trò chơi.
+
+    3. Mở Terminal trong ổ đĩa bạn muốn lưu trữ game hoặc dùng git bash để chạy tải project về máy và sử dụng cú pháp: git clone https://github.com/Nguyenvaan77/Iron_Bird.git
+    
+    4. Sau khi project đã được clone về máy, bạn vào Ms Visual Studio và mở project lên.
+   
+    5. Nhấn phím chức năng F5 hoặc nhấn vào Start Debugging trong tool Debug  để chạy chương trình, và trải nghiệm SnakeFit .
+
+## **Chi tiết**  
+
+### *Các chức năng và kiến thức áp dụng*  
 - Dùng thư viện SDL2.0, SDL2.0_image, SDL2.0_mixer, SDL2.0_ttf library 
 
 - Sử dụng class, structure, vector, fuction linh hoạt,. . .
@@ -86,9 +105,11 @@
 
 - Sử dụng các kiến thức Đại số: Dùng SQRT và POW trong thư viện cMath tính khoảng cách đầu và thức ăn để giúp rắn định vị và há miệng ăn thức ăn.
 
+- Tìm kiếm và chỉnh sửa âm thanh phù hợp với mọi thao tác của người chơi 
+
 ### *Nguồn tham khảo*
 - Thư viện SDL 2.0 :
-  + Lazy Foo' : https://wiki.libsdl.org/wiki/index
+  + Lazy Foo' : https://discourse.libsdl.org
 - Cách sử dụng thư viện SDL2.0, quản lý chương trình: Tham khảo cách cài đặt và sử dụng thư viện SDL2.0 tại trang Lazy Foo, chủ yếu trên các kênh youtube: Phattrienphanmem123A-Z , CodingMadeEasy, Avery, 
 Mike Shah, . . .
   + Phattrienphanmem123A-Z : https://www.youtube.com/@PhatTrienPhanMem123AZ  
@@ -110,15 +131,27 @@ Mike Shah, . . .
 
 - Học được các sử dụng các phần mềm photoshop(GIMP, CapCut) có thể áp dụng vào các dự án sau này.
 
+- Học các sử dụng âm thanh, chỉnh sửa ghép nối âm thanh một cách mượt mà, không bị lệch nhịp.
+
 - Học được cách setup môi trường, sử dụng thư viện ngoài (SDL 2.0). 
 
 - Học được thêm nhiều thuật toán hay và tự mình cài đặt vào chương trình. 
 
+- Hiểu được cách mà các hình ảnh nhân vật, sự vật trong game có thể chuyển động, tương tác, phối hợp với nhau bằng các dòng mã .
+
+- Quá trình làm dự án này giúp mình thêm phần tự tin, niềm yêu thích trong lập trình vì đã tạo ra những sản phẩm thú vị hay ho, không nhàm chán như chạy Console.
+
 ### ***Điểm hạn chế*** 
+
 - Rắn trong chương trình vẫn được khởi tạo và xử lí dựa trên Vector trong thư viện <vector.h>
+
 - Chưa tích hợp được AI để nâng cấp game lên 1 tầng cao mới.
+  
 - Các class còn nhiều hàm chập chồng, chung mục đich sử dụng.
+ 
 - Thi thoảng bị lỗi khi nhấn nút quá nhanh.
+
+- Hình ảnh không được quá chỉnh chu vì mình mới tìm hiểu về PhotoShop.
 ### ***Định hướng phát triển và cải thiện*** 
 - Thêm ô nhập tên, người chơi và có thể có mật khẩu.
 
@@ -126,13 +159,14 @@ Mike Shah, . . .
 
 - Đưa game có thể chơi lâu dài với các tính năng ăn quả còn tích cả tiền để nâng cấp con rắn.
 
-- Thêm nhiều loại đồ ăn có tính năng khác nhau. 
+- Thêm nhiều `loại đồ ăn` có tính năng khác nhau, cụ thể trong chế độ 2 người sẽ có những vật phẩm để 2 con rắn tương tác gián tiếp tới nhau như các `hố đen` để rắn dịch chuyển vị trí, `Trái cấm` xuất hiện ngẫu nhiên trong thời điểm ngẫu nhiên 1 thời gian sẽ gây kịch độc giảm điểm và làm choáng răn ăn phải nó.
 
-- Thêm chế độ điều chỉnh tốc độ để người chơi có thể chọn tốc độ tuỳ thích, phù hợp với khả năng chơi của mình.
+- `Tường` và các `vùng trũng cố định` trên bản đồ, rắn không được phép di chuyển vào trong đó.
 
-- Thêm chế độ chơi với AI được apply các thuật toán tìm đường đến thức ăn một cách lợi hại
- độ khó cho game. 
+- Thêm chế độ `điều chỉnh tốc độ` để người chơi có thể chọn tốc độ tuỳ thích, phù hợp với khả năng chơi của mình.
 
+- Thêm chế độ `chơi với AI` được apply các thuật toán tìm đường đến thức ăn một cách lợi hại
+ độ khó cho game.
 
 
 
