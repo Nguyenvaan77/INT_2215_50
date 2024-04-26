@@ -55,14 +55,17 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 					Uint32 h = SDL_GetMouseState(&x, &y);
 					if (x < 585 && x>315 && y >= 300 && y <= 360)
 					{
+						
 						return 1;//plpay
 					}
 					if (x <= 885 && x >= 685 && y >= 300 && y <= 500)
 					{
+						
 						return 2;//infor
 					}
 					if (x <= 497 && x >= 403 && y >= 360 && y <= 420)
 					{
+						
 						return 3;//exit
 					}
 				}
@@ -167,14 +170,17 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 					Uint32 h = SDL_GetMouseState(&x, &y);
 					if (x <= 600 && x>=300 && y >= 270 && y <= 400)
 					{
+						
 						return 1;//1player
 					}
 					if (x <= 600 && x >= 300 && y >= 450 && y <= 580)
 					{
+						
 						return 2;//2player
 					}
 					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
+						
 						return 3;//gohome
 					}
 				}
@@ -263,6 +269,7 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 					Uint32 h = SDL_GetMouseState(&x, &y);
 					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
+						
 						return 1;//gohome
 					}
 				}
@@ -282,11 +289,11 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 		}
 		BackINDIRECT.loadImg("anh//BACKGROUND//infor.bmp", ren);
 
-		
 		reDot.setRect(0, 0);
 
 		SDL_RenderClear(ren);
 
+		
 		BackINDIRECT.render(ren, NULL);
 		reDot.render(ren, &reDot.rect_);
 
@@ -347,14 +354,17 @@ int SCREEN_WIN_GAME::setupGAMEOK(SDL_Renderer* ren,int WhoWin,TTF_Font* font)
 					Uint32 h = SDL_GetMouseState(&x, &y);
 					if (x <= 600 && x >= 300 && y >= 400 && y <= 530)
 					{
+						
 						return 1;//playAGAIN
 					}
 					if (x <= 600 && x >= 300 && y >= 580 && y <= 710)
 					{
+						
 						return 2;//EXITTHOME
 					}
 					if (x <= 64 && x >= 0 && y >= 0 && y <= 64)
 					{
+						
 						return 3;//REDOT
 					}
 				}

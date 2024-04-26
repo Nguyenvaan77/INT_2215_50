@@ -4,6 +4,8 @@
 #include"commonFunc.h"
 #include"baseobject.h"
 
+static Mix_Chunk* sound_bit = NULL;
+
 using namespace std;
 
 class snake

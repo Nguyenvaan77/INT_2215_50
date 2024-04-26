@@ -16,6 +16,7 @@ public:
 	void resetScore();
 	void updateScore();
 	int  finalScore();
+	int getHIGHESTSCORE() { return HIGHESTSCORE; };
 	bool checkWIN(int numberplayer);
 
 	void SCORE_to_STRING();
@@ -30,7 +31,7 @@ public:
 
 protected:
 	int score;
-	int HIGHESTSCORE;
+	 int HIGHESTSCORE;
 };
 
 #endif // !SCORE_H_

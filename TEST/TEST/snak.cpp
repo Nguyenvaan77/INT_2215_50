@@ -459,12 +459,14 @@ bool snake::bitWall()
 
 bool snake::bitHimSelf()
 {
+	
 	int comp_x = HEAD.rect_.x + 15;
 	int comp_y = HEAD.rect_.y + 15;
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
 		if (comp_x<SNAKE[i].x + tile_frame && comp_x>SNAKE[i].x && comp_y<SNAKE[i].y + tile_frame && comp_y>SNAKE[i].y)
 		{
+			
 			return true;
 		}
 	}

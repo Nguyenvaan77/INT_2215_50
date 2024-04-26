@@ -89,10 +89,10 @@ bool SCORE::newHighest()
 bool SCORE::checkWIN(int numberplayer)
 {
 	if (numberplayer == 1) {
-		return score = scoreWIN1payer;
+		return score == scoreWIN1payer;
 	}
 	else
 	{
-		return score = scoreWIN2player;
+		return score == scoreWIN2player;
 	}
 }

@@ -17,6 +17,8 @@
 #include<fstream>
 #include<cmath>
 
+static Mix_Chunk* sound_click = NULL;
+
 const int SCREEN_WIDTH = 900;
 const int SCREEN_HEIGHT = 725;
 const int tile_frame = 25;//SCREEN_WIDTH/tile_frame=36 

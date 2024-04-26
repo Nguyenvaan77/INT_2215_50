@@ -6,6 +6,7 @@
 #include"baseobject.h"
 #include"score.h"
 
+
 class MENUGAME 
 {
 public:
@@ -49,6 +50,7 @@ public:
 private:
 	baseObject	 BackINDIRECT;
 	baseObject	 reDot;
+	
 };
 
 class SCREEN_WIN_GAME
