@@ -5,7 +5,6 @@
 #include"commonFunc.h"
 #include"snak.h"
 
-
 class food :public baseObject
 {
 public:
@@ -27,7 +26,6 @@ public:
 				goto reRamdom;//Có thể thấy khi mà rect thức ăn tạo ra trùng với 1 bộ phận nào đó của con rắn thì ta sẽ cho chương trình lùi về vị trí tạo rect và chạy lại qusa trình so sánh vị trí để cho vị trí thức ăn không trung con rắn 
 			}
 		}
-		
 		rect_ = { (rand() % 34+1) * tile_frame, (rand() % 23+1) * tile_frame, tile_frame, tile_frame };
 	};
 	

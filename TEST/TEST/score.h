@@ -1,10 +1,7 @@
 ﻿#ifndef SCORE_H_
 #define SCORE_H_
 
-
 #include"TEXT.h"
-
-
 
 class SCORE: public TextObject
 {

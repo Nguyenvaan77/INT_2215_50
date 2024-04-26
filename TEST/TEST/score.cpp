@@ -12,9 +12,7 @@ SCORE::~SCORE()
 
 void SCORE::resetScore()
 {
-	
 		score = 0;
-	
 }
 
 void SCORE::updateScore()
@@ -48,14 +46,11 @@ bool SCORE::openFileScore()
 		highestsc.open("score//highestScore.txt");
 		if (!highestsc.is_open())
 		{
-			std::cout << "OPEN FILESETUP  ERROR" << std::endl;
 			return false;
 		}
 		else
 		{
-			std::cout << "OPEN FILESETUP OK" << std::endl;
 			highestsc >> HIGHESTSCORE;
-			std::cout << "HIGHEST SCORE : " << HIGHESTSCORE << std::endl;
 			highestsc.close();
 			return true;
 		}
@@ -70,16 +65,13 @@ bool SCORE::newHighest()
 		highestsc.open("score//highestScore.txt", std::ios::in | std::ios::out);
 		if (!highestsc.is_open())
 		{
-			std::cout << "OPEN FILE ERROR" << std::endl;
 			return false;
 		}
 		else
 		{
-			std::cout << "OPEN FILE OK" << std::endl;
 			HIGHESTSCORE = score;
 			highestsc << HIGHESTSCORE;
 			highestsc.close();
-
 			return true;
 		}
 	}

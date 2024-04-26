@@ -132,20 +132,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="baseobject.cpp" />
-    <ClCompile Include="boder.cpp" />
     <ClCompile Include="commonFunc.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="MENU.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="snak.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="TEXT.cpp" />
     <ClCompile Include="TIMER.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="baseobject.h" />
-    <ClInclude Include="boder.h" />
     <ClInclude Include="commonFunc.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="MENU.h" />

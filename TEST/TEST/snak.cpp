@@ -2,13 +2,11 @@
 
 snake::snake(int indexPlayer)// 1 nếu là player 1 , 2 cho player 2 
 {
-	    
 		isMove = false;
 		alive = true;
 		diem = 0;
 		if (indexPlayer == 1)
 		{
-
 			setupPlay1();
 		}
 		else
@@ -22,14 +20,12 @@ void snake::setupPlay1()
 	HEAD.rect_ = { 7 * tile_frame,10 * tile_frame,tile_frame,tile_frame };
 	SNAKE.push_back(HEAD.rect_);
 	dir_of_iterm.push_back(4);
-
 	for (int i = 1; i <= 3; ++i)
 	{
 		SDL_Rect rec_;
 		rec_ = { SNAKE[0].x - i * tile_frame, SNAKE[0].y, tile_frame, tile_frame, };
 		SNAKE.push_back(rec_);
 		dir_of_iterm.push_back(4);
-
 	};
 	index_of_player = 1;
 	dirHead = 4;//huong ban dau la right =4;
@@ -40,54 +36,23 @@ void snake::setupPlay2()
 	HEAD.rect_ = { 28 * tile_frame,(24-10) * tile_frame,tile_frame,tile_frame };
 	SNAKE.push_back(HEAD.rect_);
 	dir_of_iterm.push_back(3);
-
 	for (int i = 1; i <= 3; ++i)
 	{
 		SDL_Rect rec_;
 		rec_ = { SNAKE[0].x + i * tile_frame, SNAKE[0].y, tile_frame, tile_frame, };
 		SNAKE.push_back(rec_);
 		dir_of_iterm.push_back(3);
-
 	};
 	index_of_player = 2;
 	dirHead = 3;//huong ban dau la left=3;
 }
-
-bool snake::setIMGforIterm(SDL_Renderer* ren)
-{
-	bool ok = true;
-	HEAD.loadImg("anh//head.bmp", ren);
-	BODY.loadImg("anh//body.bmp", ren);
-	TAIL.loadImg("anh//duoi.bmp", ren);
-	if (HEAD.object_ == NULL)
-	{
-		cout << "Load head.bmp ERROR" << endl;
-		ok = false;
-	}
-	if (BODY.object_ == NULL)
-	{
-		cout << "Load body.bmp ERROR" << endl;
-		ok = false;
-	}
-	if (TAIL.object_ == NULL)
-	{
-		cout << "Load duoi.bmp ERROR" << endl;
-		ok = false;
-	}
-	return ok;
-}
-
-
-
 
 void snake::addTail()
 {
 	SDL_Rect foo;
 	foo = { SNAKE[SNAKE.size() - 2].x,SNAKE[SNAKE.size() - 2].y,tile_frame,tile_frame };
 	SNAKE.push_back(foo);
-
 	dir_of_iterm.push_back(dir_of_iterm[dir_of_iterm.size() - 1]);
-
 }
 
 void snake::updateTail(SDL_Renderer* ren)
@@ -96,10 +61,8 @@ void snake::updateTail(SDL_Renderer* ren)
 	int prev_y = SNAKE[0].y;
 	SNAKE[0].x = HEAD.rect_.x;
 	SNAKE[0].y = HEAD.rect_.y;
-
 	int prev_dir = dir_of_iterm[0];
 	dir_of_iterm[0] = dirHead;
-
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
 		int prev2_x = SNAKE[i].x;
@@ -108,13 +71,10 @@ void snake::updateTail(SDL_Renderer* ren)
 		SNAKE[i].y = prev_y;
 		prev_x = prev2_x;
 		prev_y = prev2_y;
-
 		int tempDIR = dir_of_iterm[i];
 		dir_of_iterm[i] = prev_dir;
 		prev_dir = tempDIR;
-
 	}
-	
 }
 
 void snake::showfullbody(SDL_Renderer* ren)
@@ -182,7 +142,7 @@ bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool nearEat)
 		{
 			switch (dir)
 			{
-			case 1: HEAD.loadImg("anh//HEAD//headdieup.bmp", ren); cout << "Load HEAD DIE " << endl; break;
+			case 1: HEAD.loadImg("anh//HEAD//headdieup.bmp", ren); break;
 			case 2: HEAD.loadImg("anh//HEAD//headdiedown.bmp", ren); break;
 			case 3: HEAD.loadImg("anh//HEAD//headdieleft.bmp", ren); break;
 			case 4: HEAD.loadImg("anh//HEAD//headdieright.bmp", ren); break;
@@ -195,7 +155,6 @@ bool snake::loadHEAD(int dir, SDL_Renderer* ren, bool nearEat)
 		cout << "LOAD HEAD ERROR" << endl;
 		return false;
 	}
-
 	return true;
 }
 
@@ -284,7 +243,6 @@ bool snake::loadBODY(int dir_trc, int dir_now, SDL_Renderer* ren)
 		cout << "LOAD BODY ERROR" << endl;
 		return false;
 	}
-
 	return true;
 }
 
@@ -328,7 +286,6 @@ bool snake::loadTAIL(int dir, SDL_Renderer* ren)
 		cout << "LOAD TAIL ERROR" << endl;
 		return false;
 	}
-
 	return true;
 }
 
@@ -339,28 +296,23 @@ bool snake::showfullbodysnake(SDL_Renderer* ren,SDL_Rect Food)//load ảnh theo 
 	if (loadHEAD(dir_of_iterm[0], ren, nearlyFood(Food)))
 	{
 		HEAD.render(ren, &SNAKE[0]);
-
 	}
 	else
 	{
 		ok = false;
-		cout << "2. Load HEAD ERROR" << endl;
 	}
 	for (int i = 1; i < SNAKE.size(); ++i)
 	{
-
 		if (i == SNAKE.size() - 1)
 		{
 			loadTAIL(dir_of_iterm[i - 1], ren);
 			TAIL.render(ren, &SNAKE[SNAKE.size() - 1]);
-
 		}
 		else
 		{
 			if (loadBODY(dir_of_iterm[i - 1], dir_of_iterm[i], ren))
 			{
 				BODY.render(ren, &SNAKE[i]);
-
 			}
 			else
 			{
@@ -546,7 +498,6 @@ void snake::renderShit(SDL_Renderer* ren)
 		shit.render(ren, &shit_on_map[i]);
 	}
 }
-
 
 bool snake::nearlyFood(SDL_Rect FOOD)//hàm tính này được tích hợp trong hàm showfullbodysnake
 {

@@ -30,9 +30,6 @@
     <ClCompile Include="Food.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TIMER.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="score.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="boder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MENU.cpp">
@@ -69,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="boder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MENU.h">

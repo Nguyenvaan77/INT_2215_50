@@ -16,7 +16,6 @@ public:
 	    BLACK_TEXT = 2,
 	};
 
-	
 	bool LoadFromRenderText(TTF_Font* font, SDL_Renderer* screen);
 	void Free();
 
@@ -30,15 +29,12 @@ public:
 
 	void SetText(const std::string& text) { str_val = text; };
 	std::string GetText() const { return str_val; };
-
 protected:
 	std::string str_val;
 	SDL_Color textColor;
 	SDL_Texture* text;
 	int width;
 	int height;
-
-
 };
 
 #endif // !TEXT_H_

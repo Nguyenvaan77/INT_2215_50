@@ -15,7 +15,6 @@ public:
 	SDL_Rect getRect() { return rect_; };
 	void Free();
 
-
 	SDL_Texture* object_;
 	SDL_Rect     rect_;
 };

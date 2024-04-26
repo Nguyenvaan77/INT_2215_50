@@ -9,7 +9,6 @@ class TIME:public TextObject
 public:
 	TIME();
 	~TIME();
-
 	void start();
 	void pause();
 	void unpause();
@@ -21,8 +20,6 @@ public:
 	bool isPause();
 
 	int timeinGAME();
-
-
 private:
 
 	int start_tick;

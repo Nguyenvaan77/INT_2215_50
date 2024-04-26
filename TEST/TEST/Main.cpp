@@ -5,9 +5,7 @@
 #include"TIMER.h"
 #include"TEXT.h"
 #include"score.h"
-#include"boder.h"
 #include"MENU.h"
-
 using namespace std;
 
 int index_wingame;
@@ -40,7 +38,6 @@ bool setBack()
 {
 	bool ok = true;
 	backGround.loadImg("anh//BACKGROUND//backclone.bmp", screen);
-
 	if (backGround.getObject() == NULL)
 	{
 		ok = false;
@@ -53,7 +50,6 @@ bool setPause()
 	bool ok = true;
 	nhanESC.loadImg("anh//BACKGROUND//pauseok.bmp", screen);
 	SDL_Rect recPause = { SCREEN_WIDTH / 6 ,SCREEN_HEIGHT / 6,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
-	
 	if (nhanESC.getObject() == NULL)
 	{
 		ok = false;
@@ -83,14 +79,12 @@ bool game_Screen() { //creates the game surface and the render as wll
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0 || TTF_Init() < 0|| Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048)<0)
 	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-
 		success = false;
 	}
 	else {
 		window = SDL_CreateWindow("SNAKE FIT", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if (window == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-
 			success = false;
 		}
 		else {
@@ -102,19 +96,19 @@ bool game_Screen() { //creates the game surface and the render as wll
 			font_time= TTF_OpenFont(FONT_.c_str(), SIZE_FONT);
 			if (font_score == NULL )
 			{
-
 				success = false;
 			}
 
-			
 			sound_eat = Mix_LoadWAV("sound//eat.wav");
 			sound_click = Mix_LoadWAV("sound//click1.wav");
 			sound_bit= Mix_LoadWAV("sound//bonk.wav");
 			sound_win= Mix_LoadWAV("sound//win1p.wav");
 			sound_loss= Mix_LoadWAV("sound//loss.wav");
-
+			if (sound_eat == NULL || sound_click == NULL || sound_bit == NULL || sound_win == NULL || sound_loss == NULL)
+			{
+				success = false;
+			}
 			diemcao.SetColor(203, 36, 111);
-
 		}
 	}
 	return success;
@@ -136,10 +130,7 @@ int main(int argc, char* args[])
 		cout << "Load PAUSE ERROR" << endl;
 	};
 	
-	
-
-	{
-		
+	{	
 	home:
 		MENUGAME menu;
 		int click = menu.setupMenu(screen);
@@ -155,31 +146,24 @@ int main(int argc, char* args[])
 		}
 	}
 
-	
-
 	{
-
 	gameMode:
-
 		MODECHOISEGAME modechoise;
 		int clickMode = modechoise.setupMODECHOISE(screen);
 		Mix_PlayChannel(-1, sound_click, 0);
 		switch (clickMode)
 		{
 		case 0: goto OUTGAME;  break;
-		case 1: goto PlayGame; break;
+		case 1: goto PlayGame1player; break;
 		case 2: goto PlayGame2player; break;
 		case 3: goto home;     break;
 		default:
 			break;
 		}
 	}
-
 		//khi menu.setupMenu(screen) ==  1
 		{
-
-	    PlayGame:
-		
+	    PlayGame1player:
 				bool quit = false;
 				SDL_Event even;
 				SCORE scoreG;// class score
@@ -200,11 +184,7 @@ int main(int argc, char* args[])
 				TIME thoigian;
 				while (!quit)
 				{
-					
-
 					thoigian.start();
-
-
 					bool eaten = false;
 					while (SDL_PollEvent(&even))
 					{
@@ -215,7 +195,6 @@ int main(int argc, char* args[])
 						}
 						if (even.type == SDL_KEYDOWN)
 						{
-
 							ran.handleInput(even);
 							if (ran.dangDichuyen()) { pausingGame = false; };
 							if (even.key.keysym.sym == SDLK_ESCAPE)
@@ -223,26 +202,13 @@ int main(int argc, char* args[])
 								ran.dichuyen(false);
 								pausingGame = true;
 							}
-
 						}
-
-
 					}
-
-
-
 					if (!ran.isAlive())
 					{
-						cout << "chet" << endl;
-						
 						scoreG.newHighest();
-						
-						
-
 						goto losPlayer1;
 					}
-
-
 					if (ran.dangDichuyen())
 					{
 						ran.xulyDichuyen(ran.dangDichuyen());
@@ -254,70 +220,53 @@ int main(int argc, char* args[])
 							scoreG.updateScore();
 							Mix_PlayChannel(-1, sound_eat, 0);
 							cake.setupAgain1P(screen, ran);
-							cout << "EAT FOOD" << endl;
 						}
-
-
 						ran.updateTail(screen);
-
 					}
-
-					
-
 					SDL_RenderClear(screen);
-
 
 					backGround.render(screen, NULL);
 					ran.renderShit(screen);
 					ran.showfullbodysnake(screen, cake.getRect());
 					cake.render(screen, &cake.rect_);
-
 					if (pausingGame)
 					{
 						SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 						nhanESC.render(screen, &rPause);
 					}
-
-					
-					
 					diemcao.LoadFromRenderText(font_score, screen);
 					diemcao.RenderText(screen, 0, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
 
-					
 					scoreG.SCORE_to_STRING();
 					scoreG.LoadFromRenderText(font_score, screen);
 					scoreG.RenderText(screen, SCREEN_WIDTH / 2, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2,true);// Căn chỉnh ô điểm vào chính giữa phần đen , kích cỡ ô đen là 5* tile_mat 
+
+					SDL_RenderPresent(screen);
 
 					if (scoreG.checkWIN(oneplayer))
 					{
 						goto winPlayer1;
 					}
-
+					
 					int real_time = thoigian.get_ticks();
 					int time_one_frame = 1000 / FRAME_PER_SECOND;
-					
-					SDL_RenderPresent(screen);
 					if (real_time < time_one_frame)
 					{
 						int delay_time = time_one_frame - real_time;
 						if (delay_time >= 0)
 						{
 							SDL_Delay(delay_time);
-							cout << delay_time << endl;
 						}
 					}
-					
 				}
 
 				{
 				losPlayer1://khi thua se den day
 
-				Mix_PlayChannel(-1, sound_loss, 0);
+				    Mix_PlayChannel(-1, sound_loss, 0);
 
 					SCREEN_WIN_GAME wingame;
 					wingame.setDiem(scoreG.finalScore(),font_score);
-					cout << scoreG.finalScore() << endl;
-					cout << "losPlayer1" << endl;
 					int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
 					scoreG.resetScore();
 					Mix_PlayChannel(-1, sound_click, 0);
@@ -325,7 +274,7 @@ int main(int argc, char* args[])
 					{
 					case 0: goto OUTGAME; break;
 
-					case 1: goto PlayGame; break;//nut replay-> playgame
+					case 1: goto PlayGame1player; break;//nut replay-> playgame
 
 					case 2: goto home;     break;// nut home-> manhinhchinh home
 
@@ -347,7 +296,7 @@ int main(int argc, char* args[])
 					{
 					case 0: goto OUTGAME; break;
 
-					case 1: goto PlayGame; break;//nut replay-> playgame
+					case 1: goto PlayGame1player; break;//nut replay-> playgame
 
 					case 2: goto home;     break;// nut home-> manhinhchinh home
 
@@ -394,18 +343,11 @@ int main(int argc, char* args[])
 
 		while (!quit)
 		{
-
-
 			bool gohome = false;
 			bool rePlay = false;
-
 			timeFPS.start();
-
-
 			bool eaten = false;
-
 			time_run_backwards = time_to_win_2players - (int)(time_of_turn_game.get_ticks()) / 1000;
-
 			while (SDL_PollEvent(&even))
 			{
 				if (even.type == SDL_QUIT)
@@ -415,13 +357,8 @@ int main(int argc, char* args[])
 				}
 				if (even.type == SDL_KEYDOWN)
 				{
-
-					
 					ran1.handleInput(even);
 					ran2.handleInput(even);
-					
-					
-
 					if (even.key.keysym.sym == SDLK_ESCAPE)
 					{
 						ran1.dichuyen(false);
@@ -435,19 +372,13 @@ int main(int argc, char* args[])
 			
 			if (ran1.dangDichuyen() && ran2.dangDichuyen()) 
 			{ 
-				cout << 1 << endl; 
 				pausing = false;  
 				if (!time_of_turn_game.isStart())
 				{
 					time_of_turn_game.start();
 				}
 				time_of_turn_game.unpause();
-				
 			};
-
-
-			
-			
 			if (time_run_backwards >0)
 			{
 				if (!ran1.isAlive() || !ran2.isAlive())
@@ -514,16 +445,10 @@ int main(int argc, char* args[])
 					ran2.addTail();
 					Mix_PlayChannel(-1, sound_eat, 0);
 					cake.setupAgain1P(screen, ran2);
-					
 				}
-
-
 				ran1.updateTail(screen);
 				ran2.updateTail(screen);
-
 			}
-			
-
 			SDL_RenderClear(screen);
 			
 			backGround.render(screen, NULL);
@@ -551,13 +476,9 @@ int main(int argc, char* args[])
 
 			if (pausing)
 			{
-				
 				SDL_Rect rPause = { SCREEN_WIDTH / 4,SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
 				nhanESC.render(screen, &rPause);
 			}
-
-
-
 
 			score_ran1.SCORE_to_STRINGplayer1();
 			score_ran1.LoadFromRenderText(font_score, screen);
@@ -567,8 +488,6 @@ int main(int argc, char* args[])
 			score_ran2.LoadFromRenderText(font_score, screen);
 			score_ran2.RenderText(screen, 600, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
 
-			
-			
 			time_of_turn_game.SetText("Time : "+ to_string(time_run_backwards));
 			time_of_turn_game.LoadFromRenderText(font_time, screen);
 			time_of_turn_game.RenderText(screen, 0, SCREEN_HEIGHT - tile_frame * 5 / 2 - SIZE_FONT / 2, true);
@@ -607,28 +526,7 @@ int main(int argc, char* args[])
 			}
 		}
 
-		{//hientai chua dung den
-		los://khi thua se den day
-			SCREEN_WIN_GAME wingame;
-			int click_win_game = wingame.setupGAMEOK(screen, 0,font_score);//0 la thua khi choi 1player
-			Mix_PlayChannel(-1, sound_click, 0);
-			switch (click_win_game)
-			{
-			case 0: goto OUTGAME; break;
-
-			case 1: goto PlayGame; break;//nut replay-> playgame
-
-			case 2: goto home;     break;// nut home-> manhinhchinh home
-
-			case 3: goto gameMode; break;//nut back -> gamemode
-
-			default: break;
-			}
-		}
-
-
 		{
-
 		directionGame:// Huong dan choi game 
 
 		INDIRECTIONGAME inforG;
@@ -642,9 +540,7 @@ int main(int argc, char* args[])
 		{
 			goto OUTGAME;
 		}
-
 		}
-
     OUTGAME:
 	close();
 	return 0;

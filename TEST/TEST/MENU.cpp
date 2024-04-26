@@ -2,10 +2,9 @@
 
 int  MENUGAME::setupMenu(SDL_Renderer* ren)
 {
-	bool control_in_playgame = false;
-	
 	BackStr.loadImg("anh//BACKGROUND//234.bmp", ren);
 
+	bool control_in_playgame = false;
 	bool control_in_PLAY = false;
 	bool control_in_INFOR = false;
 	bool control_in_EXIT = false;
@@ -71,10 +70,6 @@ int  MENUGAME::setupMenu(SDL_Renderer* ren)
 				}
 			}
 		}
-		
-		
-		
-
 		if (control_in_PLAY)
 		{
 			playGameBut.loadImg("anh//button//play1.bmp", ren);
@@ -186,8 +181,7 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 				}
 			}
 		}
-
-		
+	
 		if (control_in_ONE)
 		{
 			ONEplayerBut.loadImg("anh//button//1player1.bmp", ren);
@@ -205,10 +199,6 @@ int MODECHOISEGAME::setupMODECHOISE(SDL_Renderer* ren)
 		{
 			TWOplayerBut.loadImg("anh//button//2player2.bmp", ren);
 		}
-
-
-
-
 
 		if (control_in_REDOT)
 		{
@@ -276,8 +266,6 @@ int INDIRECTIONGAME::setupINDIRECTION(SDL_Renderer* ren)
 			}
 		}
 
-
-		
 
 		if (control_in_REDOT)
 		{

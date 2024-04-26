@@ -14,7 +14,6 @@ public:
 	~MENUGAME() { ; };
 	int setupMenu(SDL_Renderer* ren);
 
-
 private:
 	baseObject BackStr;
 	baseObject playGameBut;
@@ -45,7 +44,6 @@ public:
 	~INDIRECTIONGAME() { ; };
 
 	int setupINDIRECTION(SDL_Renderer* ren);
-
 
 private:
 	baseObject	 BackINDIRECT;
