@@ -13,6 +13,7 @@
 ## **Giới thiệu** 
 
 ### *Thành phần và hướng dẫn chơi* 
+
 #### *Thành phần game*
 
 - **`RẮN`**  ![](TEST/TEST/show/ran.png)  : Đây là nhân vật chính của trò chơi. Với chiếc bụng đói, con rắn sẽ ăn bất cứ thú gì nó gặp phải.
@@ -49,9 +50,21 @@
 
 ### *Hình ảnh Game*
 
-1. Màn hình chính, giao diện game diện game![](TEST/TEST/show/startgame.png)
-2. Màn hình hướng dẫn chơi\\
+1. Màn hình chính, giao diện game diện game
+![](TEST/TEST/show/startgame.png)
+3. Màn hình hướng dẫn chơi
 ![](TEST/TEST/show/indirect.png)
+4. Màn hình chọn chế độ
+![](TEST/TEST/show/mode.png)
+5. Vào chế độ 1 người
+![](TEST/TEST/show/ingame.png)
+6. Vào chế độ 2 người
+![](TEST/TEST/show/2players.png)
+7. Dừng game
+![](TEST/TEST/show/pause.png)
+9. Khi thắng game
+![](TEST/TEST/show/win.png)
+
 ## **Thêm**  
 
 ### *Các chức năng và thành phần tạo game*  
@@ -73,9 +86,9 @@
 
 - Sử dụng các kiến thức Đại số: Dùng SQRT và POW trong thư viện cMath tính khoảng cách đầu và thức ăn để giúp rắn định vị và há miệng ăn thức ăn.
 
-### *Nguồn tham khảo* 
+### *Nguồn tham khảo*
 - Thư viện SDL 2.0 :
-  + Lazy Foo : https://wiki.libsdl.org/wiki/index
+  + Lazy Foo' : https://wiki.libsdl.org/wiki/index
 - Cách sử dụng thư viện SDL2.0, quản lý chương trình: Tham khảo cách cài đặt và sử dụng thư viện SDL2.0 tại trang Lazy Foo, chủ yếu trên các kênh youtube: Phattrienphanmem123A-Z , CodingMadeEasy, Avery, 
 Mike Shah, . . .
   + Phattrienphanmem123A-Z : https://www.youtube.com/@PhatTrienPhanMem123AZ  
@@ -87,8 +100,7 @@ Mike Shah, . . .
 
 - Thuật toán: 
    + CLASS về xử lí thời gian: https://www.youtube.com/@PhatTrienPhanMem123AZ  
-   + CLASS về xử lí chữ: https://www.youtube.com/@PhatTrienPhanMem123AZ  
-
+   + CLASS về xử lí chữ:       https://www.youtube.com/@PhatTrienPhanMem123AZ
 ## **Conclusion** 
 
 ### ***Điều tâm đắc***
