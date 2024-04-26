@@ -12,11 +12,14 @@
 
 ## **Description** 
 
-### *Cấu trúc và hướng dẫn chơi* 
-#### *Cấu trúc game*
+### *Thành phần và hướng dẫn chơi* 
+#### *Thành phần game*
 
-Trong trò chơi bạn phải điều khiển rắn của mình ![](show/win.png): ưqwd
-
+- **`RẮN`**  ![](TEST/TEST/show/ran.png)  : Đây là nhân vật chính của trò chơi. Với chiếc bụng đói, con rắn sẽ ăn bất cứ thú gì nó gặp phải.
+- **`APPLE`**![](TEST/TEST/show/apple.png): Những quả táo đỏ hồng ngọt ngào này là thức ăn yêu thích của **RẮN**.
+- **`Tường`**![](TEST/TEST/show/doc25.png)![](TEST/TEST/show/ngang34.png)![](TEST/TEST/show/doc25.png): Là những cọc gỗ cững cáp ở rìa màn hình, sẽ lấy đi hàm răng của những kẻ cắn nó.
+- **`Shit`**![](TEST/TEST/show/shit2.png): Là hậu quả của sự tham ăn, **RẮN** sẽ thải ngay trong chính bản đồ của mình.
+- **`Điểm số`**![](TEST/TEST/show/doc25.png)
 #### *Hướng dẫn chơi*
 - Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị, trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
 
