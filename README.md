@@ -52,7 +52,7 @@
 
 - Âm thanh game được lựa chọn và edit chinh chu, người chơi sẽ cảm nhận được đầy đủ mọi cung bậc cảm xúc khi chơi.
 
-- Video demo:
+- Video demo: https://youtu.be/yA4ymVDPtuU (Do la mình bị xác minh trên youtube nên trong video đó không thể gắn bất cứ link nào vào đó)
 <a name="dieukhien"></a>
 #### *Điều khiển* 
 
