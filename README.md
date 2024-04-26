@@ -12,12 +12,17 @@
 
 ## **Description** 
 
-### *Game description and instruction* 
+### *Cấu trúc và hướng dẫn chơi* 
+#### *Cấu trúc game*
+
+Trong trò chơi bạn phải điều khiển rắn của 
+
+#### *Hướng dẫn chơi*
 - Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị, trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
 
-    + 1 Player: Bạn sẽ sử dụng bộ bàn phím w, a, s, d để di chuyển con rắn đang chú ý đến trái táo xuất hiện trên bản đồ để giúp chú có thể đạt được điểm số cao nhất và chiến thắng với số điểm là 700. Tuy nhiên để đến được chiến thắng thì ngoài HÀNG RÀO bao quanh thì các chướng ngại vật mà người chơi cần chú ý tránh cắn phải bản thân và SHIT của mình thải ra khi ăn đủ 10 quả táo.
+    + 1 Player`: Bạn sẽ sử dụng bộ bàn phím w, a, s, d để di chuyển con rắn đang chú ý đến trái táo xuất hiện trên bản đồ để giúp chú có thể đạt được điểm số cao nhất và chiến thắng với số điểm là 700. Tuy nhiên để đến được chiến thắng thì ngoài HÀNG RÀO bao quanh thì các chướng ngại vật mà người chơi cần chú ý tránh cắn phải bản thân và SHIT của mình thải ra khi ăn đủ 10 quả táo.
 
-    + 2 Player: Người chơi thứ nhất sử dụng các phím w, a, s, d còn người chơi thứ 2 dùng 4 phím mũi têntên để di chuyển. 2 người chơi 
+    + 2 Players: Người chơi thứ nhất sử dụng các phím w, a, s, d còn người chơi thứ 2 dùng 4 phím mũi têntên để di chuyển. 2 người chơi 
     sẽ phải né thêm những chướng ngại vật trên đường đi để ăn được táo. Trận đấu giữa 2 người chỉ kết thúc khi rắn của 1 hoặc cả 2 chết.
 
 - Game có đầy đủ chức năng của một trò chơi hoàn chỉnh với các phím chức năng hỗ trợ người chơi như lựa chọn chế độ chơi, thoát trò chơi, nhấn phím ESC để tạm dừng, thoát trò chơi,... 
