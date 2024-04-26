@@ -9,14 +9,25 @@
  SNAKE FIT là sản phẩm dự án lớn của mình trong môn Lập trình nâng cao( Trường đại học Công Nghệ - Đại học Quốc gia Hà Nội )  do thầy Lê Đức Trọng và thầy Trần Trường Thủy phụ trách.
  Đây là game được code bằng ngôn ngữ C++ có sử dụng thư viện ngoài là SDL 2.0 và có thể chạy được trên môi trường Window sau đây mình sẽ giới thiệu và hướng dẫn mọi người có thể tải và chơi con game này.
 ## **Mục lục**
-[1. Giới thiệu](#thetieude)
-- [i. Thành phần và hướng dẫn chơi](Thành phần và hướng dẫn chơi)
-
- 
+[1. Giới thiệu](#gioithieu)
+- [i. Cấu trúc và hướng dẫn chơi game](#cautrucvahuongdanchoi)
+  + [Thành phần game](#thanhphangame)
+  + [Hướng dẫn chơi](#huongdanchoi)
+  + [Điều khiển](#dieukhien)
+  + [Hình ảnh game](#hinhanhgame)
+- [ii. Cài đặt](#caidat)
+[2. Chi tiết](#chitiet)
+- [i. Chức năng và kiến thức áp dụng](#cacchucnangvakienthucapdung)
+- [ii. Nguồn tham khảo](#nguonthamkhao)
+[3. Tổng kết](#tongket)
+- [i. Điều tâm đắc](#dieutamdac)
+- [ii. Điểm hạn chế](#diemhanche)
+- [iii. Định hướng phát triển và cải thiện](#dinhhuongphattrienvacaithien)
+ <a name="gioithieu"></a>
 ## **Giới thiệu** 
-
-### *Thành phần và hướng dẫn chơi* 
-
+<a name="cautrucvahuongdanchoi"></a>
+### *Cấu trúc và hướng dẫn chơi game* 
+<a name="thanhphangame"></a>
 #### *Thành phần game*
 
 - **`RẮN`**  ![](TEST/TEST/show/ran.png)  : Đây là nhân vật chính của trò chơi. Với chiếc bụng đói, con rắn sẽ ăn bất cứ thú gì nó gặp phải.
@@ -26,6 +37,7 @@
 - **`Điểm số`**![](TEST/TEST/show/diemingame.png): Điểm số mà bạn dành được, 1 `APPLE`![](TEST/TEST/show/apple.png) ăn được ứng với `1 điểm`.
 - **`Thời gian`** ![](TEST/TEST/show/thoigian.png): Trong chế độ 2 người, đôi khi thời gian chính là thứ làm người chơi đau đầu hơn là đối thủ.
 - **`READY`** ![](TEST/TEST/show/ready.png): Khi 1 người đã sẵn sàng, trạng thái `READY` sẽ xuất hiện để thông báo người thứ 2 bắt đầu màn chơi.
+<a name="huongdanchoi"></a>
 #### *Hướng dẫn chơi*
 - Đây là trò chơi rắn săn mồi mới, chưa từng xuất hiện trên thị trường game với nhiều tính năng mới và thú vị. Khi vào trò chơi có 2 chế độ chơi mà người chơi có thể lựa chọn: 
 
@@ -41,8 +53,8 @@
 - Âm thanh game được lựa chọn và edit chinh chu, người chơi sẽ cảm nhận được đầy đủ mọi cung bậc cảm xúc khi chơi.
 
 - Video demo:
-
-### *Điều khiển* 
+<a name="dieukhien"></a>
+#### *Điều khiển* 
 
 | Hướng   | Player 1 | Player 2 | 
 |---------|----------|----------|
@@ -51,7 +63,8 @@
 | `TRÁI`  |     a    |     ←    |
 | `PHẢI`  |     d    |     →    | 
 
-### *Hình ảnh Game*
+<a name="hinhanhgame"></a>
+#### *Hình ảnh Game*
 
 1. Màn hình chính, giao diện game diện game
 ![](TEST/TEST/show/startgame.png)
@@ -68,7 +81,7 @@
 9. Khi thắng game
 ![](TEST/TEST/show/win.png)
 
- <a name="thetieude"></a>
+<a name="caidat"></a>
 ### **Cài đặt** 
 - *Cách 1*: Không cần các ứng dụng code
     1. Truy cập vào link Drive: [LINK DRIVE GAME](https://drive.google.com/drive/folders/17XO4HrayORJW3ACzZssHn64Kc9X0tj20?usp=drive_link) và tải file zip về máy
@@ -87,8 +100,9 @@
    
     5. Nhấn phím chức năng F5 hoặc nhấn vào Start Debugging trong tool Debug  để chạy chương trình, và trải nghiệm SnakeFit .
 
+<a name="chitiet"></a>
 ## **Chi tiết**  
-
+<a name="cacchucnangvakienthucapdung"></a>
 ### *Các chức năng và kiến thức áp dụng*  
 - Dùng thư viện SDL2.0, SDL2.0_image, SDL2.0_mixer, SDL2.0_ttf library 
 
@@ -109,7 +123,7 @@
 - Sử dụng các kiến thức Đại số: Dùng SQRT và POW trong thư viện cMath tính khoảng cách đầu và thức ăn để giúp rắn định vị và há miệng ăn thức ăn.
 
 - Tìm kiếm và chỉnh sửa âm thanh phù hợp với mọi thao tác của người chơi 
-
+<a name="nguonthamkhao"></a>
 ### *Nguồn tham khảo*
 - Thư viện SDL 2.0 :
   + Lazy Foo' : https://discourse.libsdl.org
@@ -125,8 +139,11 @@ Mike Shah, . . .
 - Thuật toán: 
    + CLASS về xử lí thời gian: https://www.youtube.com/@PhatTrienPhanMem123AZ  
    + CLASS về xử lí chữ:       https://www.youtube.com/@PhatTrienPhanMem123AZ
-## **Conclusion** 
 
+<a name="tongket"></a>
+## **Tổng kết** 
+
+<a name="dieutamdac"></a>
 ### ***Điều tâm đắc***
 - Dự án này ngoài 2 class nền tảng trên, còn lại em tự vận dụng các thư viện có sẵn và kiến thức lập trình để hoàn tất trò chơi.
 
@@ -144,6 +161,7 @@ Mike Shah, . . .
 
 - Quá trình làm dự án này giúp mình thêm phần tự tin, niềm yêu thích trong lập trình vì đã tạo ra những sản phẩm thú vị hay ho, không nhàm chán như chạy Console.
 
+<a name="diemhanchediemhanche"></a>
 ### ***Điểm hạn chế*** 
 
 - Rắn trong chương trình vẫn được khởi tạo và xử lí dựa trên Vector trong thư viện <vector.h>
@@ -155,7 +173,10 @@ Mike Shah, . . .
 - Thi thoảng bị lỗi khi nhấn nút quá nhanh.
 
 - Hình ảnh không được quá chỉnh chu vì mình mới tìm hiểu về PhotoShop.
+
+<a name="dinhhuongphattrienvacaithien"></a>
 ### ***Định hướng phát triển và cải thiện*** 
+
 - Thêm ô nhập tên, người chơi và có thể có mật khẩu.
 
 - Đưa vào bảng xếp hạng các người chơi để nâng tính cạnh tranh.
